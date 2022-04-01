@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, AppRegistry } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,6 +32,7 @@ export default function App() {
           headerShown: false,
         }}>
         <AuthStack.Screen name="Login" component={Login} />
+        <AuthStack.Screen name="Main" component={Main} />
         {/* <AuthStack.Screen name="Mapa" component={Mapa} /> */}
         <AuthStack.Screen name="Cadastro" component={Cadastro} />
         <AuthStack.Screen name="TrocaPontos" component={TrocaPontos} />
@@ -40,12 +41,13 @@ export default function App() {
         <AuthStack.Screen name="Vaga" component={Vaga} />
         <AuthStack.Screen name="Pagamento" component={Pagamento} />
         <AuthStack.Screen name="Ponto" component={Ponto} />
-        <AuthStack.Screen name="Main" component={Main} />
         <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
 
       </AuthStack.Navigator>
     </NavigationContainer>
   );
+
+  AppRegistry.registerComponent("MyApp", () => App);
 }
 
 const styles = StyleSheet.create({

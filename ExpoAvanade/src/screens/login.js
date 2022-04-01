@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
 
@@ -61,27 +61,28 @@ class Login extends Component {
         Senha: this.state.Senha, //123456789
       })
       const token = resposta.data.token
-      
-      
+
+
       // const token = await AsyncStorage.getItem('userToken');
-      
-      await AsyncStorage.setItem('userToken', token)
-      
-      
+
+      // await AsyncStorage.setItem('userToken', token)
+
+
       // AsyncStorage.setItem('patrimonio-chave-autenticacao', token)
       if (resposta.status == 200) {
         //const dadosDaApi = resposta.data;
-        this.props.navigation.navigate('Mapa');
-        console.log("Sucesso")
+        this.props.navigation.navigate('Main');
+        console.warn("Sucesso")
       };
       //console.warn(this.state.CEP);
     } catch (error) {
       console.warn(error);
-    } };
- */
-  realizarLogin = () => {
-    this.props.navigation.navigate('Main');
-  }
+    }
+  }; */
+
+   realizarLogin = () => {
+     this.props.navigation.navigate('Main');
+   }
 
   LimparCampos = () => {
     this.setState({ Email: '', Senha: '', MensagemErro: '' })

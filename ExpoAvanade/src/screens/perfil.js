@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
 
+import api from '../services/api';
+
 export default class Perfil extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      idUsuario: 1,
+      nome: '',
+      email: '',
+      pontos: 0,
+      saldo: 0,
+    };
+  }
 
   realizarLogout = async () => {
     try {
@@ -11,8 +23,37 @@ export default class Perfil extends Component {
     }
   }
 
+  buscarInfoPerfil = async () => {
+    try {
+      //const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Usuarios/1');
+      /*{
+           headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },*/
+      if (resposta.status === 200) {
+        const dadosDaApi = resposta.data;
+        console.warn(dadosDaApi)
+        this.setState({
+          nome: resposta.data.nome,
+          email: resposta.data.email,
+          pontos: resposta.data.pontos,
+          saldo: resposta.data.saldo,
+          idUsuario: resposta.data.idUsuario,
+        });
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  componentDidMount() {
+    this.buscarInfoPerfil();
+  }
+
   navegarPontos = async () => {
-    this.props.navigation.navigate('Pagamento');
+    this.props.navigation.navigate('TrocaPontos');
   }
 
   render() {
@@ -28,10 +69,10 @@ export default class Perfil extends Component {
 
             <Image style={styles.imgPerfil} source={require('../../assets/img/profile.png')} />
 
-            <Text style={styles.mainBodyTitle}>Rosana Dolores</Text>
-            <Text style={styles.mainBodyText}>rodolores@gmail.com</Text>
-            <Text style={styles.mainBodyText}>Meus pontos: 15</Text>
-            <Text style={styles.mainBodyText}>Saldo: R$2,00</Text>
+            <Text style={styles.mainBodyTitle}>{this.state.nome}</Text>
+            <Text style={styles.mainBodyText}>{this.state.email}</Text>
+            <Text style={styles.mainBodyText}>{this.state.pontos}</Text>
+            <Text style={styles.mainBodyText}>{this.state.saldo}</Text>
 
             <TouchableOpacity style={styles.btn} onPress={this.navegarPontos}>
               <Text style={styles.btnPontosText}>Trocar meus pontos</Text>
@@ -69,7 +110,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderBottomColor: '#000',
     borderBottomWidth: 1,
-  }, 
+  },
   mainBody: {
     flex: 5,
     alignItems: 'center',
