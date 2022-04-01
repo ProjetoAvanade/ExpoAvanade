@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'reac
 export default class Pesquisa extends Component {
 
     realizarBusca = () => {
-        this.props.navigation.navigate('Pesquisa');
+        this.props.navigation.navigate('Ponto');
     }
 
     render() {
@@ -21,15 +21,15 @@ export default class Pesquisa extends Component {
 
                 <View style={styles.mainRecentes}>
                     <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto}>Bicicletário Preste Maia</Text>
+                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Preste Maia</Text>
                         <Text style={styles.mainRecentesTexto}>São Paulo</Text>
                     </View>
                     <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto}>Bicicletário Senai de informática</Text>
+                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Senai de informática</Text>
                         <Text style={styles.mainRecentesTexto}>São Paulo</Text>
                     </View>
                     <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto}>Bicicletário Sesi Vila Leopoldina</Text>
+                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Sesi Vila Leopoldina</Text>
                         <Text style={styles.mainRecentesTexto}>São Paulo</Text>
                     </View>
                 </View>
