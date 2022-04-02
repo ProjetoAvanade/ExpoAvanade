@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import api from '../services/api';
 
 export default class Perfil extends Component {
@@ -17,6 +19,7 @@ export default class Perfil extends Component {
 
   realizarLogout = async () => {
     try {
+      await AsyncStorage.removeItem('userToken');
       this.props.navigation.navigate('Login');
     } catch (error) {
       //console.warn(error);

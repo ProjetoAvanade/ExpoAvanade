@@ -8,9 +8,9 @@ import {
   TextInput,
 } from 'react-native';
 
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import api from '../services/api';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Login extends Component {
   constructor(props) {
@@ -19,77 +19,43 @@ class Login extends Component {
       Email: '',
       Senha: '',
       MensagemErro: '',
-      idLoading: false
+      isLoading: false,
+      Email: '',
     };
   }
-  /* //como vamos trabalhar com assync historage,
-  //nossa funcao tem que ser async.
+
   realizarLogin = async () => {
-    //nao temos mais  console log.
-    //vamos utilizar console.warn.
-
-    //apenas para teste.
-    //console.warn(this.state.Email + ' ' + this.state.Senha);
-
-    const resposta = await api.post('/Login', {
-      Email: this.state.Email, //roberto.possarle@spmedicalgroup.com.br
-      Senha: this.state.Senha, //1234
-    })
-      .catch(MensagemErro => {
-        this.setState({ MensagemErro: 'E-mail ou senha incorretos!' })
-      });
-
-    this.setState({ isLoading: false })
-
-    //mostrar no swagger para montar.
-    const token = resposta.data.token;
-    await AsyncStorage.setItem('userToken', token);
-
-    const valorToken = await AsyncStorage.getItem('userToken');
-
-    if (resposta.status == 200) {
-      this.props.navigation.navigate('Mapa');
-      console.log("suacesso")
-    }
-
-  }; */
-
-  /* realizarLogin = async () => {
     try {
+      this.setState({ erroMensagem: '', isLoading: true });
       const resposta = await api.post('/Login', {
-        Email: this.state.Email, //paulo@email.com
-        Senha: this.state.Senha, //123456789
+        email: this.state.Email,
+        senha: this.state.Senha,
       })
-      const token = resposta.data.token
+        .catch(MensagemErro => {
+          this.setState({ MensagemErro: 'E-mail e/ou senha inválidos!', isLoading: false })
+        });
 
+      this.setState({ isLoading: false });
+      const token = resposta.data.token;
+      await AsyncStorage.setItem('userToken', token);
 
-      // const token = await AsyncStorage.getItem('userToken');
-
-      // await AsyncStorage.setItem('userToken', token)
-
-
-      // AsyncStorage.setItem('patrimonio-chave-autenticacao', token)
       if (resposta.status == 200) {
-        //const dadosDaApi = resposta.data;
         this.props.navigation.navigate('Main');
-        console.warn("Sucesso")
-      };
-      //console.warn(this.state.CEP);
+        /* console.warn('Login efetuado com sucesso!');
+        console.warn(token) */
+      }
     } catch (error) {
-      console.warn(error);
+      /* console.warn(error);
+      console.log(error); */
     }
-  }; */
-
-   realizarLogin = () => {
-     this.props.navigation.navigate('Main');
-   }
+  };
 
   LimparCampos = () => {
-    this.setState({ Email: '', Senha: '', MensagemErro: '' })
+    this.setState({ Email: '', Senha: '', MensagemErro: ''})
   };
 
   componentDidMount() {
-    this.LimparCampos()
+    this.LimparCampos();
   };
 
   realizarCadastro = () => {
@@ -122,10 +88,22 @@ class Login extends Component {
               onChangeText={Senha => this.setState({ Senha })}
             />
 
-            <TouchableOpacity style={styles.mainBtn} onPress={this.realizarLogin}>
-              <Text style={styles.mainBtnTexto}>Logar</Text>
-            </TouchableOpacity>
+            {
+              // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
+              this.state.isLoading === true &&
+              <TouchableOpacity style={styles.mainBtn} disabled={this.state.isLoading === true}>
+                <Text style={styles.mainBtnTexto}>Loading</Text>
+              </TouchableOpacity>
+            }
 
+            {
+              // Caso seja false, renderiza o botão habilitado com o texto 'Login'
+              this.state.isLoading === false &&
+              <TouchableOpacity style={styles.mainBtn} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+                <Text style={styles.mainBtnTexto}>Logar</Text>
+              </TouchableOpacity>
+            }
+            
             <Text style={styles.mensagemErro}>{this.state.MensagemErro}</Text>
           </View>
 
