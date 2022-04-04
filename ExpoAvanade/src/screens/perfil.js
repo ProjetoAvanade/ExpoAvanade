@@ -10,9 +10,9 @@ export default class Perfil extends Component {
     super(props);
     this.state = {
       nomeUsuario: '',
-      /* email: '',
+      email: '',
       pontos: 0,
-      saldo: 0, */
+      saldo: 0, 
     };
   }
 
@@ -28,7 +28,7 @@ export default class Perfil extends Component {
   buscarInfoPerfil = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get('/Usuario/2', {
+      const resposta = await api.get('/Usuario', {
         headers: {
           Authorization: 'Bearer ' + token,
         },
@@ -38,9 +38,9 @@ export default class Perfil extends Component {
         console.warn(dadosDaApi)
         this.setState({
           nomeUsuario: resposta.data.nomeUsuario,
-          /* email: resposta.data.email,
+          email: resposta.data.email,
           pontos: resposta.data.pontos,
-          saldo: resposta.data.saldo,  */
+          saldo: resposta.data.saldo, 
         });
       }
     } catch (error) {
