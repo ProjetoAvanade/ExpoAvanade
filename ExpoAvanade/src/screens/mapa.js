@@ -21,25 +21,22 @@ export default class Mapa extends Component {
     };
   }
 
-  realizarBusca = () => {
-    this.props.navigation.navigate('Pesquisa');
-  }
-
   render() {
     return (
       <View style={styles.main}>
 
         <MapView style={styles.mainMapa}>
-          <Marker coordinate={{
-            latitude: -23.5344611,
-            longitude: -46.6477011,
-          }} />
+          <Marker onPress={() => this.props.navigation.navigate('Ponto')}
+            coordinate={{
+              latitude: -23.5344611,
+              longitude: -46.6477011,
+            }} />
         </MapView>
 
         <View style={styles.mainNavegar}>
           <View style={styles.mainMenuNavegar}>
             <View style={styles.mainDividir}>
-              <TouchableOpacity style={styles.mainBtn} onPress={this.realizarBusca}>
+              <TouchableOpacity style={styles.mainBtn} onPress={() => this.props.navigation.navigate('Pesquisa')}>
                 <Text style={styles.mainBtnTexto}>Pesquisa</Text>
               </TouchableOpacity>
               <TextInput style={styles.mainMenuInput}>Para onde? <Image source={require('../../assets/img/Icone_lupa.png')} style={styles.mainImagem} /> </TextInput>

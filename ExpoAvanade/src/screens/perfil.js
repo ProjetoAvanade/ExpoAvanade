@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,11 +9,10 @@ export default class Perfil extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      idUsuario: 1,
-      nome: '',
-      email: '',
+      nomeUsuario: '',
+      /* email: '',
       pontos: 0,
-      saldo: 0,
+      saldo: 0, */
     };
   }
 
@@ -28,25 +27,24 @@ export default class Perfil extends Component {
 
   buscarInfoPerfil = async () => {
     try {
-      //const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get('/Usuarios/1');
-      /*{
-           headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        },*/
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Usuario/2', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
       if (resposta.status === 200) {
         const dadosDaApi = resposta.data;
         console.warn(dadosDaApi)
         this.setState({
-          nome: resposta.data.nome,
-          email: resposta.data.email,
+          nomeUsuario: resposta.data.nomeUsuario,
+          /* email: resposta.data.email,
           pontos: resposta.data.pontos,
-          saldo: resposta.data.saldo,
-          idUsuario: resposta.data.idUsuario,
+          saldo: resposta.data.saldo,  */
         });
       }
     } catch (error) {
+      //console.warn(resposta)
       console.warn(error);
     }
   };
@@ -72,7 +70,7 @@ export default class Perfil extends Component {
 
             <Image style={styles.imgPerfil} source={require('../../assets/img/profile.png')} />
 
-            <Text style={styles.mainBodyTitle}>{this.state.nome}</Text>
+            <Text style={styles.mainBodyTitle}>{this.state.nomeUsuario}</Text>
             <Text style={styles.mainBodyText}>{this.state.email}</Text>
             <Text style={styles.mainBodyText}>{this.state.pontos}</Text>
             <Text style={styles.mainBodyText}>{this.state.saldo}</Text>

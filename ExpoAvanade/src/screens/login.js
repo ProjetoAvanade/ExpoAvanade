@@ -31,9 +31,9 @@ class Login extends Component {
         email: this.state.Email,
         senha: this.state.Senha,
       })
-        .catch(MensagemErro => {
+        /* .catch(MensagemErro => {
           this.setState({ MensagemErro: 'E-mail e/ou senha inválidos!', isLoading: false })
-        });
+        }); */
 
       this.setState({ isLoading: false });
       const token = resposta.data.token;
@@ -41,8 +41,8 @@ class Login extends Component {
 
       if (resposta.status == 200) {
         this.props.navigation.navigate('Main');
-        /* console.warn('Login efetuado com sucesso!');
-        console.warn(token) */
+        //console.warn('Login efetuado com sucesso!');
+        console.warn(resposta)
       }
     } catch (error) {
       /* console.warn(error);

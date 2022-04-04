@@ -9,6 +9,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import api from '../services/api';
 
 export default class Ponto extends Component {
@@ -31,15 +33,20 @@ export default class Ponto extends Component {
 
   buscarInfoPonto = async () => {
     try {
-      //const token = await AsyncStorage.getItem('userToken');
+      /*const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.get('/Bicicletarios/1');
       /*{
            headers: {
             Authorization: 'Bearer ' + token,
           },
         },*/
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Bicicletario/2', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
       if (resposta.status === 200) {
-        //const dadosDaApi = resposta.data;
         this.setState({
           CEP: resposta.data.CEP,
           bairro: resposta.data.bairro,
@@ -49,13 +56,12 @@ export default class Ponto extends Component {
           rua: resposta.data.rua,
           horarioAberto: resposta.data.horarioAberto,
           horarioFechado: resposta.data.horarioFechado,
-          quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
-          vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel,
+          /*quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
+          vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel, */
         });
-        //console.warn(this.state.CEP);
       }
     } catch (error) {
-      //console.warn(error);
+      console.warn(error);
     }
   };
 
