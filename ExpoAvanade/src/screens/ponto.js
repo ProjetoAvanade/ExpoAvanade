@@ -33,13 +33,6 @@ export default class Ponto extends Component {
 
   buscarInfoPonto = async () => {
     try {
-      /*const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get('/Bicicletarios/1');
-      /*{
-           headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        },*/
       const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.get('/Bicicletario/2', {
         headers: {

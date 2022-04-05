@@ -44,7 +44,7 @@ export default class Perfil extends Component {
         });
       }
     } catch (error) {
-      //console.warn(resposta)
+      console.warn(resposta)
       console.warn(error);
     }
   };
@@ -72,8 +72,8 @@ export default class Perfil extends Component {
 
             <Text style={styles.mainBodyTitle}>{this.state.nomeUsuario}</Text>
             <Text style={styles.mainBodyText}>{this.state.email}</Text>
-            <Text style={styles.mainBodyText}>{this.state.pontos}</Text>
-            <Text style={styles.mainBodyText}>{this.state.saldo}</Text>
+            <Text style={styles.mainBodyText}>Pontos: {this.state.pontos}</Text>
+            <Text style={styles.mainBodyText}>Saldo: {this.state.saldo}</Text>
 
             <TouchableOpacity style={styles.btn} onPress={this.navegarPontos}>
               <Text style={styles.btnPontosText}>Trocar meus pontos</Text>
