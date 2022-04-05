@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  FlatList,
 } from 'react-native';
 
 import MapView, { Marker } from 'react-native-maps';
@@ -20,6 +19,7 @@ export default class Mapa extends Component {
     super(props);
     this.state = {
       listaBicicletarios: [],
+      idBicicletario: ''
     };
   }
 
@@ -31,11 +31,9 @@ export default class Mapa extends Component {
           Authorization: 'Bearer ' + token,
         },
       })
-      if (resposta.status === 200) {
-        const dadosDaApi = resposta.data;
-        // atualiza o state listaEventos com este corpo da requisição
-        this.setState({ listaBicicletarios: dadosDaApi });
-      }
+      const dadosDaApi = resposta.data;
+      this.setState({ listaBicicletarios: dadosDaApi });
+      /* console.warn(listaBicicletarios) */
     } catch (error) {
       console.warn(error);
     }
@@ -48,34 +46,30 @@ export default class Mapa extends Component {
   render() {
     return (
       <View style={styles.main}>
-
-        {/* <MapView style={styles.mainMapa}
-          /* initialRegion={{
-             latitude: listaBicicletarios[0].latitude,
-            longitude: listaBicicletarios[0].longitude, 
+        <MapView style={styles.mainMapa}
+          initialRegion={{
+            latitude: -23.53641,
+            longitude: -46.6462,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-          }} >
-          <Marker onPress={() => this.props.navigation.navigate('Ponto')}
-            initialRegion={{
-              latitude: -23.5344611,
-              longitude: -46.6477011,
-            }} />
-        </MapView> */}
-        <MapView style={styles.mainMapa}>
-          <Marker onPress={() => this.props.navigation.navigate('Ponto')}
-            coordinate={{
-              latitude: -23.5344611,
-              longitude: -46.6477011,
-            }} />
+          }}>
+          {this.state.listaBicicletarios.map((item) => {
+            /* {console.warn(item.longitude)}
+            {console.warn(parseInt(item.longitude))} */
+            return (
+              <Marker
+                key={item.idBicicletario}
+                coordinate={{
+                  latitude: parseFloat(item.latitude),
+                  longitude: parseFloat(item.longitude),
+                }}
+                onPress={() => this.props.navigation.navigate('Ponto', {
+                  bicicletario: item
+                })}
+              />
+            );
+          })}
         </MapView>
-        {/* <View style={styles.main}>
-          <FlatList
-            data={this.state.listaBicicletarios}
-            keyExtractor={item => item.idBicicletario}
-            renderItem={this.renderItem}
-          />
-        </View> */}
 
         <View style={styles.mainNavegar}>
           <View style={styles.mainMenuNavegar}>
@@ -90,18 +84,6 @@ export default class Mapa extends Component {
       </View >
     );
   }
-
-  /* renderItem = ({ item }) => (
-    //<Text style={{ fontSize: 20, color: 'red' }}>{item.idBicicletario}</Text>
-    <MapView style={styles.mainMapa}>
-      <Marker onPress={() => this.props.navigation.navigate('Ponto')}
-        key={item.idBicicletario}
-        coordinate={{
-          latitude: -23.5344611,
-          longitude: -46.6477011,
-        }} />
-    </MapView>
-  );*/
 }
 
 const styles = StyleSheet.create({

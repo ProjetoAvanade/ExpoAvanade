@@ -8,22 +8,64 @@ import {
   TextInput,
 } from 'react-native';
 
+import api from '../services/api';
+//import DatePicker from 'react-native-datepicker';
+
 class Cadastro extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Email: '',
-      base64: '',
+      idTipoUsuario: 2,
+      nomeUsuario: '',
+      email: '',
+      senha: '',
+      dataNascimento: new Date(),
+      cpf: '',
     };
-  }
-
-  finalizarCadastro = () => {
-    this.props.navigation.navigate('Login');
   }
 
   goBack = () => {
     this.props.navigation.goBack();
   }
+
+  finalizarCadastro = async () => {
+    try {
+      const resposta = await api.post('/Usuario', {
+        idTipoUsuario: this.state.idTipoUsuario,
+        nomeUsuario: this.state.nomeUsuario,
+        email: this.state.email,
+        senha: this.state.senha,
+        dataNascimento: this.state.dataNascimento,
+        cpf: this.state.cpf,
+      });
+
+      //this.setState({ isLoading: false });
+
+      if (resposta.status == 200) {
+        this.props.navigation.navigate('Login');;
+        //console.warn('Login efetuado com sucesso!');
+        console.warn(resposta)
+      }
+    } catch (error) {
+      console.warn(error);
+      console.log(error);
+      /* this.setState({ isLoading: false, mensagemErro: "Erro" }); */
+    }
+  };
+
+  LimparCampos = () => {
+    this.setState({
+      nomeUsuario: '',
+      email: '',
+      senha: '',
+      dataNascimento: new Date(),
+      cpf: 0,
+    })
+  };
+
+  componentDidMount() {
+    this.LimparCampos();
+  };
 
   render() {
     return (
@@ -38,11 +80,75 @@ class Cadastro extends Component {
           </View>
 
           <View style={styles.mainFormSpace}>
-            <TextInput style={styles.mainInput} placeholder='Nome Completo' placeholderTextColor='#000000'></TextInput>
-            <TextInput style={styles.mainInput} placeholder='CPF' placeholderTextColor='#000000'></TextInput>
-            <TextInput style={styles.mainInput} placeholder='Endereço de e-mail' placeholderTextColor='#000000'></TextInput>
-            <TextInput style={styles.mainInput} placeholder='Senha' placeholderTextColor='#000000'></TextInput>
-            <TextInput style={styles.mainInput} placeholder='DD/MM/AAAA' placeholderTextColor='#000000'></TextInput>
+            <TextInput
+              style={styles.mainInput}
+              placeholder='Nome Completo'
+              placeholderTextColor='#000000'
+              onChangeText={nomeUsuario => this.setState({ nomeUsuario })}
+            />
+            <TextInput
+              style={styles.mainInput}
+              placeholder='CPF'
+              placeholderTextColor='#000000'
+              onChangeText={cpf => this.setState({ cpf })}
+            />
+            <TextInput
+              style={styles.mainInput}
+              placeholder='Endereço de e-mail'
+              placeholderTextColor='#000000'
+              keyboardType="email-address"
+              onChangeText={email => this.setState({ email })}
+            />
+            <TextInput
+              style={styles.mainInput}
+              placeholder='Senha'
+              placeholderTextColor='#000000'
+              keyboardType="default"
+              secureTextEntry={true}
+              passwordRules
+              onChangeText={senha => this.setState({ senha })}
+            />
+            <TextInput
+              style={styles.mainInput}
+              placeholder='DD/MM/AAAA'
+              placeholderTextColor='#000000'
+              onChangeText={dataNascimento => this.setState({ dataNascimento })}
+            />
+            {/* <DatePicker
+              style={styles.mainInput}
+              date={this.state.dataNascimento}
+              mode="date"
+              placeholder="select date"
+              format="DD/MM/YYYY"
+              minDate="01-01-1900"
+              maxDate="01-01-2000"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  right: -5,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  borderColor: "gray",
+                  alignItems: "flex-start",
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                },
+
+                placeholderText: {
+                  fontSize: 17,
+                  color: "gray"
+                },
+
+                dateText: {
+                  fontSize: 17,
+                }
+              }}
+              onChangeText={dataNascimento => this.setState({ dataNascimento })}
+            /> */}
             <TouchableOpacity style={styles.mainBtn} onPress={this.finalizarCadastro}>
               <Text style={styles.mainBtnTexto}>Cadastrar</Text>
             </TouchableOpacity>

@@ -5,10 +5,6 @@ export default class Vaga extends Component {
   goBack = () => {
     this.props.navigation.goBack();
   }
-
-  navegarTutorial = async () => {
-    this.props.navigation.navigate('TutorialTrava');
-  }
   
   render() {
     return (
@@ -30,7 +26,7 @@ export default class Vaga extends Component {
             <Text style={styles.numeroVaga}>1</Text>
           </View>
 
-          <TouchableOpacity style={styles.btnConfirmar} onPress={this.navegarTutorial}>
+          <TouchableOpacity style={styles.btnConfirmar} onPress={() => this.props.navigation.navigate("TutorialTrava")}>
             <Text style={styles.btnConfirmarTexto}>Confirmar</Text>
           </TouchableOpacity>
         </View>

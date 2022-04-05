@@ -13,11 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
 
-export default class Ponto extends Component {
+export default class Ponto extends Component {  
   constructor(props) {
     super(props);
     this.state = {
-      idBicicletario: 1,
+      //idBicicletario: this.props.navigation.useNavigationParam(item),
       CEP: "",
       bairro: "",
       cidade: "",
@@ -33,6 +33,7 @@ export default class Ponto extends Component {
 
   buscarInfoPonto = async () => {
     try {
+      //console.warn(idBicicletario)
       const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.get('/Bicicletario/2', {
         headers: {
