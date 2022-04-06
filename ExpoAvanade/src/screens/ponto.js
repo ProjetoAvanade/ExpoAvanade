@@ -79,7 +79,7 @@ export default class Ponto extends Component {
 
           <View style={styles.mainBody}>
             <View style={styles.titleSpace}>
-              <Text style={[styles.titleBicicletario, styles.sombra]}>{this.state.nome}</Text>
+              <Text style={styles.titleBicicletario}>{this.state.nome}</Text>
             </View>
             <View style={styles.infoBicicletario}>
               <View>

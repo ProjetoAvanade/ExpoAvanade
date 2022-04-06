@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 
 import api from '../services/api';
 
@@ -33,7 +33,7 @@ export default class Mapa extends Component {
       })
       const dadosDaApi = resposta.data;
       this.setState({ listaBicicletarios: dadosDaApi });
-      /* console.warn(listaBicicletarios) */
+      /* console.warn(dadosDaApi) */
     } catch (error) {
       console.warn(error);
     }
@@ -50,23 +50,34 @@ export default class Mapa extends Component {
           initialRegion={{
             latitude: -23.53641,
             longitude: -46.6462,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.030,
+            longitudeDelta: 0.050,
           }}>
           {this.state.listaBicicletarios.map((item) => {
             /* {console.warn(item.longitude)}
-            {console.warn(parseInt(item.longitude))} */
+            {console.warn(parseInt(item.longitude))}
+            {console.warn(item.nomeBiciletario)}
+            {console.warn(item.rua)} */
             return (
-              <Marker
-                key={item.idBicicletario}
-                coordinate={{
-                  latitude: parseFloat(item.latitude),
-                  longitude: parseFloat(item.longitude),
-                }}
-                onPress={() => this.props.navigation.navigate('Ponto', {
-                  bicicletario: item
-                })}
-              />
+              <View>
+                <Marker
+                  key={item.idBicicletario}
+                  coordinate={{
+                    latitude: parseFloat(item.latitude),
+                    longitude: parseFloat(item.longitude),
+                  }}
+                  title={item.nomeBicicletario}
+                  description={item.rua}
+                  /* onPress={() => this.props.navigation.navigate('Ponto', {
+                    bicicletario: item
+                  })} */
+                >
+                  <Callout onPress={() => this.props.navigation.navigate('Ponto')}>
+                    <Text style={styles.calloutText}>{item.nome}</Text>
+                    <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
+                  </Callout>
+                </Marker>
+              </View>
             );
           })}
         </MapView>
@@ -139,5 +150,10 @@ const styles = StyleSheet.create({
   },
   mainBtnText: {
     marginTop: 12,
-  }
+  },
+  calloutText: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#000000',
+  },
 });
