@@ -21,11 +21,14 @@ class Cadastro extends Component {
       senha: '',
       dataNascimento: new Date(),
       cpf: '',
+      isLoading: false,
+      mensagemErro: '',
     };
   }
 
   finalizarCadastro = async () => {
     try {
+      this.setState({ isLoading: true, mensagemErro: '' });
       const resposta = await api.post('/Usuario', {
         idTipoUsuario: this.state.idTipoUsuario,
         nomeUsuario: this.state.nomeUsuario,
@@ -35,17 +38,16 @@ class Cadastro extends Component {
         cpf: this.state.cpf,
       });
 
-      //this.setState({ isLoading: false });
-
-      if (resposta.status == 200) {
+      if (resposta.status == 201) {
+        this.setState({ isLoading: false });
         this.props.navigation.navigate('Login');;
         //console.warn('Cadastrado efetuado com sucesso!');
         //console.warn(resposta)
       }
     } catch (error) {
+      this.setState({ isLoading: false, mensagemErro: 'Não foi possível realizar o cadastrado!' });
       //console.warn(error);
       //console.log(error);
-      /* this.setState({ isLoading: false, mensagemErro: "Erro" }); */
     }
   };
 
@@ -62,6 +64,17 @@ class Cadastro extends Component {
   componentDidMount() {
     this.LimparCampos();
   };
+
+  /* convertDate = () => {
+    this.setState({
+      dataNascimento:
+      Intl.DateTimeFormat("pt-BR", {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: 'numeric',
+        hour12: true
+      }).format(new Date(dataNascimento))
+    })
+  }; */
 
   render() {
     return (
@@ -106,11 +119,11 @@ class Cadastro extends Component {
             />
             <TextInput
               style={styles.mainInput}
-              placeholder='DD/MM/AAAA'
-              placeholderTextColor='#000000'
+              placeholder='AAAA/MM/DD'
+              placeholderTextColor='#000000'  
               onChangeText={dataNascimento => this.setState({ dataNascimento })}
-              />
-              {/* <DatePicker
+            />
+            {/* <DatePicker
               style={styles.mainInput}
               date={this.state.dataNascimento}
               mode="date"
@@ -145,9 +158,21 @@ class Cadastro extends Component {
               }}
               onChangeText={dataNascimento => this.setState({ dataNascimento })}
             />*/}
-            <TouchableOpacity style={styles.mainBtnRegister} onPress={this.finalizarCadastro}>
-              <Text style={styles.mainBtnText}>Cadastrar</Text>
-            </TouchableOpacity>
+            {
+              this.state.isLoading === false &&
+              <TouchableOpacity style={styles.mainBtnRegister} onPress={this.finalizarCadastro}>
+                <Text style={styles.mainBtnText}>Cadastrar</Text>
+              </TouchableOpacity>
+            }
+
+            {
+              this.state.isLoading === true &&
+              <TouchableOpacity style={styles.mainBtnRegister} disabled={this.state.isLoading === true}>
+                <Text style={styles.mainBtnText}>Carregando</Text>
+              </TouchableOpacity>
+            }
+
+            <Text style={styles.mainTextError}>{this.state.mensagemErro}</Text>
           </View>
 
           <View style={styles.mainTextSpace}>
@@ -240,6 +265,11 @@ const styles = StyleSheet.create({
     fontFamily: 'ABeeZee_400Regular',
     color: '#000000'
   },
+  mainTextError:{
+    fontSize: 14,
+    color: 'red',
+    marginTop: '2%',
+  }
 });
 
 export default Cadastro

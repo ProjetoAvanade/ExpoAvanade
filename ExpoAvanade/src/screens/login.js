@@ -19,40 +19,36 @@ class Login extends Component {
       Email: '',
       Senha: '',
       MensagemErro: '',
-      isLoading: false,
-      Email: '',
+      IsLoading: false,
     };
   }
 
   realizarLogin = async () => {
     try {
-      this.setState({ erroMensagem: '', isLoading: true });
+      this.setState({ IsLoading: true, MensagemErro: '' });
       const resposta = await api.post('/Login', {
         email: this.state.Email,
         senha: this.state.Senha,
       })
-        /* .catch(MensagemErro => {
-          this.setState({ MensagemErro: 'E-mail e/ou senha inválidos!', isLoading: false })
-        }); */
 
-      this.setState({ isLoading: false });
       const token = resposta.data.token;
       await AsyncStorage.setItem('userToken', token);
-
+      
+      this.setState({ isLoading: false });
       if (resposta.status == 200) {
         this.props.navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)
       }
     } catch (error) {
-      this.setState({ MensagemErro: 'E-mail e/ou senha inválidos!', isLoading: false })
+      this.setState({ isLoading: false, MensagemErro: 'E-mail e/ou senha inválidos!' })
       /* console.warn(error);
       console.log(error); */
     }
   };
 
   LimparCampos = () => {
-    this.setState({ Email: '', Senha: '', MensagemErro: ''})
+    this.setState({ Email: '', Senha: ''})
   };
 
   componentDidMount() {
@@ -88,21 +84,21 @@ class Login extends Component {
 
             {
               // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
-              this.state.isLoading === true &&
-              <TouchableOpacity style={styles.mainBtnLogin} disabled={this.state.isLoading === true}>
+              this.state.IsLoading === true &&
+              <TouchableOpacity style={styles.mainBtnLogin} disabled={this.state.IsLoading === true}>
                 <Text style={styles.mainBtnText}>Loading</Text>
               </TouchableOpacity>
             }
 
             {
               // Caso seja false, renderiza o botão habilitado com o texto 'Login'
-              this.state.isLoading === false &&
+              this.state.IsLoading === false &&
               <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
                 <Text style={styles.mainBtnText}>Logar</Text>
               </TouchableOpacity>
             }
 
-            <Text style={styles.MainErroMessage}>{this.state.MensagemErro}</Text>
+            <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
           </View>
 
           <View style={styles.mainTextSpace}>
@@ -169,7 +165,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexMono_700Bold',
     color: '#000000'
   },
-  MainErroMessage: {
+  mainTextError:{
     fontSize: 14,
     color: 'red',
     marginTop: '2%',
