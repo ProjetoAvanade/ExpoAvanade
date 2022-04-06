@@ -2,49 +2,41 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
 
 export default class TutorialDestrava extends Component {
-  goBack = () => {
-    this.props.navigation.goBack();
-  }
-
-  navegarPagamento = () => {
-    this.props.navigation.navigate('Pagamento');
-  }
-  
   render() {
     return (
       <View style={styles.main}>
         <View style={styles.mainHeader}>
-          <View style={styles.mainTituloSpace}>
-            <TouchableOpacity onPress={this.goBack}>
+          <View style={styles.mainTitleSpace}>
+            {/* <TouchableOpacity onPress={this.goBack}>
               <Image style={styles.mainBtnVoltar} source={require('../../assets/img/Icone_voltar.png')} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <Text style={styles.mainHeaderText}>Tutorial</Text>
           </View>
         </View>
 
         <View style={styles.mainBody}>
-          <View style={styles.mainBodyIntrucoes}>
+          <View style={styles.mainBodyInstructions}>
             <Text style={styles.mainBodyTitle}>Siga essas instruções:</Text>
             <Text style={styles.mainBodyText}>Usar o sistema é muito fácil! Veja aqui algumas dicas para te ajudar.</Text>
           </View>
 
-          <View style={styles.mainBodyPassos}>
-            <View style={styles.passoInfo}>
+          <View style={styles.mainBodySteps}>
+            <View style={styles.stepInfo}>
               <View style={styles.mainBodyCircle}>
                 <Text style={styles.mainBodyText}>1°</Text>
               </View>
               <Text style={styles.mainBodyText}>Lorem Ipsum is simply dummy</Text>
             </View>
 
-            <View style={styles.passoInfo}>
+            <View style={styles.stepInfo}>
               <View style={styles.mainBodyCircle}>
                 <Text style={styles.mainBodyText}>2°</Text>
               </View>
               <Text style={styles.mainBodyText}>Lorem Ipsum is simply dummy text of the printing</Text>
             </View>
 
-            <View style={styles.passoInfo}>
+            <View style={styles.stepInfo}>
               <View style={styles.mainBodyCircle}>
                 <Text style={styles.mainBodyText}>3°</Text>
               </View>
@@ -54,7 +46,7 @@ export default class TutorialDestrava extends Component {
         </View>
 
         <View style={styles.mainFooter}>
-          <TouchableOpacity style={[styles.mainFooterBtn, styles.footerBtnShadow]} onPress={this.navegarPagamento}>
+          <TouchableOpacity style={[styles.mainFooterBtn, styles.footerBtnShadow]} onPress={() => this.props.navigation.navigate('Pagamento')}>
             <Text style={styles.footerBtnText}>Destravar</Text>
           </TouchableOpacity>
 
@@ -78,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  mainTituloSpace: {
+  mainTitleSpace: {
     width: 300,
     display: 'flex',
     flexDirection: 'row',
@@ -86,14 +78,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginRight: 100,
   },
-  mainBtnVoltar: {
+  mainBtnBack: {
     width: 20,
     height: 20,
   },
   mainHeaderText: {
-    //fontFamily:
+    fontFamily: 'IBMPlexMono_700Bold', 
+    marginLeft: 100,
     fontSize: 36,
-    fontWeight: 'bold',
     color: '#fff',
   },
   mainBody: {
@@ -102,26 +94,25 @@ const styles = StyleSheet.create({
     marginBottom: 110,
   },
   mainBodyTitle: {
-    //fontFamily:
+    fontFamily: 'ABeeZee_400Regular', 
     fontSize: 25,
-    fontWeight: 'bold',
     color: '#fff',
   },
-  mainBodyIntrucoes: {
+  mainBodyInstructions: {
     maxWidth: 264,
     marginLeft: 20,
     marginBottom: 20,
   },
   mainBodyText: {
-    //fontFamily:
+    fontFamily: 'ABeeZee_400Regular', 
     fontSize: 20,
     color: '#fff',
   },
-  mainBodyPassos: {
+  mainBodySteps: {
     maxWidth: 300,
     marginRight: 20,
   },
-  passoInfo: {
+  stepInfo: {
     flexDirection: 'row',
     marginTop: 10,
   },
@@ -146,10 +137,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3BC2C',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
+
   },
   footerBtnShadow: {
     shadowColor: '#rgba(0, 0, 0, 0.25)',
-    shadowOffset: {width: -3, height: -4},
+    shadowOffset: { width: -3, height: -4 },
     shadowOpacity: 1,
     shadowRadius: 4,
     /* shadowColor: 'rgba(132, 132, 156, 0.3)',
@@ -158,9 +151,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4, */
   },
   footerBtnText: {
-    //fontFamily:
+    fontFamily: 'IBMPlexMono_700Bold', 
     fontSize: 24,
-    fontWeight: 'bold',
     color: '#000',
   },
   mainFooterMinutes: {
@@ -169,9 +161,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3BC2C',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
+
   },
   footerMinutesText: {
-    //fontFamily:
+    fontFamily: 'IBMPlexMono_700Bold', 
     fontSize: 18,
     color: '#000',
   },

@@ -24,10 +24,6 @@ class Cadastro extends Component {
     };
   }
 
-  goBack = () => {
-    this.props.navigation.goBack();
-  }
-
   finalizarCadastro = async () => {
     try {
       const resposta = await api.post('/Usuario', {
@@ -43,12 +39,12 @@ class Cadastro extends Component {
 
       if (resposta.status == 200) {
         this.props.navigation.navigate('Login');;
-        //console.warn('Login efetuado com sucesso!');
-        console.warn(resposta)
+        //console.warn('Cadastrado efetuado com sucesso!');
+        //console.warn(resposta)
       }
     } catch (error) {
-      console.warn(error);
-      console.log(error);
+      //console.warn(error);
+      //console.log(error);
       /* this.setState({ isLoading: false, mensagemErro: "Erro" }); */
     }
   };
@@ -59,7 +55,7 @@ class Cadastro extends Component {
       email: '',
       senha: '',
       dataNascimento: new Date(),
-      cpf: 0,
+      cpf: '',
     })
   };
 
@@ -72,11 +68,11 @@ class Cadastro extends Component {
       <View style={styles.main}>
         <View style={styles.mainDiv}>
 
-          <View style={styles.mainTituloSpace}>
-            <TouchableOpacity style={styles.mainBtnVoltar} onPress={this.goBack}>
-              <Image style={styles.mainImagem} source={require('../../assets/img/Icone_voltar.png')} />
+          <View style={styles.mainTitleSpace}>
+            <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.mainImage} source={require('../../assets/img/Icone_voltar.png')} />
             </TouchableOpacity>
-            <Text style={styles.mainTitulo}>Cadastro</Text>
+            <Text style={styles.mainTitle}>Cadastro</Text>
           </View>
 
           <View style={styles.mainFormSpace}>
@@ -113,8 +109,8 @@ class Cadastro extends Component {
               placeholder='DD/MM/AAAA'
               placeholderTextColor='#000000'
               onChangeText={dataNascimento => this.setState({ dataNascimento })}
-            />
-            {/* <DatePicker
+              />
+              {/* <DatePicker
               style={styles.mainInput}
               date={this.state.dataNascimento}
               mode="date"
@@ -125,39 +121,38 @@ class Cadastro extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  right: -5,
-                  top: 4,
-                  marginLeft: 0,
-                },
-                dateInput: {
-                  borderColor: "gray",
-                  alignItems: "flex-start",
-                  borderWidth: 0,
-                  borderBottomWidth: 1,
-                },
-
-                placeholderText: {
-                  fontSize: 17,
-                  color: "gray"
-                },
-
-                dateText: {
-                  fontSize: 17,
-                }
+              dateIcon: {
+              position: 'absolute',
+              right: -5,
+              top: 4,
+              marginLeft: 0,
+              },
+              dateInput: {
+              borderColor: "gray",
+              alignItems: "flex-start",
+              borderWidth: 0,
+              borderBottomWidth: 1,
+              },
+              
+              placeholderText: {
+              fontSize: 17,
+              color: "gray"
+              },
+              
+              dateText: {
+              fontSize: 17,
+              }
               }}
               onChangeText={dataNascimento => this.setState({ dataNascimento })}
-            /> */}
-            <TouchableOpacity style={styles.mainBtn} onPress={this.finalizarCadastro}>
-              <Text style={styles.mainBtnTexto}>Cadastrar</Text>
+            />*/}
+            <TouchableOpacity style={styles.mainBtnRegister} onPress={this.finalizarCadastro}>
+              <Text style={styles.mainBtnText}>Cadastrar</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.mainTextoSpace}>
-            <Text style={styles.mainTexto}>Você será reencaminhado para a tela de login.</Text>
+          <View style={styles.mainTextSpace}>
+            <Text style={styles.mainText}>Você será reencaminhado para a tela de login.</Text>
           </View>
-
         </View>
       </View >
     );
@@ -169,81 +164,80 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    display: 'flex',
     justifyContent: 'center'
   },
   mainDiv: {
-    flex: 0.9,
-    backgroundColor: 'white',
-    height: 517,
+    flex: 0.85,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  mainTituloSpace: {
-    width: 203,
-    height: 40,
-    display: 'flex',
+  mainTitleSpace: {
+    width: 220,
+    height: 60,
+    marginRight: 65,
+
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginRight: 55,
+    justifyContent: 'space-around',
   },
-  mainImagem: {
-    marginTop: 15,
+  mainImage: {
+    marginTop: 8,
+    marginLeft: 10,
     width: 20,
     height: 20,
   },
-  mainTitulo: {
+  mainTitle: {
+    marginTop: 10,
+    marginLeft: 45,
     fontSize: 36,
     color: '#000000',
+    fontFamily: 'IBMPlexMono_700Bold',
   },
   mainFormSpace: {
-    marginTop: 25,
-    height: 490,
+    height: 510,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   mainInput: {
     width: 260,
     height: 60,
-    backgroundColor: '#ffffff',
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
+    borderWidth: 2,
     borderRadius: 5,
+    paddingLeft: 23,
+    backgroundColor: '#ffffff',
     borderStyle: 'solid',
     borderColor: '#F3BC2C',
-    paddingLeft: 23,
+    marginTop: '8%',
   },
-  mainBtn: {
-    backgroundColor: '#F3BC2C',
+  mainBtnRegister: {
     width: 157,
     height: 60,
     borderRadius: 5,
+    backgroundColor: '#F3BC2C',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+    marginTop: '8%',
 
-  mainBtnVoltar: {
+  },
+  mainBtnBack: {
     width: 20,
     height: 20,
   },
-
-  mainBtnTexto: {
-    fontFamily: 'IBMPlexMono-Bold',
-    fontSize: 14,
+  mainBtnText: {
+    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold',
     color: '#000000'
   },
-  mainTextoSpace: {
-    marginTop: 20,
+  mainTextSpace: {
+    marginTop: 30,
     height: 16,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  mainTexto: {
-    fontFamily: 'ABeeZee-Regular',
+  mainText: {
     fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
     color: '#000000'
   },
 });

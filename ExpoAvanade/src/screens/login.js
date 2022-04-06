@@ -42,9 +42,10 @@ class Login extends Component {
       if (resposta.status == 200) {
         this.props.navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
-        console.warn(resposta)
+        //console.warn(resposta)
       }
     } catch (error) {
+      this.setState({ MensagemErro: 'E-mail e/ou senha inválidos!', isLoading: false })
       /* console.warn(error);
       console.log(error); */
     }
@@ -58,19 +59,16 @@ class Login extends Component {
     this.LimparCampos();
   };
 
-  realizarCadastro = () => {
-    this.props.navigation.navigate('Cadastro');
-  }
-
   render() {
     return (
       <View style={styles.main}>
         <View style={styles.mainDiv}>
 
-          <View style={styles.mainImagemSpace}>
-            <Image source={require('../../assets/img/icon.png')} style={styles.mainImagem} />
+          <View style={styles.mainImageSpace}>
+            <Image source={require('../../assets/img/icon.png')} style={styles.mainImage} />
           </View>
-          <View style={styles.mainFormSpace}>
+
+          <View style={styles.mainFormAlignment}>
             <TextInput
               style={styles.mainInput}
               placeholder='Endereço de E-mail'
@@ -91,37 +89,35 @@ class Login extends Component {
             {
               // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
               this.state.isLoading === true &&
-              <TouchableOpacity style={styles.mainBtn} disabled={this.state.isLoading === true}>
-                <Text style={styles.mainBtnTexto}>Loading</Text>
+              <TouchableOpacity style={styles.mainBtnLogin} disabled={this.state.isLoading === true}>
+                <Text style={styles.mainBtnText}>Loading</Text>
               </TouchableOpacity>
             }
 
             {
               // Caso seja false, renderiza o botão habilitado com o texto 'Login'
               this.state.isLoading === false &&
-              <TouchableOpacity style={styles.mainBtn} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
-                <Text style={styles.mainBtnTexto}>Logar</Text>
+              <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+                <Text style={styles.mainBtnText}>Logar</Text>
               </TouchableOpacity>
             }
-            
-            <Text style={styles.mensagemErro}>{this.state.MensagemErro}</Text>
+
+            <Text style={styles.MainErroMessage}>{this.state.MensagemErro}</Text>
           </View>
 
-          <View style={styles.mainTextoSpace}>
-
-            <Text style={styles.mainTexto}>Esqueceu sua senha?</Text>
-            <TouchableOpacity style={styles.mainBtnCadastro} onPress={this.realizarCadastro}>
-              <Text style={styles.mainTexto}>Não tem uma conta? Cadastre-se</Text>
+          <View style={styles.mainTextSpace}>
+            <Text style={styles.mainText}>Esqueceu sua senha?</Text>
+            <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => this.props.navigation.navigate('Cadastro')}>
+              <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </View >
     );
   }
 }
-
 const styles = StyleSheet.create({
-  // conteúdo da main
   main: {
     flex: 1,
     backgroundColor: '#ffffff',
@@ -129,79 +125,64 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center'
   },
-
   mainDiv: {
-    flex: 0.9,
-    backgroundColor: 'white',
-    height: 517,
+    flex: 0.7,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-
-  mainImagemSpace: {
+  mainImageSpace: {
     width: 260,
     height: 166,
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  mainImagem: {
-    marginTop: 20,
+  mainImage: {
     width: 132,
     height: 96,
+    marginTop: '10%',
   },
-
-  mainFormSpace: {
-    height: 240,
+  mainFormAlignment: {
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
-
   mainInput: {
     width: 260,
     height: 60,
-    backgroundColor: '#ffffff',
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
+    borderWidth: 2,
     borderRadius: 5,
-    borderStyle: 'solid',
-    borderColor: '#F3BC2C',
     paddingLeft: 23,
+    backgroundColor: '#ffffff',
+    borderColor: '#F3BC2C',
+    marginTop: '8%',
   },
-
-  mainBtn: {
-    backgroundColor: '#F3BC2C',
+  mainBtnLogin: {
     width: 157,
     height: 60,
     borderRadius: 5,
+    backgroundColor: '#F3BC2C',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '8%',
   },
-
-  mainBtnTexto: {
-    //fontFamily: '',
-    fontSize: 14,
+  mainBtnText: {
+    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold',
     color: '#000000'
   },
-
-  mainTextoSpace: {
+  MainErroMessage: {
+    fontSize: 14,
+    color: 'red',
+    marginTop: '2%',
+  },
+  mainTextSpace: {
     height: 91,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-
-  mainTexto: {
+  mainText: {
     fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
     color: '#000000',
-    //fontFamily: 'ABeeZee-Regular'
-  },
-
-  mensagemErro: {
-    color: 'red',
-    fontSize: 16,
-    marginTop: '2%',
   },
 });
 

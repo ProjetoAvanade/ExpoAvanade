@@ -30,23 +30,23 @@ class Main extends Component {
             tabBarIcon: () => {
               if (route.name === 'Mapa') {
                 return (
-                  <View style={styles.iconNavegacao}>
+                  <View style={styles.iconNav}>
                     <Image
                       style={styles.tabBarIcon}
                       source={require('../../assets/img/icon_mapa.png')}
                     />
-                    <Text style={styles.textoNavegacao}>Mapa</Text>
+                    <Text style={styles.textNav}>Mapa</Text>
                   </View>
                 )
               }
               if (route.name === 'Perfil') {
                 return (
-                  <View style={styles.iconNavegacao}>
+                  <View style={styles.iconNav}>
                     <Image
                       style={styles.tabBarIcon}
                       source={require('../../assets/img/icon_perfil.png')}
                     />
-                    <Text style={styles.textoNavegacao}>Meu Perfil</Text>
+                    <Text style={styles.textNav}>Meu Perfil</Text>
                   </View>
                 )
               }
@@ -81,18 +81,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  iconNavegacao: {
+  iconNav: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
 
   // estilo dos textos da navegação
-  textoNavegacao: {
+  textNav: {
     fontSize: 18,
-    fontWeight: 'bold',
     color: '#000',
-    fontFamily: 'IBMPlexMono-Bold',
+    fontFamily: 'IBMPlexMono_700Bold',
+    marginLeft: '5%'
   },
 
   // estilo dos ícones da tabBar
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40
   }
-
 });
 
 export default Main;

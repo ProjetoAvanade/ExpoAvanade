@@ -35,26 +35,21 @@ export default class Perfil extends Component {
       })
       if (resposta.status === 200) {
         const dadosDaApi = resposta.data;
-        console.warn(dadosDaApi)
         this.setState({
-          nomeUsuario: resposta.data.nomeUsuario,
-          email: resposta.data.email,
-          pontos: resposta.data.pontos,
-          saldo: resposta.data.saldo, 
+          nomeUsuario: dadosDaApi.nomeUsuario,
+          email: dadosDaApi.email,
+          pontos: dadosDaApi.pontos,
+          saldo: dadosDaApi.saldo, 
         });
       }
     } catch (error) {
-      console.warn(resposta)
-      console.warn(error);
+      //console.warn(resposta)
+      //console.warn(error);
     }
   };
 
   componentDidMount() {
     this.buscarInfoPerfil();
-  }
-
-  navegarPontos = async () => {
-    this.props.navigation.navigate('TrocaPontos');
   }
 
   render() {
@@ -68,14 +63,14 @@ export default class Perfil extends Component {
         <View style={styles.mainBody}>
           <View style={styles.mainBodyInfo}>
 
-            <Image style={styles.imgPerfil} source={require('../../assets/img/profile.png')} />
+            <Image style={styles.imageProfile} source={require('../../assets/img/profile.png')} />
 
             <Text style={styles.mainBodyTitle}>{this.state.nomeUsuario}</Text>
             <Text style={styles.mainBodyText}>{this.state.email}</Text>
             <Text style={styles.mainBodyText}>Pontos: {this.state.pontos}</Text>
             <Text style={styles.mainBodyText}>Saldo: {this.state.saldo}</Text>
 
-            <TouchableOpacity style={styles.btn} onPress={this.navegarPontos}>
+            <TouchableOpacity style={styles.btn} onPress={() => this.props.navigation.navigate('TrocaPontos')}>
               <Text style={styles.btnPontosText}>Trocar meus pontos</Text>
             </TouchableOpacity>
 
@@ -101,9 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainHeaderText: {
-    //fontFamily: '',
-    fontSize: 36,
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 36,
     color: '#333',
   },
   mainHeaderLine: {
@@ -120,21 +113,23 @@ const styles = StyleSheet.create({
   mainBodyInfo: {
     alignItems: 'center',
   },
-  imgPerfil: {
+  imageProfile: {
     borderColor: '#F3BC2C',
     borderRadius: 67,
     borderWidth: 3,
     /* marginBottom: 20, */
   },
   mainBodyTitle: {
-    //fontFamily: '',
     color: '#000',
     fontSize: 25,
-    fontWeight: 'bold',
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 25,
+    textAlign: 'center',
+    maxWidth: '80%',
   },
   mainBodyText: {
+    fontFamily: 'ABeeZee_400Regular',
     color: '#000',
     fontSize: 20,
   },
@@ -154,16 +149,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   btnPontosText: {
-    //fontFamily: '',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 18,
+
     color: '#000',
     textAlign: 'center',
   },
   btnLogoutText: {
-    //fontFamily: '',
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 25,
     color: '#000',
   },
   mainTituloSpace: {
@@ -178,8 +170,5 @@ const styles = StyleSheet.create({
   mainBtnVoltar: {
     width: 20,
     height: 20,
-  },
-  mainImagem: {
-    marginTop: 5,
   },
 });

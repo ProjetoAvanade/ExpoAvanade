@@ -2,98 +2,81 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 
 export default class Pesquisa extends Component {
-
-    realizarBusca = () => {
-        this.props.navigation.navigate('Ponto');
-    }
-
     render() {
         return (
             <View style={styles.main}>
 
-                <View style={styles.mainNavegar}>
-                    <View style={styles.mainMenuNavegar}>
-                        <View style={styles.mainDividir}>
-                            <TextInput style={styles.mainMenuInput}>Para onde? <Image source={require('../../assets/img/Icone_lupa.png')} style={styles.mainImagem} /> </TextInput>
+                <View style={styles.mainNav}>
+                    <View style={styles.mainMenuNav}>
+                        <View style={styles.mainDiv}>
+                            <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
+                                <Image style={styles.mainImage} source={require('../../assets/img/Icone_voltar.png')} />
+                            </TouchableOpacity>
+                            {/* <TextInput style={styles.mainMenuInput}
+                                placeholder='Para onde?'
+                                placeholderTextColor='#000000'>
+                            </TextInput>
+                            <TouchableOpacity style={styles.mainBtnTest} onPress={this.realizarBusca}>
+                                <Text style={styles.mainBtnText}>OO</Text>
+                            </TouchableOpacity> */}
+                            <TextInput style={styles.mainMenuInput}
+                                placeholder='Para onde?'
+                                placeholderTextColor='#000000'
+                            >
+                            </TextInput>
                         </View>
                     </View>
-                </View>
 
-                <View style={styles.mainRecentes}>
-                    <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Preste Maia</Text>
-                        <Text style={styles.mainRecentesTexto}>São Paulo</Text>
+                    <View style={styles.mainRecent}>
+                        <View style={styles.mainRecentCard}>
+                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Preste Maia</Text>
+                            <Text style={styles.mainRecentText}>São Paulo</Text>
+                        </View>
+                        <View style={styles.mainRecentCard}>
+                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Senai de informática</Text>
+                            <Text style={styles.mainRecentText}>São Paulo</Text>
+                        </View>
+                        <View style={styles.mainRecentCard}>
+                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Sesi Vila Leopoldina</Text>
+                            <Text style={styles.mainRecentText}>São Paulo</Text>
+                        </View>
                     </View>
-                    <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Senai de informática</Text>
-                        <Text style={styles.mainRecentesTexto}>São Paulo</Text>
-                    </View>
-                    <View style={styles.mainRecentesCard}>
-                        <Text style={styles.mainRecentesTexto} onPress={this.realizarBusca}>Bicicletário Sesi Vila Leopoldina</Text>
-                        <Text style={styles.mainRecentesTexto}>São Paulo</Text>
-                    </View>
-                </View>
 
-
-
-            </View >
+                </View >
+            </View>
         );
     }
 }
-
 const styles = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: '#F7F7F7',
         alignItems: 'center',
     },
-
-    mainNavegar: {
-        flex: 0.15,
+    mainNav: {
+        flex: 0.35,
         backgroundColor: '#F7F7F7',
         justifyContent: 'center',
         alignItems: 'center',
     },
-
-    mainMenuNavegar: {
-        width: 394,
-        height: 60,
+    mainMenuNav: {
+        width: 380,
         borderRadius: 5,
         backgroundColor: '#F3BC2C',
     },
-
-    mainRecentes: {
-        flex: 0.85,
-        width: 340,
-        backgroundColor: '#F7F7F7',
+    mainDiv: {
+        marginLeft: 15,
+        width: 350,
+        height: 70,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
-
-    mainRecentesCard: {
-        width: 340,
-        height: 100,
-        borderBottomColor: '#000000',
-        borderBottomWidth: 2
-    },
-
-    mainRecentesTexto: {
-        fontSize: 20,
-        color: '#000000',
-        paddingTop: 15,
-        paddingLeft: 15
-    },
-
-    mainDividir: {
-        width: 394,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
     mainMenuInput: {
         width: 320,
-        height: 30,
+        height: 45,
         paddingLeft: 23,
-        paddingTop: 0,
+        paddingBottom: 2,
         fontSize: 12,
         borderRadius: 5,
         borderWidth: 1,
@@ -101,9 +84,29 @@ const styles = StyleSheet.create({
         borderColor: '#000000',
         backgroundColor: '#ffffff',
     },
-
-    mainImagem: {
+    mainBtnBack: {
         width: 20,
         height: 20,
     },
+    mainRecent: {
+        flex: 0.65,
+        width: 340,
+        backgroundColor: '#F7F7F7',
+    },
+    mainRecentCard: {
+        width: 340,
+        height: 100,
+        borderBottomColor: '#000000',
+        borderBottomWidth: 2,
+    },
+    mainRecentText: {
+        fontSize: 20,
+        paddingTop: 20,
+        paddingLeft: 15,
+        color: '#000000',
+        fontFamily: 'ABeeZee_400Regular',
+    },
+    mainBtnText: {
+        marginTop: 12,
+    }
 });
