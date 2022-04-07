@@ -34,14 +34,14 @@ class Login extends Component {
       const token = resposta.data.token;
       await AsyncStorage.setItem('userToken', token);
       
-      this.setState({ isLoading: false });
+      this.setState({ IsLoading: false });
       if (resposta.status == 200) {
         this.props.navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)
       }
     } catch (error) {
-      this.setState({ isLoading: false, MensagemErro: 'E-mail e/ou senha inválidos!' })
+      this.setState({ IsLoading: false, MensagemErro: 'E-mail e/ou senha inválidos!' })
       /* console.warn(error);
       console.log(error); */
     }
@@ -85,7 +85,7 @@ class Login extends Component {
             {
               // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
               this.state.IsLoading === true &&
-              <TouchableOpacity style={styles.mainBtnLogin} disabled={this.state.IsLoading === true}>
+              <TouchableOpacity style={styles.mainBtnLogin} disabled>
                 <Text style={styles.mainBtnText}>Loading</Text>
               </TouchableOpacity>
             }

@@ -54,10 +54,6 @@ export default class Mapa extends Component {
             longitudeDelta: 0.050,
           }}>
           {this.state.listaBicicletarios.map((item) => {
-            /* {console.warn(item.longitude)}
-            {console.warn(parseInt(item.longitude))}
-            {console.warn(item.nomeBiciletario)}
-            {console.warn(item.rua)} */
             return (
               <View>
                 <Marker
@@ -68,11 +64,8 @@ export default class Mapa extends Component {
                   }}
                   title={item.nomeBicicletario}
                   description={item.rua}
-                  /* onPress={() => this.props.navigation.navigate('Ponto', {
-                    bicicletario: item
-                  })} */
                 >
-                  <Callout onPress={() => this.props.navigation.navigate('Ponto')}>
+                  <Callout onPress={() => this.props.navigation.navigate('Ponto', {id: item.idBicicletario})}>
                     <Text style={styles.calloutText}>{item.nome}</Text>
                     <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                   </Callout>

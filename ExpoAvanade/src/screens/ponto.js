@@ -17,7 +17,7 @@ export default class Ponto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //idBicicletario: this.props.navigation.useNavigationParam(item),
+      idBicicletario: props.route.params.id,
       CEP: "",
       bairro: "",
       cidade: "",
@@ -33,9 +33,9 @@ export default class Ponto extends Component {
 
   buscarInfoPonto = async () => {
     try {
-      //console.warn(idBicicletario)
+      //console.warn(this.state.idBicicletario)
       const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get('/Bicicletario/2', {
+      const resposta = await api.get(`/Bicicletario/${this.state.idBicicletario}`, {
         headers: {
           Authorization: 'Bearer ' + token,
         },

@@ -167,7 +167,7 @@ class Cadastro extends Component {
 
             {
               this.state.isLoading === true &&
-              <TouchableOpacity style={styles.mainBtnRegister} disabled={this.state.isLoading === true}>
+              <TouchableOpacity style={styles.mainBtnRegister} disabled>
                 <Text style={styles.mainBtnText}>Carregando</Text>
               </TouchableOpacity>
             }
