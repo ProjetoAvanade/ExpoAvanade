@@ -55,22 +55,20 @@ export default class Mapa extends Component {
           }}>
           {this.state.listaBicicletarios.map((item) => {
             return (
-              <View>
-                <Marker
-                  key={item.idBicicletario}
-                  coordinate={{
-                    latitude: parseFloat(item.latitude),
-                    longitude: parseFloat(item.longitude),
-                  }}
-                  title={item.nomeBicicletario}
-                  description={item.rua}
-                >
-                  <Callout onPress={() => this.props.navigation.navigate('Ponto', {id: item.idBicicletario})}>
-                    <Text style={styles.calloutText}>{item.nome}</Text>
-                    <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
-                  </Callout>
-                </Marker>
-              </View>
+              <Marker
+                key={item.idBicicletario}
+                coordinate={{
+                  latitude: parseFloat(item.latitude),
+                  longitude: parseFloat(item.longitude),
+                }}
+                title={item.nomeBicicletario}
+                description={item.rua}
+              >
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario })}>
+                  <Text style={styles.calloutText}>{item.nome}</Text>
+                  <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
+                </Callout>
+              </Marker>
             );
           })}
         </MapView>
