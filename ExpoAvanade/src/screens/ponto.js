@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
 
-export default class Ponto extends Component {  
+export default class Ponto extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +26,7 @@ export default class Ponto extends Component {
       nome: "",
       numero: 0,
       rua: "",
-      quantidadeVaga: 0,
-      vagaDisponivel: 0,
+      listaVagas: [],
     };
   }
 
@@ -55,12 +54,29 @@ export default class Ponto extends Component {
         });
       }
     } catch (error) {
+      //console.warn(error);
+    }
+  };
+
+  buscarVagasPonto = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get(`/Vagas/${this.state.idBicicletario}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      const dadosDaApi = resposta.data;
+      this.setState({ listaVagas: dadosDaApi });
+      console.warn(dadosDaApi)
+    } catch (error) {
       console.warn(error);
     }
   };
 
   componentDidMount() {
     this.buscarInfoPonto();
+    this.buscarVagasPonto();
   }
 
   render() {
@@ -94,11 +110,19 @@ export default class Ponto extends Component {
                 <Text style={styles.titleInfo}>Horas:</Text>
                 <Text style={styles.textInfo}>Aberto: {this.state.horarioAberto} ⋅ Fecha às {this.state.horarioFechado}</Text>
               </View>
-              <View>
-                <Text style={styles.titleInfo}>Vagas:</Text>
-                <Text style={styles.textInfo}>Disponiveis = {this.state.vagaDisponivel}</Text>
-                <Text style={styles.textInfo}>Totais = {this.state.quantidadeVaga}</Text>
-              </View>
+              {this.state.listaVagas.map((item) => {
+                return (
+                  <View>
+                    <Text style={styles.titleInfo}>Vagas:</Text>
+                    <Text style={styles.textInfo}>Disponiveis = {item.idVaga}</Text>
+                    <Text style={styles.textInfo}>Totais = </Text>
+                  </View>
+                );
+              })}
+              {/* {this.state.listaVagas.map((item) => {
+                return item.reduce((a, b) => (a + b))
+                
+              })} */}
               <View style={styles.btnPosition}>
                 <TouchableOpacity style={styles.btnPonto} onPress={() => this.props.navigation.navigate("Vaga")}>
                   <Text style={styles.cardPontosText}>Estou no ponto</Text>
@@ -176,12 +200,12 @@ const styles = StyleSheet.create({
   },
 
   titleInfo: {
-    fontFamily: 'ABeeZee_400Regular',    fontSize: 25,
+    fontFamily: 'ABeeZee_400Regular', fontSize: 25,
     color: '#000',
   },
 
   textInfo: {
-    fontFamily: 'ABeeZee_400Regular', 
+    fontFamily: 'ABeeZee_400Regular',
     fontSize: 18,
     color: '#000',
   },

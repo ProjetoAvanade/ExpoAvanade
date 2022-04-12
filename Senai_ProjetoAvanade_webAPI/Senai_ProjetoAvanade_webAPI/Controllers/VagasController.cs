@@ -29,7 +29,7 @@ namespace Senai_ProjetoAvanade_webAPI.Controllers
         /// </summary>
         /// <param name="id">id do bicicletario especifico</param>
         /// <returns>Uma lista com as vagas do bicicletario</returns>
-        [Authorize(Roles = "2")]
+        /*[Authorize(Roles = "2")]*/
         [HttpGet("{id}")]
         public IActionResult ListarTodas(int id)
         {
