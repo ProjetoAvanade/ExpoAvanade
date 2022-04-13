@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OXQqZlGI8XAh22YK6/7Mfe74Wg2jPzzuAosPvXsR6yyescb1pnfovsRXrljtapSzIOZKxS7aCf2kWiLO46dClw==",
+  "dgSpecHash": "SzC+Pt1lX/a/0OoF44pHz93F3MAiWAdOKdvVOwgaoh1pRQynPb6uNlAdEbw4Ht728XPSAXS1pFci+Jjr1WBZEQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
+  "projectFilePath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

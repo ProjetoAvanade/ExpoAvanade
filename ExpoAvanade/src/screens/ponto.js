@@ -27,6 +27,8 @@ export default class Ponto extends Component {
       numero: 0,
       rua: "",
       listaVagas: [],
+      qntdVagaTotal: 0,
+      qntdVagaDisponivel: [],
     };
   }
 
@@ -49,8 +51,6 @@ export default class Ponto extends Component {
           rua: resposta.data.rua,
           horarioAberto: resposta.data.horarioAberto,
           horarioFechado: resposta.data.horarioFechado,
-          /*quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
-          vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel, */
         });
       }
     } catch (error) {
@@ -67,12 +67,24 @@ export default class Ponto extends Component {
         },
       })
       const dadosDaApi = resposta.data;
-      this.setState({ listaVagas: dadosDaApi });
-      console.warn(dadosDaApi)
+      this.setState({
+        listaVagas: dadosDaApi,
+        qntdVagaTotal: dadosDaApi.length,
+        qntdVagaDisponivel: dadosDaApi.statusVaga,
+      })
+      
+      // console.warn(this.state.listaVagas[1])
+
+      // console.warn(this.state.listaVagas)
     } catch (error) {
       console.warn(error);
     }
   };
+
+  Vagasdisponiveis(value) {
+    return value == true;
+  }
+  
 
   componentDidMount() {
     this.buscarInfoPonto();
@@ -110,19 +122,29 @@ export default class Ponto extends Component {
                 <Text style={styles.titleInfo}>Horas:</Text>
                 <Text style={styles.textInfo}>Aberto: {this.state.horarioAberto} ⋅ Fecha às {this.state.horarioFechado}</Text>
               </View>
-              {this.state.listaVagas.map((item) => {
+              {/* /*{this.state.listaVagas.map((item) => {
+                 console.warn(this.state.listaVagas.length)
+                this.setState({
+                  qtndVagaTotal: this.state.listaVagas.length,
+                })
                 return (
                   <View>
                     <Text style={styles.titleInfo}>Vagas:</Text>
                     <Text style={styles.textInfo}>Disponiveis = {item.idVaga}</Text>
-                    <Text style={styles.textInfo}>Totais = </Text>
+                    <Text style={styles.textInfo}>Totais = {}</Text>
                   </View>
                 );
-              })}
-              {/* {this.state.listaVagas.map((item) => {
+              })
+               {this.state.listaVagas.map((item) => {
                 return item.reduce((a, b) => (a + b))
                 
-              })} */}
+              }) */}
+              <View>
+                <Text style={styles.titleInfo}>Vagas:</Text>
+                <Text style={styles.textInfo}>Disponiveis = {this.state.qntdVagaDisponivel}</Text>
+                <Text style={styles.textInfo}>Totais = {this.state.qntdVagaTotal}</Text>
+              </View>
+
               <View style={styles.btnPosition}>
                 <TouchableOpacity style={styles.btnPonto} onPress={() => this.props.navigation.navigate("Vaga")}>
                   <Text style={styles.cardPontosText}>Estou no ponto</Text>

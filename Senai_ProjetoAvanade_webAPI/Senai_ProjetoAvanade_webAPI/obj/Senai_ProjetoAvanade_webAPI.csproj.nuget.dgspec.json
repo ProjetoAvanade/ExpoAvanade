@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {}
+    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {
+    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
+        "projectUniqueName": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
         "projectName": "Senai_ProjetoAvanade_webAPI",
-        "projectPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
+        "projectPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
         "packagesPath": "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\obj\\",
+        "outputPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\42410863817.INFOSCS\\AppData\\Roaming\\NuGet\\NuGet.Config",

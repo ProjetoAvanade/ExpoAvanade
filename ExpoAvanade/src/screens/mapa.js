@@ -6,10 +6,12 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from 'react-native';
 
 import MapView, { Callout, Marker } from 'react-native-maps';
-
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
 import api from '../services/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +21,9 @@ export default class Mapa extends Component {
     super(props);
     this.state = {
       listaBicicletarios: [],
-      idBicicletario: ''
+      idBicicletario: '',
+      location: '',
+      erroMesagem: '',
     };
   }
 
@@ -41,6 +45,24 @@ export default class Mapa extends Component {
 
   componentDidMount() {
     this.buscarBicicletarios();
+
+    /* (async () => {
+      if (Platform.OS === 'android' && !Constants.isDevice) {
+        setErrorMsg(
+          'Erro Slk'
+        );
+        return;
+      }
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permissão para acessar a localização negada');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+    })(); */
   }
 
   render() {
