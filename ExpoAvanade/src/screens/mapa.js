@@ -22,8 +22,9 @@ export default class Mapa extends Component {
     this.state = {
       listaBicicletarios: [],
       idBicicletario: '',
-      location: '',
-      erroMesagem: '',
+      erroMessagem: '',
+      latitude: '',
+      longitude: '',
     };
   }
 
@@ -43,37 +44,43 @@ export default class Mapa extends Component {
     }
   };
 
+  buscarLocalizacao = async () => {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        erroMessagem: 'Permissão para acessar a localização negada!',
+      })
+      return;
+    }
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      this.setState({
+        erroMessagem: 'Permissão para acessar a localização negada!',
+      })
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    this.setState({ longitude: parseFloat(location.coords.longitude), latitude: parseFloat(location.coords.latitude) });
+    //console.warn(this.state.longitude, this.state.latitude);
+  };
+
   componentDidMount() {
     this.buscarBicicletarios();
-
-    /* (async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
-        setErrorMsg(
-          'Erro Slk'
-        );
-        return;
-      }
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permissão para acessar a localização negada');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-
-    })(); */
+    this.buscarLocalizacao();
   }
 
   render() {
     return (
       <View style={styles.main}>
         <MapView style={styles.mainMap}
+          showsUserLocation
           initialRegion={{
-            latitude: -23.53641,
-            longitude: -46.6462,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
             latitudeDelta: 0.030,
             longitudeDelta: 0.050,
+            /* latitudeDelta: 0.014,
+            longitudeDelta: 0.014, */
           }}>
           {this.state.listaBicicletarios.map((item) => {
             return (
@@ -94,7 +101,6 @@ export default class Mapa extends Component {
             );
           })}
         </MapView>
-
         <View style={styles.mainNav}>
           <View style={styles.mainMenuNav}>
             <View style={styles.mainDiv}>
@@ -122,6 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F7F7',
     alignItems: 'center',
+    paddingTop: Constants.statusBarHeight,
   },
   mainMap: {
     flex: 0.89,

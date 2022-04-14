@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Platform, Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 
@@ -35,9 +35,7 @@ export default function Authorization() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-        <Text style={styles.paragraph}>{text}</Text>
-      </TouchableOpacity>
+      <Text style={styles.paragraph}>{text}</Text>
     </View>
   );
 }
