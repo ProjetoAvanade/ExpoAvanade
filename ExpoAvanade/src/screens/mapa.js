@@ -23,8 +23,8 @@ export default class Mapa extends Component {
       listaBicicletarios: [],
       idBicicletario: '',
       erroMessagem: '',
-      latitude: '',
-      longitude: '',
+      latitude: null,
+      longitude: null,
     };
   }
 
@@ -93,7 +93,8 @@ export default class Mapa extends Component {
                 title={item.nomeBicicletario}
                 description={item.rua}
               >
-                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario })}>
+                {/* <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario, latitude : item.latitude, longitude: item.longitude })}> */}
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item})}>
                   <Text style={styles.calloutText}>{item.nome}</Text>
                   <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                 </Callout>

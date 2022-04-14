@@ -10,14 +10,14 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import MapView, { Callout, Marker } from 'react-native-maps';
 import api from '../services/api';
 
 export default class Ponto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      idBicicletario: props.route.params.id,
+      item: props.route.params.id,
       CEP: "",
       bairro: "",
       cidade: "",
@@ -34,9 +34,8 @@ export default class Ponto extends Component {
 
   buscarInfoPonto = async () => {
     try {
-      //console.warn(this.state.idBicicletario)
       const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get(`/Bicicletario/${this.state.idBicicletario}`, {
+      const resposta = await api.get(`/Bicicletario/${this.state.item.idBicicletario}`, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
@@ -60,8 +59,9 @@ export default class Ponto extends Component {
 
   buscarVagasPonto = async () => {
     try {
+      var arr = [];
       const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get(`/Vagas/${this.state.idBicicletario}`, {
+      const resposta = await api.get(`/Vagas/${this.state.item.idBicicletario}`, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
@@ -70,21 +70,27 @@ export default class Ponto extends Component {
       this.setState({
         listaVagas: dadosDaApi,
         qntdVagaTotal: dadosDaApi.length,
-        qntdVagaDisponivel: dadosDaApi.statusVaga,
       })
-      
-      // console.warn(this.state.listaVagas[1])
 
-      // console.warn(this.state.listaVagas)
+      // console.warn(this.state.listaVagas[1])
+      //console.warn(this.state.listaVagas)
+
+      if (this.state.listaVagas != []) {
+        this.state.listaVagas.forEach(function (b) {
+          if (b.statusVaga == true) {
+            arr.push(b)
+          }
+        });
+        //console.warn(arr)
+      }
+
+      this.setState({
+        qntdVagaDisponivel: arr
+      })
     } catch (error) {
-      console.warn(error);
+      //console.warn(error);
     }
   };
-
-  Vagasdisponiveis(value) {
-    return value == true;
-  }
-  
 
   componentDidMount() {
     this.buscarInfoPonto();
@@ -95,7 +101,7 @@ export default class Ponto extends Component {
     return (
       <ScrollView>
         <View style={styles.main}>
-          <ImageBackground style={styles.mainImage} source={require('../../assets/img/mapa.png')}>
+          {/*  <ImageBackground style={styles.mainImage} source={require('../../assets/img/mapa.png')}>
             <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
               <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
             </TouchableOpacity>
@@ -103,7 +109,38 @@ export default class Ponto extends Component {
             <View style={styles.retangleAlignment}>
               <View style={styles.retangleBicicletario} />
             </View>
-          </ImageBackground>
+          </ImageBackground> */}
+          <View>
+            <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
+            </TouchableOpacity>
+
+            <MapView style={styles.mainMap}
+              key={this.state.item.idBicicletario}
+              initialRegion={{
+                latitude: parseFloat(this.state.item.latitude),
+                longitude: parseFloat(this.state.item.longitude),
+                latitudeDelta: 0.014,
+                longitudeDelta: 0.014,
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: parseFloat(this.state.item.latitude),
+                  longitude: parseFloat(this.state.item.longitude),
+                }}
+                title={this.state.item.nomeBicicletario}
+                description={this.state.item.rua}>
+                <Callout onPress={() => this.props.navigation.navigate('Vaga')}>
+                  <Text style={styles.calloutText}>{this.state.item.nome}</Text>
+                  <Text style={styles.calloutText}>Rua {this.state.item.rua}, {this.state.item.numero}</Text>
+                </Callout>
+              </Marker>
+            </MapView>
+
+            <View style={styles.retangleAlignment}>
+              <View style={styles.retangleBicicletario} />
+            </View>
+          </View>
 
           <View style={styles.mainBody}>
             <View style={styles.titleSpace}>
@@ -122,26 +159,9 @@ export default class Ponto extends Component {
                 <Text style={styles.titleInfo}>Horas:</Text>
                 <Text style={styles.textInfo}>Aberto: {this.state.horarioAberto} ⋅ Fecha às {this.state.horarioFechado}</Text>
               </View>
-              {/* /*{this.state.listaVagas.map((item) => {
-                 console.warn(this.state.listaVagas.length)
-                this.setState({
-                  qtndVagaTotal: this.state.listaVagas.length,
-                })
-                return (
-                  <View>
-                    <Text style={styles.titleInfo}>Vagas:</Text>
-                    <Text style={styles.textInfo}>Disponiveis = {item.idVaga}</Text>
-                    <Text style={styles.textInfo}>Totais = {}</Text>
-                  </View>
-                );
-              })
-               {this.state.listaVagas.map((item) => {
-                return item.reduce((a, b) => (a + b))
-                
-              }) */}
               <View>
                 <Text style={styles.titleInfo}>Vagas:</Text>
-                <Text style={styles.textInfo}>Disponiveis = {this.state.qntdVagaDisponivel}</Text>
+                <Text style={styles.textInfo}>Disponiveis = {this.state.qntdVagaDisponivel.length}</Text>
                 <Text style={styles.textInfo}>Totais = {this.state.qntdVagaTotal}</Text>
               </View>
 
@@ -187,7 +207,6 @@ const styles = StyleSheet.create({
   retangleAlignment: {
     alignItems: 'center',
     //marginTop: '58%',
-    marginTop: '55%',
   },
 
   mainBody: {
@@ -251,5 +270,18 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'center',
     fontFamily: 'IBMPlexMono_700Bold',
+  },
+  mainMap: {
+    height: 279,
+    width: 411,
+    borderRadius: 5,
+    borderWidth: 2,
+    backgroundColor: '#ffffff',
+    borderColor: '#000000',
+  },
+  calloutText: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#000000',
   },
 });

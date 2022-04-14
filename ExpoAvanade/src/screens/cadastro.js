@@ -38,7 +38,7 @@ class Cadastro extends Component {
         cpf: this.state.cpf,
       });
 
-      if (resposta.status == 201) {
+      if (resposta.status == 200) {
         this.setState({ isLoading: false });
         this.props.navigation.navigate('Login');;
         //console.warn('Cadastrado efetuado com sucesso!');
