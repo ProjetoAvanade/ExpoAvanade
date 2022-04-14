@@ -16,8 +16,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Email: '',
-      Senha: '',
+      Email: 'gustavo@gmail.com',
+      Senha: 'gustavo123',
       MensagemErro: '',
       IsLoading: false,
     };
@@ -36,7 +36,7 @@ class Login extends Component {
       
       this.setState({ IsLoading: false });
       if (resposta.status == 201) {
-        this.props.navigation.navigate('Main');
+        this.props.navigation.navigate('Authorization');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)
       }
