@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
+import { borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default class Perfil extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      idUsuario: 1,
-      nome: '',
+      nomeUsuario: '',
       email: '',
       pontos: 0,
       saldo: 0,
@@ -28,26 +28,24 @@ export default class Perfil extends Component {
 
   buscarInfoPerfil = async () => {
     try {
-      //const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get('/Usuarios/1');
-      /*{
-           headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        },*/
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Usuario', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
       if (resposta.status === 200) {
         const dadosDaApi = resposta.data;
-        console.warn(dadosDaApi)
         this.setState({
-          nome: resposta.data.nome,
-          email: resposta.data.email,
-          pontos: resposta.data.pontos,
-          saldo: resposta.data.saldo,
-          idUsuario: resposta.data.idUsuario,
+          nomeUsuario: dadosDaApi.nomeUsuario,
+          email: dadosDaApi.email,
+          pontos: dadosDaApi.pontos,
+          saldo: dadosDaApi.saldo,
         });
       }
     } catch (error) {
-      console.warn(error);
+      //console.warn(resposta)
+      //console.warn(error);
     }
   };
 
@@ -55,38 +53,75 @@ export default class Perfil extends Component {
     this.buscarInfoPerfil();
   }
 
-  navegarPontos = async () => {
-    this.props.navigation.navigate('TrocaPontos');
-  }
-
   render() {
     return (
       <View style={styles.main}>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
+
+        <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
-          <Text style={styles.mainHeaderText}>Perfil</Text>
-          <View style={styles.mainHeaderLine} />
+          <View style={styles.mainHeaderSpace}>
+            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            <Text style={styles.mainHeaderText}>Meu perfil</Text>
+          </View>
         </View>
 
-        <View style={styles.mainBody}>
-          <View style={styles.mainBodyInfo}>
-
-            <Image style={styles.imgPerfil} source={require('../../assets/img/profile.png')} />
-
-            <Text style={styles.mainBodyTitle}>{this.state.nome}</Text>
-            <Text style={styles.mainBodyText}>{this.state.email}</Text>
-            <Text style={styles.mainBodyText}>{this.state.pontos}</Text>
-            <Text style={styles.mainBodyText}>{this.state.saldo}</Text>
-
-            <TouchableOpacity style={styles.btn} onPress={this.navegarPontos}>
-              <Text style={styles.btnPontosText}>Trocar meus pontos</Text>
-            </TouchableOpacity>
-
-            <View style={styles.mainLine} />
-            <TouchableOpacity style={styles.btn} onPress={this.realizarLogout}>
-              <Text style={styles.btnLogoutText}>Sair</Text>
-            </TouchableOpacity>
+        <View style={styles.mainContent}>
+          <TouchableOpacity>
+            <Image source={require('../../assets/img/icon_mold.png')} style={styles.mainContentImage} />
+          </TouchableOpacity>
+          <View style={styles.mainContentTexts}>
+            <Text style={styles.mainContentTextName}>Rosana Dolores</Text>
+            <Text style={styles.mainContentTextEmail}>rodolores@gmail.com</Text>
           </View>
-        </View >
+          <Text style={styles.mainContentTextAccount}>Minha conta</Text>
+        </View>
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
+            <Text style={styles.mainCardsTextEmail}>Rosana Dolores, 11122233344, 10/10/1980</Text>
+          </View>
+        </View>
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Email</Text>
+            <Text style={styles.mainCardsTextEmail}>rodolores@gmail.com</Text>
+          </View>
+        </View>
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_money.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Saldo</Text>
+            <Text style={styles.mainCardsTextEmail}>R$0,00</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaPontos')}>
+          <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
+            <Text style={styles.mainCardsTextEmail}>0</Text>
+          </View>
+          <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('Login')}>
+          <Image source={require('../../assets/img/icon_leave.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Sair</Text>
+          </View>
+        </TouchableOpacity>
+
       </View>
     );
   }
@@ -95,93 +130,94 @@ export default class Perfil extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
   },
   mainHeader: {
-    flex: 1,
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
     justifyContent: 'center',
+  },
+  mainHeaderSpace: {
+    width: '63%',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '4.7%',
+  },
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
   },
   mainHeaderText: {
-    //fontFamily: '',
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  mainHeaderLine: {
-    width: 155,
-    paddingTop: 8,
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
-  },
-  mainBody: {
-    flex: 5,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  mainBodyInfo: {
-    alignItems: 'center',
-  },
-  imgPerfil: {
-    borderColor: '#F3BC2C',
-    borderRadius: 67,
-    borderWidth: 3,
-    /* marginBottom: 20, */
-  },
-  mainBodyTitle: {
-    //fontFamily: '',
-    color: '#000',
+    fontFamily: 'IBMPlexMono_700Bold',
     fontSize: 25,
-    fontWeight: 'bold',
-    paddingTop: 5,
-    paddingBottom: 5,
   },
-  mainBodyText: {
-    color: '#000',
+  mainContent: {
+    width: '100%',
+    // height: 261,
+    height: '33.5%',
+    backgroundColor: '#F5F5F5',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  mainContentImage: {
+    width: 103,
+    height: 102,
+  },
+  mainContentTexts: {
+    alignItems: 'center'
+  },
+  mainContentTextName: {
+    fontSize: 25,
+    color: '#000000'
+  },
+  mainContentTextEmail: {
     fontSize: 20,
+    color: '#797979',
   },
-  mainLine: {
-    width: 250,
-    marginTop: '8%',
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
+  mainContentTextAccount: {
+    color: '#F3BC2C',
+    marginRight: '75%'
   },
-  btn: {
-    marginTop: '7%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 60,
-    width: 157,
-    backgroundColor: '#F3BC2C',
-    borderRadius: 5,
-  },
-  btnPontosText: {
-    //fontFamily: '',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
-    textAlign: 'center',
-  },
-  btnLogoutText: {
-    //fontFamily: '',
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  mainTituloSpace: {
-    width: 200,
-    height: 45,
-    display: 'flex',
+  mainCard: {
+    width: '100%',
+    height: 80,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginRight: 110,
+    justifyContent: 'flex-start',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000000'
   },
-  mainBtnVoltar: {
-    width: 20,
-    height: 20,
+  mainCardImage: {
+    width: 30,
+    marginLeft: 15,
   },
-  mainImagem: {
-    marginTop: 5,
+  mainCardsTextName: {
+    marginLeft: 15,
+    fontSize: 14,
+    color: '#000000'
+  },
+  mainCardsTextEmail: {
+    marginLeft: 15,
+    fontSize: 14,
+    color: '#797979',
+  },
+  mainCardNext: {
+    marginLeft: 5,
+    width: 20
+  },
+  mainCardsTextTrade: {
+    marginLeft: 180,
+    fontSize: 14,
+    color: '#000000'
   },
 });

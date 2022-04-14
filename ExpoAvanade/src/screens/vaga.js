@@ -1,37 +1,35 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Select, Image, TouchableOpacity, TextInput } from 'react-native';
 
 export default class Vaga extends Component {
-  goBack = () => {
-    this.props.navigation.goBack();
-  }
-
-  navegarTutorial = async () => {
-    this.props.navigation.navigate('TutorialTrava');
-  }
-  
   render() {
     return (
       <View style={styles.main}>
         <View style={styles.mainHeader}>
-          <View style={styles.mainTituloSpace}>
-            <TouchableOpacity style={styles.btnVoltarSpace} onPress={this.goBack}>
-              <Image style={styles.mainBtnVoltar} source={require('../../assets/img/Icone_voltar.png')} />
+          <View style={styles.mainTitleSpace}>
+            <TouchableOpacity style={styles.btnBackSpace} onPress={() => this.props.navigation.goBack()}>
+              <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
             </TouchableOpacity>
 
             <Image style={styles.mainLogo} source={require('../../assets/img/icon.png')} />
           </View>
         </View>
 
-        <Text style={styles.titulo}>Qual vaga você está usando?</Text>
+        <Text style={styles.title}>Qual vaga você está usando?</Text>
 
         <View style={styles.mainBody}>
-          <View style={styles.selecaoVaga}>
-            <Text style={styles.numeroVaga}>1</Text>
+          <View style={styles.selectVaga}>
+          <TextInput
+              style={styles.mainInput}
+              placeholder='Selecionar'
+              placeholderTextColor='#000000'
+              keyboardType="email-address"
+              onChangeText={Email => this.setState({ Email })}
+            />
           </View>
 
-          <TouchableOpacity style={styles.btnConfirmar} onPress={this.navegarTutorial}>
-            <Text style={styles.btnConfirmarTexto}>Confirmar</Text>
+          <TouchableOpacity style={styles.btnConfirm} onPress={() => this.props.navigation.navigate('TutorialTrava')}>
+            <Text style={styles.btnConfirmText}>Confirmar</Text>
           </TouchableOpacity>
         </View>
       </View >
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  mainTituloSpace: {
+  mainTitleSpace: {
     width: 260,
     display: 'flex',
     flexDirection: 'row',
@@ -58,17 +56,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginRight: 40,
   },
-  mainBtnVoltar: {
+  mainBtnBack: {
     width: 20,
     height: 20,
   },
-  btnVoltarSpace: {
+  btnBackSpace: {
     marginBottom: 80,
     marginRight: 60,
   },
   mainLogo: {
-    width: 231,
-    height: 168,
+    width: 140,
+    marginRight: 30,
+    marginTop: 20,
   },
   mainBody: {
     flex: 3,
@@ -76,32 +75,42 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingBottom: 80,
   },
-  titulo: {
+  title: {
     fontSize: 34,
-    /* fontFamily: 'Open Sans', */
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexMono_700Bold',
     color: '#000',
     lineHeight: 39,
     maxWidth: 295,
     textAlign: 'center',
     marginBottom: 10,
   },
-  selecaoVaga: {
-    backgroundColor: '#fff',
-    borderColor: '#F3BC2C',
-    borderWidth: 3,
-    borderRadius: 16,
-    width: 242,
-    height: 122,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  numeroVaga: {
+  // selectVaga: {
+  //   backgroundColor: '#fff',
+  //   borderColor: '#F3BC2C',
+  //   borderWidth: 3,
+  //   borderRadius: 16,
+  //   width: 242,
+  //   height: 122,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  numberVaga: {
     fontSize: 36,
     color: '#000',
     /* fontFamily: 'Open Sans', */
   },
-  btnConfirmar: {
+  mainInput: {
+    borderWidth: 3,
+    borderRadius: 16,
+    width: 242,
+    height: 122,
+    paddingLeft: 70,
+    fontSize: 24,
+    backgroundColor: '#ffffff',
+    borderColor: '#F3BC2C',
+    marginTop: '8%',
+  },
+  btnConfirm: {
     backgroundColor: '#F3BC2C',
     width: 157,
     height: 60,
@@ -109,9 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  btnConfirmarTexto: {
-    /* fontFamily: 'Open Sans', */
-    fontWeight: 'bold',
+  btnConfirmText: {
+    fontFamily: 'IBMPlexMono_700Bold',
     fontSize: 24,
     color: '#000',
   },

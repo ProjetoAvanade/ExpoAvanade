@@ -6,46 +6,103 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  StatusBar,
 } from 'react-native';
 
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
+
+import api from '../services/api';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { backgroundColor, borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default class Mapa extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Email: '',
-      Senha: '',
-      MensagemErro: '',
-      idLoading: false
+      listaBicicletarios: [],
+      idBicicletario: ''
     };
   }
 
-  realizarBusca = () => {
-    this.props.navigation.navigate('Pesquisa');
+  buscarBicicletarios = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Bicicletario', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      const dadosDaApi = resposta.data;
+      this.setState({ listaBicicletarios: dadosDaApi });
+      /* console.warn(dadosDaApi) */
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  componentDidMount() {
+    this.buscarBicicletarios();
   }
 
   render() {
     return (
       <View style={styles.main}>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
 
-        <MapView style={styles.mainMapa}>
-          <Marker coordinate={{
-            latitude: -23.5344611,
-            longitude: -46.6477011,
-          }} />
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Perfil')}>
+            <View style={styles.mainHeaderSpace}>
+              <Image source={require('../../assets/img/profile.png')} style={styles.mainHeaderProfile} />
+              <View>
+                <Text style={styles.mainHeaderText}>Olá,</Text>
+                <Text style={styles.mainHeaderText}>Rosana Dolores</Text>
+              </View>
+              <Image source={require('../../assets/img/icon_next.png')} style={styles.mainHeaderNext} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <MapView style={styles.mainMap}
+          initialRegion={{
+            latitude: -23.53641,
+            longitude: -46.6462,
+            latitudeDelta: 0.030,
+            longitudeDelta: 0.050,
+          }}>
+          {this.state.listaBicicletarios.map((item) => {
+            return (
+              <Marker
+                key={item.idBicicletario}
+                coordinate={{
+                  latitude: parseFloat(item.latitude),
+                  longitude: parseFloat(item.longitude),
+                }}
+                title={item.nomeBicicletario}
+                description={item.rua}
+              >
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario })}>
+                  <Text style={styles.calloutText}>{item.nome}</Text>
+                  <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
+                </Callout>
+              </Marker>
+            );
+          })}
         </MapView>
 
-        <View style={styles.mainNavegar}>
-          <View style={styles.mainMenuNavegar}>
-            <View style={styles.mainDividir}>
-              <TouchableOpacity style={styles.mainBtn} onPress={this.realizarBusca}>
-                <Text style={styles.mainBtnTexto}>Pesquisa</Text>
-              </TouchableOpacity>
-              <TextInput style={styles.mainMenuInput}>Para onde? <Image source={require('../../assets/img/Icone_lupa.png')} style={styles.mainImagem} /> </TextInput>
-            </View>
+        <View style={styles.mainSearch}>
+          <View style={styles.mainSearchInput}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pesquisa')}>
+              <Text style={styles.mainSearchInputText}>Para onde?</Text>
+            </TouchableOpacity>
           </View>
         </View>
+
       </View >
     );
   }
@@ -54,147 +111,71 @@ export default class Mapa extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#F7F7F7',
-    alignItems: 'center',
-  },
-
-  mainMapa: {
-    flex: 0.85,
-    width: 411,
-    borderRadius: 5,
-    borderWidth: 2,
     backgroundColor: '#ffffff',
-    borderColor: '#000000',
-  },
-
-  mainNavegar: {
-    flex: 0.15,
-    backgroundColor: '#F7F7F7',
-    justifyContent: 'center',
     alignItems: 'center',
   },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
 
-  mainMenuNavegar: {
-    width: 394,
-    height: 60,
-    borderRadius: 5,
+  },
+  mainHeader: {
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
     backgroundColor: '#F3BC2C',
-  },
-
-  mainDividir: {
-    width: 394,
-    height: 60,
     justifyContent: 'center',
-    alignItems: 'center'
   },
-
-  mainMenuInput: {
-    width: 320,
-    height: 30,
-    paddingLeft: 23,
-    paddingTop: 0,
-    fontSize: 12,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#000000',
-    backgroundColor: '#ffffff',
+  mainHeaderSpace: {
+    width: '59%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '7%',
   },
-
-  mainImagem: {
+  mainHeaderProfile: {
+    width: 50,
+    height: 50,
+  },
+  mainHeaderText: {
+    fontFamily: 'IBMPlexMono_700Bold',
+    fontSize: 14,
+    // marginRight: 30,
+  },
+  mainHeaderNext: {
     width: 20,
     height: 20,
+    marginRight: 30,
+    marginTop: 20,
   },
+  mainMap: {
+    width: '100%',
+    height: '79%',
+  },
+  mainSearch: {
+    width: '100%',
+    // height: 70,
+    height: '9%',
+    backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1
+
+  },
+  mainSearchInput: {
+    width: '80%',
+    // height: 45,
+    height: '60%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+    // alignItems: 'center',
+    justifyContent: 'center'
+  },
+  mainSearchInputText: {
+    paddingLeft: 20,
+    // alignItems: 'center',
+    // justifyContent: 'center'
+  }
 });
-
-
-/*
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
-
-import MapView, { Marker } from 'react-native-maps';
-
-export default class Mapa extends Component {
-
-  realizarBusca = () => {
-    this.props.navigation.navigate('Pesquisa');
-  }
-
-  render() {
-    return (
-      <View style={styles.main}>
-        <View style={styles.mainMapa}>
-
-        </View>
-
-        <View style={styles.mainNavegar}>
-          <View style={styles.mainMenuNavegar}>
-            <View style={styles.mainDividir}>
-              <TouchableOpacity style={styles.mainBtn} onPress={this.realizarBusca}>
-                <Text style={styles.mainBtnTexto}>Pesquisa</Text>
-              </TouchableOpacity>
-              <TextInput style={styles.mainMenuInput}>Para onde? <Image source={require('../../assets/img/Icone_lupa.png')} style={styles.mainImagem} /> </TextInput>
-            </View>
-          </View>
-        </View>
-
-      </View >
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    backgroundColor: '#F7F7F7',
-    alignItems: 'center',
-  },
-
-  mainMapa: {
-    flex: 0.85,
-    width: 411,
-    borderRadius: 5,
-    borderWidth: 2,
-    backgroundColor: '#ffffff',
-    borderColor: '#000000',
-  },
-
-  mainNavegar: {
-    flex: 0.15,
-    backgroundColor: '#F7F7F7',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  mainMenuNavegar: {
-    width: 394,
-    height: 60,
-    borderRadius: 5,
-    backgroundColor: '#F3BC2C',
-  },
-
-  mainDividir: {
-    width: 394,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  mainMenuInput: {
-    width: 320,
-    height: 30,
-    paddingLeft: 23,
-    paddingTop: 0,
-    fontSize: 12,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#000000',
-    backgroundColor: '#ffffff',
-  },
-
-  mainImagem: {
-    width: 20,
-    height: 20,
-  },
-}); */

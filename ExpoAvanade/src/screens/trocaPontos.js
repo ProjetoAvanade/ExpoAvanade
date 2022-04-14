@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 
 class TrocaPontos extends Component {
@@ -15,60 +16,63 @@ class TrocaPontos extends Component {
   render() {
     return (
       <View style={styles.main}>
-        <View style={styles.mainHeader}>
-          <View style={styles.mainTituloSpace}>
-            <TouchableOpacity onPress={this.goBack}>
-              <Image style={styles.mainBtnVoltar} source={require('../../assets/img/Icone_voltar.png')} />
-            </TouchableOpacity>
-            <Text style={styles.mainHeaderText}>Trocar pontos</Text>
-          </View>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
 
-          <View style={styles.mainHeaderLine} />
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            <Text style={styles.mainHeaderText}>Minhas rodas</Text>
+          </View>
         </View>
 
         <View style={styles.mainBody}>
           <View style={styles.mainCards}>
-            <View style={styles.cardPontos}>
+            <View style={styles.cardPoints}>
               <View>
-                <Text style={styles.cardPontosText}>15 pontos</Text>
-                <Text style={styles.cardTextSaldo}>R$1,00</Text>
+                <Text style={styles.cardPointsText}>15 pontos</Text>
+                <Text style={styles.cardTextBalance}>R$1,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPontos}>
-                <Text style={styles.cardPontosText}>Trocar</Text>
+              <TouchableOpacity style={styles.btnPoints}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.cardPontos}>
+            <View style={styles.cardPoints}>
               <View>
-                <Text style={styles.cardPontosText}>30 pontos</Text>
-                <Text style={styles.cardTextSaldo}>R$2,00</Text>
+                <Text style={styles.cardPointsText}>30 pontos</Text>
+                <Text style={styles.cardTextBalance}>R$2,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPontos}>
-                <Text style={styles.cardPontosText}>Trocar</Text>
+              <TouchableOpacity style={styles.btnPoints}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.cardPontos}>
+            <View style={styles.cardPoints}>
               <View>
-                <Text style={styles.cardPontosText}>45 pontos</Text>
-                <Text style={styles.cardTextSaldo}>R$3,00</Text>
+                <Text style={styles.cardPointsText}>45 pontos</Text>
+                <Text style={styles.cardTextBalance}>R$3,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPontos}>
-                <Text style={styles.cardPontosText}>Trocar</Text>
+              <TouchableOpacity style={styles.btnPoints}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.cardPontos}>
+            <View style={styles.cardPoints}>
               <View>
-                <Text style={styles.cardPontosText}>60 pontos</Text>
-                <Text style={styles.cardTextSaldo}>R$4,00</Text>
+                <Text style={styles.cardPointsText}>60 pontos</Text>
+                <Text style={styles.cardTextBalance}>R$4,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPontos}>
-                <Text style={styles.cardPontosText}>Trocar</Text>
+              <TouchableOpacity style={styles.btnPoints}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -82,38 +86,38 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: '#F7F7F7',
+    alignItems: 'center',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
   },
   mainHeader: {
-    flex: 1,
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
     justifyContent: 'center',
-    alignItems: 'center',
   },
-  mainTituloSpace: {
-    width: 300,
-    display: 'flex',
+  mainHeaderSpace: {
+    width: '68%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginRight: 40,
+    // marginLeft: 18,
+    marginLeft: '4.7%',
   },
-  mainBtnVoltar: {
-    width: 20,
-    height: 20,
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
   },
   mainHeaderText: {
-    //fontFamily: '',
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  mainHeaderLine: {
-    width: 155,
-    paddingTop: 8,
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
+    fontFamily: 'IBMPlexMono_700Bold',
+    fontSize: 25,
   },
   mainBody: {
-    flex: 5,
+    flex: 4,
     alignItems: 'center',
   },
   mainCards: {
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingBottom: 150,
   },
-  cardPontos: {
+  cardPoints: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -130,24 +134,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderColor: '#F3BC2C',
     borderWidth: 2,
+    borderRadius: 5,
   },
-  cardPontosText: {
+  cardPointsText: {
     fontSize: 20,
-    //fontFamily: '',
+    fontFamily: 'ABeeZee_400Regular',    
     color: '#000',
   },
-  cardTextSaldo: {
+  cardTextBalance: {
     fontSize: 14,
-    //fontFamily: '',
-    color: '#333',
+    fontFamily: 'ABeeZee_400Regular',    
+    color: '#797979',
   },
-  btnPontos: {
+  btnPoints: {
     backgroundColor: '#F3BC2C',
     width: 116,
     height: 37,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  cardPointsBtnText: {
+    fontSize: 20,
+    fontFamily: 'IBMPlexMono_700Bold',    color: '#000',
   },
 });
 

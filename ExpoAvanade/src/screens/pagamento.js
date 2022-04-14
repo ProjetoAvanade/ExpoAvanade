@@ -2,94 +2,81 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 
 export default class Pagamento extends Component {
-    realizarPagamento = () => {
-        this.props.navigation.navigate('Mapa');
-    }
-
     render() {
         return (
             <ScrollView>
                 <View style={styles.main}>
 
                     <View style={styles.mainCard}>
-                        <Text style={styles.mainTitulo}>Realizar pagamento</Text>
+                        <Text style={styles.mainTitle}>Realizar pagamento</Text>
 
                         <View style={styles.mainCardDiv}>
-                            <View style={styles.boxTexto}>
-                                <Text style={styles.boxTextoTitulo}>Bike Runners - Park Shop </Text>
+                            <View style={styles.boxText}>
+                                <Text style={styles.boxTextTitle}>Bike Runners - Park Shop </Text>
 
-                                <View style={styles.mainCardLinha}>
-                                    <Text style={styles.boxTextoInfos}>25 minutos parado</Text>
-                                    <Text style={styles.boxTextoInfos}>R$25,00</Text>
+                                <View style={styles.mainCardLine}>
+                                    <Text style={styles.boxTextInfos}>25 minutos parado</Text>
+                                    <Text style={styles.boxTextInfos}>R$25,00</Text>
                                 </View>
 
-                                <Text style={styles.boxTextoInfos}>R. Emília Marengo, 320 - Tatuape, São Paulo</Text>
+                                <Text style={styles.boxTextInfos}>R. Emília Marengo, 320 - Tatuape, São Paulo</Text>
                             </View>
                         </View>
                     </View>
 
-                    <View style={styles.mainMetodo}>
-                        <View style={styles.mainTituloBox}>
-                            <Text style={styles.mainPagamentoTitle}>Método de Pagamento</Text>
+                    <View style={styles.mainMethod}>
+                        <View style={styles.mainTitleBox}>
+                            <Text style={styles.mainPaymentTitleOption}>Método de Pagamento</Text>
                         </View>
                         <View style={styles.mainBtns}>
-                            <TouchableOpacity style={styles.mainBtnMetodo} onPress={this.PagarPix}>
-                                <Text style={styles.boxTextoInfos}>Pix</Text>
+                            <TouchableOpacity style={styles.mainBtnMethod} onPress={this.PagarPix}>
+                                <Text style={styles.boxTextInfos}>Pix</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.mainBtnMetodo} onPress={this.PagarDebito}>
-                                <Text style={styles.boxTextoInfos}>Débito</Text>
+                            <TouchableOpacity style={styles.mainBtnMethod} onPress={this.PagarDebito}>
+                                <Text style={styles.boxTextInfos}>Débito</Text>
                             </TouchableOpacity>
                         </View>
 
                         {/* SE COMENTAR DAQUI ATÉ O PRÓXIMO PONTO, REMOVE AS INSTRUÇÕES RELACIONADAS A PIX */}
-                        {/* <View style={styles.boxCodigoPix}>
-                            <Text style={styles.boxTextoInfoPix}>Código Pix</Text>
-                            <Text style={styles.mainMetodoCodigo}>JHGFJHSGFSG0HF3G2H1J3GJG132F1FG132DF1B3213213X21B321B321D321D32132D1G32DF1G32D1G23D1FG321GW1S321G3S1G1G31G3SG2S1G23S1G3</Text>
+                        {/* <View style={styles.boxCodePix}>
+                            <Text style={styles.boxTextInfoPix}>Código Pix</Text>
+                            <Text style={styles.mainMethodCode}>JHGFJHSGFSG0HF3G2H1J3GJG132F1FG132DF1B3213213X21B321B321D321D32132D1G32DF1G32D1G23D1FG321GW1S321G3S1G1G31G3SG2S1G23S1G3</Text>
                         </View>
                     </View>
-
-                    <View style={styles.mainPagamento}>
+                    <View style={styles.mainPayment}>
                         <View style={styles.mainSpaceTitle}>
-                            <Text style={styles.mainPagamentoTitulo}>Siga essas instruções</Text>
+                            <Text style={styles.mainPaymentTitle}>Siga essas instruções</Text>
                         </View>
-
-
-                        <View style={styles.mainInstrucoes}>
-
-                            <View style={styles.passoInfo}>
-                                <View style={styles.mainPagamentoCircle}>
-                                    <Text style={styles.mainPagamentoText}>1°</Text>
+                        <View style={styles.mainInstructions}>
+                            <View style={styles.stepInfo}>
+                                <View style={styles.mainPaymentCircle}>
+                                    <Text style={styles.mainPaymentText}>1°</Text>
                                 </View>
-                                <Text style={styles.mainPagamentoText}>Copie o código pix acima</Text>
+                                <Text style={styles.mainPaymentText}>Copie o código pix acima</Text>
                             </View>
-
-                            <View style={styles.passoInfo}>
-                                <View style={styles.mainPagamentoCircle}>
-                                    <Text style={styles.mainPagamentoText}>2°</Text>
+                            <View style={styles.stepInfo}>
+                                <View style={styles.mainPaymentCircle}>
+                                    <Text style={styles.mainPaymentText}>2°</Text>
                                 </View>
-                                <Text style={styles.mainPagamentoText}>Acesse o app do seu banco de preferencia</Text>
+                                <Text style={styles.mainPaymentText}>Acesse o app do seu banco de preferencia</Text>
                             </View>
-
-                            <View style={styles.passoInfo}>
-                                <View style={styles.mainPagamentoCircle}>
-                                    <Text style={styles.mainPagamentoText}>3°</Text>
+                            <View style={styles.stepInfo}>
+                                <View style={styles.mainPaymentCircle}>
+                                    <Text style={styles.mainPaymentText}>3°</Text>
                                 </View>
-                                <Text style={styles.mainPagamentoText}>Escolher pagar com o Pix, cole o código e finalize o pagamento</Text>
+                                <Text style={styles.mainPaymentText}>Escolher pagar com o Pix, cole o código e finalize o pagamento</Text>
                             </View>
-
-                            <View style={styles.passoInfo}>
-                                <View style={styles.mainPagamentoCircle}>
-                                    <Text style={styles.mainPagamentoText}>4°</Text>
+                            <View style={styles.stepInfo}>
+                                <View style={styles.mainPaymentCircle}>
+                                    <Text style={styles.mainPaymentText}>4°</Text>
                                 </View>
-                                <Text style={styles.mainPagamentoText}>Seu pagamento será aprovado em alguns segundos</Text>
+                                <Text style={styles.mainPaymentText}>Seu pagamento será aprovado em alguns segundos</Text>
                             </View>
-
                         </View>
-
-                        <View style={styles.alinhamentoBtn}>
-                            <TouchableOpacity style={styles.mainPagamentoBtn} onPress={this.realizarPagamento}>
-                                <Text style={styles.pagamentoBtnText}>OK</Text>
+                        <View style={styles.alignmentBtn}>
+                            <TouchableOpacity style={styles.mainPaymentBtn} onPress={this.realizarPagamento}>
+                                <Text style={styles.paymentBtnText}>OK</Text>
                             </TouchableOpacity>
                         </View> */}
 
@@ -97,24 +84,24 @@ export default class Pagamento extends Component {
 
                         {/* AQUI COMEÇA INFORMAÇÕES DE DÉBITO */}
 
-                        <View style={styles.mainPagamentoDebito}>
+                        <View style={styles.mainPaymentDebito}>
                             <View style={styles.mainSpaceTitle}>
-                                <Text style={styles.mainPagamentoTituloDebito}>Cadastre seus dados</Text>
+                                <Text style={styles.mainPaymentTitleDebito}>Cadastre seus dados</Text>
                             </View>
 
-                            <View style={styles.formEspacar}>
+                            <View style={styles.formSpace}>
                                 <TextInput
                                     style={styles.inputDebito}
                                     placeholder='Número do cartão'
                                     placeholderTextColor='#000000'></TextInput>
-                                <View style={styles.formEspacarMenores}>
+                                <View style={styles.formSpaceMinors}>
                                     <TextInput
-                                        style={styles.inputDebitoMenor}
+                                        style={styles.inputDebitoMinor}
                                         placeholder='Validade'
                                         placeholderTextColor='#000000'></TextInput>
 
                                     <TextInput
-                                        style={styles.inputDebitoMenor}
+                                        style={styles.inputDebitoMinor}
                                         placeholder='CVV'
                                         placeholderTextColor='#000000'></TextInput>
                                 </View>
@@ -124,9 +111,9 @@ export default class Pagamento extends Component {
                                     placeholderTextColor='#000000'></TextInput>
                             </View>
 
-                            <View style={styles.alinhamentoBtn}>
-                                <TouchableOpacity style={styles.mainPagamentoBtn} onPress={this.realizarPagamento}>
-                                    <Text style={styles.pagamentoBtnTextDebito}>Pagar</Text>
+                            <View style={styles.alignmentBtn}>
+                                <TouchableOpacity style={styles.mainPaymentBtnDebito} onPress={() => this.props.navigation.navigate('Main')}>
+                                    <Text style={styles.paymentBtnTextDebito}>Pagar</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -147,7 +134,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
-    mainTitulo: {
+    mainTitle: {
+        fontFamily: 'IBMPlexMono_700Bold',
         color: '#000000',
         fontSize: 30,
         paddingTop: 5,
@@ -172,41 +160,41 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
-    boxTexto: {
+    boxText: {
         width: 290,
         height: 194,
         justifyContent: 'space-between'
     },
 
-    boxTextoTitulo: {
+    boxTextTitle: {
         fontSize: 25,
         color: '#000000',
-        // fontFamily: 'IBMPlexMono-Bold'
-    },
+        fontFamily: 'ABeeZee_400Regular',    },
 
-    boxTextoInfos: {
+    boxTextInfos: {
         fontSize: 20,
-        color: '#000000'
+        color: '#000000',
+        fontFamily: 'ABeeZee_400Regular',
     },
 
-    mainCardLinha: {
+    mainCardLine: {
         flexDirection: 'row',
         width: 280,
         justifyContent: 'space-between',
     },
 
-    mainMetodo: {
+    mainMethod: {
         backgroundColor: '#ffffff',
         alignItems: 'center',
     },
 
-    mainTituloBox: {
+    mainTitleBox: {
         marginBottom: '3.5%',
         marginTop: '3.5%'
     },
 
-    mainPagamentoTitle: {
-        // fontFamily: 'IBMPlexMono-Bold',
+    mainPaymentTitleOption: {
+        fontFamily: 'IBMPlexMono_700Bold',
         fontSize: 25,
         color: '#000',
     },
@@ -218,17 +206,18 @@ const styles = StyleSheet.create({
         marginBottom: '3.5%',
     },
 
-    boxCodigoPix: {
+    boxCodePix: {
         alignItems: 'center',
 
     },
 
-    boxTextoInfoPix: {
+    boxTextInfoPix: {
+        fontFamily: 'IBMPlexMono_700Bold',
         fontSize: 25,
         marginBottom: '3%',
     },
 
-    mainBtnMetodo: {
+    mainBtnMethod: {
         height: 37,
         width: 116,
         backgroundColor: '#fff',
@@ -239,8 +228,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    mainMetodoCodigo: {
-        // fontFamily: 'ABeeZee-Regular',
+    mainMethodCode: {
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 20,
         color: '#726E6E',
         maxWidth: 367,
@@ -249,7 +238,7 @@ const styles = StyleSheet.create({
 
     },
 
-    mainPagamento: {
+    mainPayment: {
         flex: 1,
         borderRadius: 5,
         backgroundColor: '#676A69',
@@ -263,12 +252,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    passoInfo: {
+    stepInfo: {
         flex: 1,
         flexDirection: 'row',
     },
 
-    mainPagamentoCircle: {
+    mainPaymentCircle: {
         width: 29,
         height: 29,
         borderRadius: 29 / 2,
@@ -278,28 +267,28 @@ const styles = StyleSheet.create({
         marginTop: '5%',
     },
 
-    mainPagamentoTitulo: {
-        // fontFamily: 'ABeeZee-Regular',
+    mainPaymentTitle: {
+        fontFamily: 'ABeeZee_400Regular',        
         fontSize: 20,
         color: '#fff',
         marginTop: '5%',
         marginBottom: '3%',
     },
 
-    mainPagamentoText: {
-        // fontFamily: 'ABeeZee-Regular',
+    mainPaymentText: {
+        fontFamily: 'ABeeZee_400Regular',        
         fontSize: 20,
         color: '#fff',
         marginTop: '5%',
         marginBottom: '3%',
     },
 
-    alinhamentoBtn: {
+    alignmentBtn: {
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    mainPagamentoBtn: {
+    mainPaymentBtn: {
         width: 327,
         height: 60,
         backgroundColor: '#F3BC2C',
@@ -310,31 +299,30 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
 
-    pagamentoBtnText: {
-        // fontFamily: 'ABeeZee-Regular',
-        fontSize: 25,
-        fontWeight: 'bold',
+    paymentBtnText: {
+        fontFamily: 'IBMPlexMono_700Bold',        fontSize: 25,
         color: '#000',
     },
 
-    mainInstrucoes: {
+    mainInstructions: {
         flex: 10,
         justifyContent: 'space-between',
     },
 
-    mainPagamentoTituloDebito: {
+    mainPaymentTitleDebito: {
         fontSize: 25,
         marginTop: '5%',
         marginBottom: '3%',
     },
 
-    formEspacar: {
+    formSpace: {
         alignItems: 'center',
         marginTop: '5%',
         // marginBottom: '3%',
+        // marginBottom: '-8%'
     },
 
-    formEspacarMenores: {
+    formSpaceMinors: {
         width: 260,
         flexDirection: 'row',
         justifyContent: 'space-between'
@@ -347,27 +335,30 @@ const styles = StyleSheet.create({
         borderColor: '#F3BC2C',
         borderWidth: 2,
         paddingLeft: 23,
-        marginBottom: '10%',
+        marginBottom: '7.1%',
     },
 
-    inputDebitoMenor: {
+    inputDebitoMinor: {
         width: 110,
         height: 60,
         borderRadius: 5,
         borderColor: '#F3BC2C',
         borderWidth: 2,
         paddingLeft: 23,
-        marginBottom: '10%',
+        marginBottom: '7%',
     },
 
-    mainPagamentoBtnDebito: {
+    mainPaymentBtnDebito: {
         width: 327,
         height: 60,
         backgroundColor: '#F3BC2C',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '-5%',
-        marginBottom: '5%',
+        marginBottom: '10%',
         borderRadius: 5,
     },
+    paymentBtnTextDebito: {
+        fontFamily: 'IBMPlexMono_700Bold',        fontSize: 25,
+        color: '#000',
+    }
 });
