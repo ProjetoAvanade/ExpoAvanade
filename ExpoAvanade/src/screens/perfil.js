@@ -12,7 +12,7 @@ export default class Perfil extends Component {
       nomeUsuario: '',
       email: '',
       pontos: 0,
-      saldo: 0, 
+      saldo: 0,
     };
   }
 
@@ -39,7 +39,7 @@ export default class Perfil extends Component {
           nomeUsuario: dadosDaApi.nomeUsuario,
           email: dadosDaApi.email,
           pontos: dadosDaApi.pontos,
-          saldo: dadosDaApi.saldo, 
+          saldo: dadosDaApi.saldo,
         });
       }
     } catch (error) {
@@ -47,6 +47,14 @@ export default class Perfil extends Component {
       //console.warn(error);
     }
   };
+
+  tirarFoto = async () => {
+    try {
+      this.props.navigation.navigate('Perfil');
+    } catch (error) {
+      //console.warn(error);
+    }
+  }
 
   componentDidMount() {
     this.buscarInfoPerfil();
@@ -63,7 +71,9 @@ export default class Perfil extends Component {
         <View style={styles.mainBody}>
           <View style={styles.mainBodyInfo}>
 
-            <Image style={styles.imageProfile} source={require('../../assets/img/profile.png')} />
+            <TouchableOpacity onPress={this.tirarFoto}>
+              <Image style={styles.imageProfile} source={require('../../assets/img/profile.png')} />
+            </TouchableOpacity>
 
             <Text style={styles.mainBodyTitle}>{this.state.nomeUsuario}</Text>
             <Text style={styles.mainBodyText}>{this.state.email}</Text>
@@ -96,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainHeaderText: {
-    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 36,
+    fontFamily: 'IBMPlexMono_700Bold', fontSize: 36,
     color: '#333',
   },
   mainHeaderLine: {
@@ -124,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
     textAlign: 'center',
     maxWidth: '80%',
   },
@@ -149,13 +159,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   btnPontosText: {
-    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 18,
+    fontFamily: 'IBMPlexMono_700Bold', fontSize: 18,
 
     color: '#000',
     textAlign: 'center',
   },
   btnLogoutText: {
-    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
     color: '#000',
   },
   mainTituloSpace: {

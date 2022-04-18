@@ -15,6 +15,7 @@ import TutorialDestrava from './src/screens/tutorialDestrava';
 import TutorialTrava from './src/screens/tutorialTrava';
 import Pesquisa from './src/screens/pesquisa';
 import Pagamento from './src/screens/pagamento';
+/* import CadastroImg from './src/screens/cadastroImg'; */
 
 const AuthStack = createStackNavigator();
 
@@ -81,6 +82,7 @@ export default function App() {
         <AuthStack.Screen name="Pagamento" component={Pagamento} />
         <AuthStack.Screen name="Ponto" component={Ponto} />
         <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
+        {/* <AuthStack.Screen name="CadastroImg" component={CadastroImg} /> */}
       </AuthStack.Navigator>
     </NavigationContainer>
   );
