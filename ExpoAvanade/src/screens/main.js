@@ -13,6 +13,9 @@ const bottomTab = createBottomTabNavigator();
 
 import Mapa from './mapa';
 import Perfil from './perfil';
+import PontoProximo from './pontoProximo';
+import Carteira from './carteira';
+
 
 class Main extends Component {
 
@@ -33,20 +36,31 @@ class Main extends Component {
                   <View style={styles.iconNav}>
                     <Image
                       style={styles.tabBarIcon}
-                      source={require('../../assets/img/icon_mapa.png')}
+                      source={require('../../assets/img/icon_locationInactive.png')}
                     />
-                    <Text style={styles.textNav}>Mapa</Text>
+                    <Text style={styles.textNav}>Localização</Text>
                   </View>
                 )
               }
-              if (route.name === 'Perfil') {
+              if (route.name === 'Carteira') {
                 return (
                   <View style={styles.iconNav}>
                     <Image
-                      style={styles.tabBarIcon}
-                      source={require('../../assets/img/icon_perfil.png')}
+                      style={styles.tabBarIcon2}
+                      source={require('../../assets/img/icon_walletInactive.png')}
                     />
-                    <Text style={styles.textNav}>Meu Perfil</Text>
+                    <Text style={styles.textNav}>Carteira</Text>
+                  </View>
+                )
+              }
+              if (route.name === 'PontoProximo') {
+                return (
+                  <View style={styles.iconNav}>
+                    <Image
+                      style={styles.tabBarIcon3}
+                      source={require('../../assets/img/icon_nearbyInactive.png')}
+                    />
+                    <Text style={styles.textNav}>Pontos próximos</Text>
                   </View>
                 )
               }
@@ -55,10 +69,8 @@ class Main extends Component {
             // React Navigation 6.x
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarActiveBackgroundColor: '#F3BC2C',
-            tabBarInactiveBackgroundColor: '#F3BC2C',
-            // tabBarActiveTintColor: 'blue',
-            // tabBarInactiveTintColor: 'red',
+            tabBarActiveBackgroundColor: '#FFFFFF',
+            tabBarInactiveBackgroundColor: '#FFFFFF',
             tabBarStyle: {
               height: 78,
               borderTopWidth: 0,
@@ -66,7 +78,9 @@ class Main extends Component {
           })}
         >
           <bottomTab.Screen name="Mapa" component={Mapa} />
-          <bottomTab.Screen name="Perfil" component={Perfil} />
+          <bottomTab.Screen name="Carteira" component={Carteira} />
+          <bottomTab.Screen name="PontoProximo" component={PontoProximo} />
+
         </bottomTab.Navigator>
 
       </View>
@@ -76,30 +90,32 @@ class Main extends Component {
 };
 
 const styles = StyleSheet.create({
-  // conteúdo da main
   main: {
     flex: 1,
   },
-
   iconNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: 'column',
     alignItems: 'center',
   },
-
-  // estilo dos textos da navegação
   textNav: {
-    fontSize: 18,
+    fontSize: 12,
     color: '#000',
     fontFamily: 'IBMPlexMono_700Bold',
-    marginLeft: '5%'
   },
-
-  // estilo dos ícones da tabBar
   tabBarIcon: {
-    width: 40,
-    height: 40
+    height: 30,
+    width: 25.14,
+    marginBottom: 5
+  },
+  tabBarIcon2: {
+    height: 26.25,
+    width: 30,
+    marginBottom: 7
+  },
+  tabBarIcon3: {
+    height: 30,
+    width: 30,
+    marginBottom: 5
   }
 });
-
 export default Main;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,StatusBar } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -63,33 +63,80 @@ export default class Perfil extends Component {
   render() {
     return (
       <View style={styles.main}>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
+
+        <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
-          <Text style={styles.mainHeaderText}>Perfil</Text>
-          <View style={styles.mainHeaderLine} />
+          <View style={styles.mainHeaderSpace}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
+            <Text style={styles.mainHeaderText}>Meu perfil</Text>
+          </View>
         </View>
 
-        <View style={styles.mainBody}>
-          <View style={styles.mainBodyInfo}>
+        <View style={styles.mainContent}>
+          <TouchableOpacity>
+            <Image source={require('../../assets/img/icon_mold.png')} style={styles.mainContentImage} />
+          </TouchableOpacity>
+          <View style={styles.mainContentTexts}>
+            <Text style={styles.mainContentTextName}>{this.state.nomeUsuario}</Text>
+            <Text style={styles.mainContentTextEmail}>{this.state.email}</Text>
+          </View>
+          <Text style={styles.mainContentTextAccount}>Minha conta</Text>
+        </View>
 
+<<<<<<< HEAD
             <TouchableOpacity onPress={this.tirarFoto}>
               <Image style={styles.imageProfile} source={require('../../assets/img/profile.png')} />
             </TouchableOpacity>
-
-            <Text style={styles.mainBodyTitle}>{this.state.nomeUsuario}</Text>
-            <Text style={styles.mainBodyText}>{this.state.email}</Text>
-            <Text style={styles.mainBodyText}>Pontos: {this.state.pontos}</Text>
-            <Text style={styles.mainBodyText}>Saldo: {this.state.saldo}</Text>
-
-            <TouchableOpacity style={styles.btn} onPress={() => this.props.navigation.navigate('TrocaPontos')}>
-              <Text style={styles.btnPontosText}>Trocar meus pontos</Text>
-            </TouchableOpacity>
-
-            <View style={styles.mainLine} />
-            <TouchableOpacity style={styles.btn} onPress={this.realizarLogout}>
-              <Text style={styles.btnLogoutText}>Sair</Text>
-            </TouchableOpacity>
+=======
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {this.state.dataNasc}</Text>
           </View>
-        </View >
+        </View>
+>>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Email</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.email}</Text>
+          </View>
+        </View>
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_money.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Saldo</Text>
+            <Text style={styles.mainCardsTextEmail}>R${this.state.saldo}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas')}>
+          <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.pontos}</Text>
+          </View>
+          <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.mainCard} onPress={this.realizarLogout}>
+          <Image source={require('../../assets/img/icon_leave.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Sair</Text>
+          </View>
+        </TouchableOpacity>
+
       </View>
     );
   }
@@ -98,40 +145,61 @@ export default class Perfil extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  mainHeader: {
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
   },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
+  },
+  mainHeader: {
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
+    justifyContent: 'center',
+  },
+  mainHeaderSpace: {
+    width: '63%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '4.7%',
+  },
+<<<<<<< HEAD
   mainHeaderText: {
     fontFamily: 'IBMPlexMono_700Bold', fontSize: 36,
     color: '#333',
+=======
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
+>>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
   },
-  mainHeaderLine: {
-    width: 155,
-    paddingTop: 8,
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
-  },
-  mainBody: {
-    flex: 5,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  mainBodyInfo: {
-    alignItems: 'center',
-  },
-  imageProfile: {
-    borderColor: '#F3BC2C',
-    borderRadius: 67,
-    borderWidth: 3,
-    /* marginBottom: 20, */
-  },
-  mainBodyTitle: {
-    color: '#000',
+  mainHeaderText: {
+    fontFamily: 'IBMPlexMono_700Bold',
     fontSize: 25,
+  },
+  mainContent: {
+    width: '100%',
+    // height: 261,
+    height: '33.5%',
+    backgroundColor: '#F5F5F5',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  mainContentImage: {
+    width: 103,
+    height: 102,
+  },
+  mainContentTexts: {
+    alignItems: 'center'
+  },
+  mainContentTextName: {
+    fontSize: 25,
+<<<<<<< HEAD
     paddingTop: 10,
     paddingBottom: 10,
     fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
@@ -139,46 +207,71 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   mainBodyText: {
+=======
+    color: '#000000',
+>>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
     fontFamily: 'ABeeZee_400Regular',
-    color: '#000',
+
+  },
+  mainContentTextEmail: {
     fontSize: 20,
+    color: '#797979',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
-  mainLine: {
-    width: 250,
-    marginTop: '8%',
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
+  mainContentTextAccount: {
+    color: '#F3BC2C',
+    marginRight: '75%',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
-  btn: {
-    marginTop: '7%',
+  mainCard: {
+    width: '100%',
+    height: 80,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 60,
-    width: 157,
-    backgroundColor: '#F3BC2C',
-    borderRadius: 5,
+    justifyContent: 'flex-start',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000000'
   },
+<<<<<<< HEAD
   btnPontosText: {
     fontFamily: 'IBMPlexMono_700Bold', fontSize: 18,
-
-    color: '#000',
-    textAlign: 'center',
+=======
+  mainCardImage: {
+    width: 30,
+    marginLeft: 15,
   },
+  mainCardsTextName: {
+    marginLeft: 15,
+    fontSize: 14,
+    color: '#000000',
+    fontFamily: 'ABeeZee_400Regular',
+>>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
+
+  },
+<<<<<<< HEAD
   btnLogoutText: {
     fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
     color: '#000',
+=======
+  mainCardsTextEmail: {
+    marginLeft: 15,
+    fontSize: 14,
+    color: '#797979',
+    fontFamily: 'ABeeZee_400Regular',
+
+>>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
   },
-  mainTituloSpace: {
-    width: 200,
-    height: 45,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginRight: 110,
+  mainCardNext: {
+    marginLeft: 5,
+    width: 20
   },
-  mainBtnVoltar: {
-    width: 20,
-    height: 20,
+  mainCardsTextTrade: {
+    marginLeft: 180,
+    fontSize: 14,
+    color: '#000000',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
 });

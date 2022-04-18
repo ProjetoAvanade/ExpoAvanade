@@ -4,10 +4,10 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
+  TouchableOpacity, StatusBar
 } from 'react-native';
 
-class TrocaPontos extends Component {
+class TrocaRodas extends Component {
   goBack = () => {
     this.props.navigation.goBack();
   }
@@ -15,15 +15,20 @@ class TrocaPontos extends Component {
   render() {
     return (
       <View style={styles.main}>
-        <View style={styles.mainHeader}>
-          <View style={styles.mainTitleSpace}>
-            <TouchableOpacity onPress={this.goBack}>
-              <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
-            </TouchableOpacity>
-            <Text style={styles.mainHeaderText}>Trocar pontos</Text>
-          </View>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
 
-          <View style={styles.mainHeaderLine} />
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
+            <Text style={styles.mainHeaderText}>Minhas rodas</Text>
+          </View>
         </View>
 
         <View style={styles.mainBody}>
@@ -82,33 +87,35 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: '#F7F7F7',
+    alignItems: 'center',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
   },
   mainHeader: {
-    flex: 1,
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
     justifyContent: 'center',
-    alignItems: 'center',
   },
-  mainTitleSpace: {
-    width: 300,
-    display: 'flex',
+  mainHeaderSpace: {
+    width: '68%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginRight: 40,
+    // marginLeft: 18,
+    marginLeft: '4.7%',
   },
-  mainBtnBack: {
-    width: 20,
-    height: 20,
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
   },
   mainHeaderText: {
-    fontFamily: 'IBMPlexMono_700Bold',    fontSize: 36,
-    color: '#333',
-  },
-  mainHeaderLine: {
-    width: 155,
-    paddingTop: 8,
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
+    fontFamily: 'IBMPlexMono_700Bold',
+    fontSize: 25,
   },
   mainBody: {
     flex: 4,
@@ -132,11 +139,13 @@ const styles = StyleSheet.create({
   },
   cardPointsText: {
     fontSize: 20,
-    fontFamily: 'ABeeZee_400Regular',    color: '#000',
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#000',
   },
   cardTextBalance: {
     fontSize: 14,
-    fontFamily: 'ABeeZee_400Regular',    color: '#333',
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#797979',
   },
   btnPoints: {
     backgroundColor: '#F3BC2C',
@@ -148,8 +157,8 @@ const styles = StyleSheet.create({
   },
   cardPointsBtnText: {
     fontSize: 20,
-    fontFamily: 'IBMPlexMono_700Bold',    color: '#000',
+    fontFamily: 'IBMPlexMono_700Bold', color: '#000',
   },
 });
 
-export default TrocaPontos;
+export default TrocaRodas;
