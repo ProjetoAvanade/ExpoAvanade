@@ -6,19 +6,30 @@ export default class Pagamento extends Component {
         return (
             <ScrollView>
                 <View style={styles.main}>
+                    <StatusBar
+                        barStyle='dark-content'
+                        backgroundColor='#F3BC2C'
+                        hidden={false}
+                    />
+
+                    <View style={styles.mainGap}></View>
+                    <View style={styles.mainHeader}>
+                        <View style={styles.mainHeaderSpace}>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                                <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+                            </TouchableOpacity>
+                            <Text style={styles.mainHeaderText}>Tutorial</Text>
+                        </View>
+                    </View>
 
                     <View style={styles.mainCard}>
-                        <Text style={styles.mainTitle}>Realizar pagamento</Text>
-
                         <View style={styles.mainCardDiv}>
                             <View style={styles.boxText}>
                                 <Text style={styles.boxTextTitle}>Bike Runners - Park Shop </Text>
-
                                 <View style={styles.mainCardLine}>
                                     <Text style={styles.boxTextInfos}>25 minutos parado</Text>
                                     <Text style={styles.boxTextInfos}>R$25,00</Text>
                                 </View>
-
                                 <Text style={styles.boxTextInfos}>R. Emília Marengo, 320 - Tatuape, São Paulo</Text>
                             </View>
                         </View>
@@ -39,7 +50,7 @@ export default class Pagamento extends Component {
                         </View>
 
                         {/* SE COMENTAR DAQUI ATÉ O PRÓXIMO PONTO, REMOVE AS INSTRUÇÕES RELACIONADAS A PIX */}
-                        {/* <View style={styles.boxCodePix}>
+                        <View style={styles.boxCodePix}>
                             <Text style={styles.boxTextInfoPix}>Código Pix</Text>
                             <Text style={styles.mainMethodCode}>JHGFJHSGFSG0HF3G2H1J3GJG132F1FG132DF1B3213213X21B321B321D321D32132D1G32DF1G32D1G23D1FG321GW1S321G3S1G1G31G3SG2S1G23S1G3</Text>
                         </View>
@@ -78,13 +89,13 @@ export default class Pagamento extends Component {
                             <TouchableOpacity style={styles.mainPaymentBtn} onPress={this.realizarPagamento}>
                                 <Text style={styles.paymentBtnText}>OK</Text>
                             </TouchableOpacity>
-                        </View> */}
+                        </View>
 
                         {/* ATÉ AQUI REMOVE INFORMAÇÕES DE PIX */}
 
                         {/* AQUI COMEÇA INFORMAÇÕES DE DÉBITO */}
 
-                        <View style={styles.mainPaymentDebito}>
+                        {/* <View style={styles.mainPaymentDebito}>
                             <View style={styles.mainSpaceTitle}>
                                 <Text style={styles.mainPaymentTitleDebito}>Cadastre seus dados</Text>
                             </View>
@@ -116,7 +127,7 @@ export default class Pagamento extends Component {
                                     <Text style={styles.paymentBtnTextDebito}>Pagar</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
+                        </View> */}
 
                         {/* AQUI TERMINA AS INFORMAÇÕES DE DEBITO */}
                     </View>
@@ -128,10 +139,37 @@ export default class Pagamento extends Component {
 
 const styles = StyleSheet.create({
     main: {
-        // flex: 1,
+        flex: 1,
+        backgroundColor: '#ffffff',
         alignItems: 'center',
-        backgroundColor: 'rgba(132, 132, 156, 0.4)',
+    },
+    mainGap: {
+        // height: 37,
+        height: '4.3%',
+
+    },
+    mainHeader: {
+        width: '100%',
+        // height: 65,
+        height: '7.6%',
+        backgroundColor: '#F3BC2C',
+        justifyContent: 'center',
+    },
+    mainHeaderSpace: {
+        width: '60%',
+        alignItems: 'center',
         justifyContent: 'space-between',
+        flexDirection: 'row',
+        // marginLeft: 18,
+        marginLeft: '4.7%',
+    },
+    mainHeaderImage: {
+        width: 25,
+        height: 21.56,
+    },
+    mainHeaderText: {
+        fontFamily: 'IBMPlexMono_700Bold',
+        fontSize: 25,
     },
 
     mainTitle: {
@@ -145,10 +183,13 @@ const styles = StyleSheet.create({
     mainCard: {
         flex: 0.70,
         width: 411,
+        height: 253,
+
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: '5%',
-        marginTop: '5%'
+        // marginBottom: '5%',
+        // marginTop: '5%',
+        backgroundColor: '#676A69'
     },
 
     mainCardDiv: {
@@ -169,7 +210,8 @@ const styles = StyleSheet.create({
     boxTextTitle: {
         fontSize: 25,
         color: '#000000',
-        fontFamily: 'ABeeZee_400Regular',    },
+        fontFamily: 'ABeeZee_400Regular',
+    },
 
     boxTextInfos: {
         fontSize: 20,
@@ -268,7 +310,7 @@ const styles = StyleSheet.create({
     },
 
     mainPaymentTitle: {
-        fontFamily: 'ABeeZee_400Regular',        
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 20,
         color: '#fff',
         marginTop: '5%',
@@ -276,7 +318,7 @@ const styles = StyleSheet.create({
     },
 
     mainPaymentText: {
-        fontFamily: 'ABeeZee_400Regular',        
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 20,
         color: '#fff',
         marginTop: '5%',
@@ -300,7 +342,7 @@ const styles = StyleSheet.create({
     },
 
     paymentBtnText: {
-        fontFamily: 'IBMPlexMono_700Bold',        fontSize: 25,
+        fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
         color: '#000',
     },
 
@@ -358,7 +400,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     paymentBtnTextDebito: {
-        fontFamily: 'IBMPlexMono_700Bold',        fontSize: 25,
+        fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
         color: '#000',
     }
 });

@@ -1,60 +1,61 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Select, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default class TutorialTrava extends Component {
   render() {
     return (
       <View style={styles.main}>
-        <View style={styles.mainHeader}>
-          <View style={styles.mainTitleSpace}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
-            </TouchableOpacity>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
 
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
             <Text style={styles.mainHeaderText}>Tutorial</Text>
           </View>
         </View>
 
-        <View style={styles.mainBody}>
-          <View style={styles.mainBodyInstructions}>
-            <Text style={styles.mainBodyTitle}>Siga essas instruções:</Text>
-            <Text style={styles.mainBodyText}>Usar o sistema é muito fácil! Veja aqui algumas dicas para te ajudar.</Text>
-          </View>
+        <View style={styles.mainContent}>
+          <View style={styles.mainContentSpace}>
+            <View style={styles.mainContentBox}>
+              <Text style={styles.mainContentBoxTitle}>Siga essas instruções:</Text>
+              <Text style={styles.mainContentBoxTextUnique}>Usar os nossos bicicletários é muito fácil! Siga as instruções abaixo:</Text>
+            </View>
+            <View style={styles.mainContentBox1}>
 
-          <View style={styles.mainBodySteps}>
-            <View style={styles.stepInfo}>
-              <View style={styles.mainBodyCircle}>
-                <Text style={styles.mainBodyText}>1°</Text>
+              <View style={styles.mainContentBoxRow}>
+                <Text style={styles.mainContentBoxNumber}>1° -</Text>
+                <Text style={styles.mainContentBoxText}> Aproxime sua tag no sensor</Text>
               </View>
-              <Text style={styles.mainBodyText}>Lorem Ipsum is simply dummy</Text>
+
+              <View style={styles.mainContentBoxRow}>
+                <Text style={styles.mainContentBoxNumber}>2° -</Text>
+                <Text style={styles.mainContentBoxText}> Ao aproximar a tag, o cronometro será iniciado</Text>
+              </View>
+
+              <View style={styles.mainContentBoxRow}>
+                <Text style={styles.mainContentBoxNumber}>3° -</Text>
+                <Text style={styles.mainContentBoxText}> Ao finalizar o uso, aproxime sua tag novamente no sensor para encerrar o cronometro </Text>
+              </View>
             </View>
 
-            <View style={styles.stepInfo}>
-              <View style={styles.mainBodyCircle}>
-                <Text style={styles.mainBodyText}>2°</Text>
-              </View>
-              <Text style={styles.mainBodyText}>Lorem Ipsum is simply dummy text of the printing</Text>
-            </View>
-
-            <View style={styles.stepInfo}>
-              <View style={styles.mainBodyCircle}>
-                <Text style={styles.mainBodyText}>3°</Text>
-              </View>
-              <Text style={styles.mainBodyText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
-            </View>
           </View>
         </View>
 
-        <View style={styles.mainFooter}>
-          <TouchableOpacity style={[styles.mainFooterBtn, styles.footerBtnShadow]} onPress={() => this.props.navigation.navigate('TutorialDestrava')}>
-            <Text style={styles.footerBtnText}>Travar</Text>
+        <View style={styles.mainContentTimer}>
+          <TouchableOpacity style={styles.mainContentButton} onPress={() => this.props.navigation.navigate('Pagamento')}>
+            <Text style={styles.mainContentButtonText}>Iniciar</Text>
           </TouchableOpacity>
-
-          <View style={styles.mainFooterMinutes}>
-            <Text style={styles.footerMinutesText}>00:00</Text>
-          </View>
         </View>
-      </View>
+
+      </View >
     );
   }
 }
@@ -62,111 +63,103 @@ export default class TutorialTrava extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
-    backgroundColor: '#676A69',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
   },
   mainHeader: {
-    flex: 1.5,
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
     justifyContent: 'center',
-    alignItems: 'center',
   },
-  mainTitleSpace: {
-    width: 300,
-    display: 'flex',
+  mainHeaderSpace: {
+    width: '60%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginRight: 110,
+    // marginLeft: 18,
+    marginLeft: '4.7%',
   },
-  mainBtnBack: {
-    width: 20,
-    height: 20,
-    marginLeft: 25,
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
   },
   mainHeaderText: {
     fontFamily: 'IBMPlexMono_700Bold',
-    marginLeft: 10,
-    fontSize: 36,
-    color: '#fff',
-  },
-  mainBody: {
-    flex: 4,
-    justifyContent: 'space-around',
-    marginBottom: 110,
-  },
-  mainBodyTitle: {
-    fontFamily: 'ABeeZee_400Regular',
     fontSize: 25,
-    color: '#fff',
   },
-  mainBodyInstructions: {
-    maxWidth: 264,
-    marginLeft: 20,
-    marginBottom: 20,
-  },
-  mainBodyText: {
-    fontFamily: 'ABeeZee_400Regular', 
-    fontSize: 20,
-    color: '#fff',
-  },
-  mainBodySteps: {
-    maxWidth: 300,
-    marginRight: 20,
-  },
-  stepInfo: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  mainBodyCircle: {
-    width: 29,
-    height: 31,
-    borderRadius: 30 / 2,
-    backgroundColor: '#AC9041',
-    alignItems: 'center',
-    marginRight: 7,
-  },
-  mainFooter: {
-    flex: 1.5,
+  mainContent: {
     width: '100%',
-    backgroundColor: '#fff',
+    height: '70%',
+    backgroundColor: '#676A69',
+  },
+  mainContentSpace: {
+    height: '90%',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around'
   },
-  mainFooterBtn: {
-    width: 327,
-    height: 54,
-    backgroundColor: '#F3BC2C',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
+  mainContentBox: {
+    height: 138,
+    width: 266,
+    justifyContent: 'space-between'
   },
-  footerBtnShadow: {
-    shadowColor: '#rgba(0, 0, 0, 0.25)',
-    shadowOffset: { width: -3, height: -4 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    /* shadowColor: 'rgba(132, 132, 156, 0.3)',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 4, */
+  mainContentBox1: {
+    height: 247,
+    width: 266,
+    justifyContent: 'space-between'
   },
-  footerBtnText: {
-    fontFamily: 'IBMPlexMono_700Bold', 
-    fontSize: 24,
-    color: '#000',
+  mainContentBoxRow: {
+    flexDirection: 'row'
   },
-  mainFooterMinutes: {
-    width: 109,
-    height: 35,
-    backgroundColor: '#F3BC2C',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
+  mainContentBoxTitle: {
+    fontSize: 25,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ffffff',
+    textAlign: 'center',
 
   },
-  footerMinutesText: {
-    fontFamily: 'IBMPlexMono_700Bold', 
-    fontSize: 18,
-    color: '#000',
+  mainContentBoxNumber: {
+    fontSize: 20,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#F3BC2C'
+  },
+  mainContentBoxText: {
+    width: 220,
+    fontSize: 20,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ffffff',
+    textAlign: 'justify',
+  },
+  mainContentBoxTextUnique: {
+    width: 260,
+    fontSize: 20,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ffffff',
+    textAlign: 'justify',
+  },
+  mainContentTimer: {
+    width: '100%',
+    height: '18%',
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  mainContentButton: {
+    width: '90%',
+    height: '75%',
+    backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  mainContentButtonText: {
+    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold',
   },
 });

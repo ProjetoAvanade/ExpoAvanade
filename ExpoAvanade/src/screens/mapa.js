@@ -12,6 +12,9 @@ import {
 import MapView, { Callout, Marker } from 'react-native-maps';
 
 import api from '../services/api';
+// import Perfil from '../screens/perfil';
+// import Ponto1 from '../screens/ponto1';
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { backgroundColor, borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
@@ -97,7 +100,7 @@ export default class Mapa extends Component {
 
         <View style={styles.mainSearch}>
           <View style={styles.mainSearchInput}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Pesquisa')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Ponto1')}>
               <Text style={styles.mainSearchInputText}>Para onde?</Text>
             </TouchableOpacity>
           </View>

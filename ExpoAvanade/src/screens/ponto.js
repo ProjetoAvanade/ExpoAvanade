@@ -14,54 +14,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
 
 export default class Ponto extends Component {  
-  constructor(props) {
-    super(props);
-    this.state = {
-      idBicicletario: props.route.params.id,
-      CEP: "",
-      bairro: "",
-      cidade: "",
-      horarioAberto: "",
-      horarioFechado: "",
-      nome: "",
-      numero: 0,
-      rua: "",
-      quantidadeVaga: 0,
-      vagaDisponivel: 0,
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     idBicicletario: props.route.params.id,
+  //     CEP: "",
+  //     bairro: "",
+  //     cidade: "",
+  //     horarioAberto: "",
+  //     horarioFechado: "",
+  //     nome: "",
+  //     numero: 0,
+  //     rua: "",
+  //     quantidadeVaga: 0,
+  //     vagaDisponivel: 0,
+  //   };
+  // }
 
-  buscarInfoPonto = async () => {
-    try {
-      //console.warn(this.state.idBicicletario)
-      const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.get(`/Bicicletario/${this.state.idBicicletario}`, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      })
-      if (resposta.status === 200) {
-        this.setState({
-          CEP: resposta.data.CEP,
-          bairro: resposta.data.bairro,
-          cidade: resposta.data.cidade,
-          nome: resposta.data.nome,
-          numero: resposta.data.numero,
-          rua: resposta.data.rua,
-          horarioAberto: resposta.data.horarioAberto,
-          horarioFechado: resposta.data.horarioFechado,
-          /*quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
-          vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel, */
-        });
-      }
-    } catch (error) {
-      console.warn(error);
-    }
-  };
+  // buscarInfoPonto = async () => {
+  //   try {
+  //     //console.warn(this.state.idBicicletario)
+  //     const token = await AsyncStorage.getItem('userToken');
+  //     const resposta = await api.get(`/Bicicletario/${this.state.idBicicletario}`, {
+  //       headers: {
+  //         Authorization: 'Bearer ' + token,
+  //       },
+  //     })
+  //     if (resposta.status === 200) {
+  //       this.setState({
+  //         CEP: resposta.data.CEP,
+  //         bairro: resposta.data.bairro,
+  //         cidade: resposta.data.cidade,
+  //         nome: resposta.data.nome,
+  //         numero: resposta.data.numero,
+  //         rua: resposta.data.rua,
+  //         horarioAberto: resposta.data.horarioAberto,
+  //         horarioFechado: resposta.data.horarioFechado,
+  //         /*quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
+  //         vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel, */
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.warn(error);
+  //   }
+  // };
 
-  componentDidMount() {
-    this.buscarInfoPonto();
-  }
+  // componentDidMount() {
+  //   this.buscarInfoPonto();
+  // }
 
   render() {
     return (

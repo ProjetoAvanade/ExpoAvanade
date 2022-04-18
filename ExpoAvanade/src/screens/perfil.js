@@ -65,7 +65,9 @@ export default class Perfil extends Component {
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <View style={styles.mainHeaderSpace}>
-            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
             <Text style={styles.mainHeaderText}>Meu perfil</Text>
           </View>
         </View>
@@ -105,7 +107,7 @@ export default class Perfil extends Component {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaPontos')}>
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas')}>
           <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
@@ -178,15 +180,21 @@ const styles = StyleSheet.create({
   },
   mainContentTextName: {
     fontSize: 25,
-    color: '#000000'
+    color: '#000000',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
   mainContentTextEmail: {
     fontSize: 20,
     color: '#797979',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
   mainContentTextAccount: {
     color: '#F3BC2C',
-    marginRight: '75%'
+    marginRight: '75%',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
   mainCard: {
     width: '100%',
@@ -204,12 +212,16 @@ const styles = StyleSheet.create({
   mainCardsTextName: {
     marginLeft: 15,
     fontSize: 14,
-    color: '#000000'
+    color: '#000000',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
   mainCardsTextEmail: {
     marginLeft: 15,
     fontSize: 14,
     color: '#797979',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
   mainCardNext: {
     marginLeft: 5,
@@ -218,6 +230,8 @@ const styles = StyleSheet.create({
   mainCardsTextTrade: {
     marginLeft: 180,
     fontSize: 14,
-    color: '#000000'
+    color: '#000000',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
 });

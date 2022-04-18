@@ -90,7 +90,9 @@ class Cadastro extends Component {
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <View style={styles.mainHeaderSpace}>
-            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
             <Text style={styles.mainHeaderText}>Cadastro</Text>
           </View>
         </View>
@@ -213,7 +215,9 @@ const styles = StyleSheet.create({
   mainContentFormText: {
     fontSize: 14,
     color: '#797979',
-    marginTop: '8%'
+    marginTop: '8%',
+    fontFamily: 'ABeeZee_400Regular',
+
   },
 });
 export default Cadastro

@@ -8,7 +8,7 @@ import {
   StatusBar
 } from 'react-native';
 
-class TrocaPontos extends Component {
+class TrocaRodas extends Component {
   goBack = () => {
     this.props.navigation.goBack();
   }
@@ -25,7 +25,9 @@ class TrocaPontos extends Component {
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <View style={styles.mainHeaderSpace}>
-            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
             <Text style={styles.mainHeaderText}>Minhas rodas</Text>
           </View>
         </View>
@@ -138,12 +140,12 @@ const styles = StyleSheet.create({
   },
   cardPointsText: {
     fontSize: 20,
-    fontFamily: 'ABeeZee_400Regular',    
+    fontFamily: 'ABeeZee_400Regular',
     color: '#000',
   },
   cardTextBalance: {
     fontSize: 14,
-    fontFamily: 'ABeeZee_400Regular',    
+    fontFamily: 'ABeeZee_400Regular',
     color: '#797979',
   },
   btnPoints: {
@@ -156,8 +158,8 @@ const styles = StyleSheet.create({
   },
   cardPointsBtnText: {
     fontSize: 20,
-    fontFamily: 'IBMPlexMono_700Bold',    color: '#000',
+    fontFamily: 'IBMPlexMono_700Bold', color: '#000',
   },
 });
 
-export default TrocaPontos;
+export default TrocaRodas;

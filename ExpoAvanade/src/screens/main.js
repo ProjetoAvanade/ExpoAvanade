@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const bottomTab = createBottomTabNavigator();
 
 import Mapa from './mapa';
-import Perfil from './perfil';
+import PontoProximo from './pontoProximo';
 
 class Main extends Component {
 
@@ -41,7 +41,7 @@ class Main extends Component {
                   </View>
                 )
               }
-              if (route.name === 'Perfil') {
+              if (route.name === 'PontoProximo') {
                 return (
                   <View style={styles.iconNav}>
                     <Image
@@ -66,7 +66,7 @@ class Main extends Component {
           })}
         >
           <bottomTab.Screen name="Mapa" component={Mapa} />
-          <bottomTab.Screen name="Perfil" component={Perfil} />
+          <bottomTab.Screen name="PontoProximo" component={PontoProximo} />
         </bottomTab.Navigator>
 
       </View>
