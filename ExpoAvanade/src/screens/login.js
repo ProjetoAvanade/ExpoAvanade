@@ -36,14 +36,14 @@ class Login extends Component {
       
       this.setState({ IsLoading: false });
       if (resposta.status == 201) {
-        this.props.navigation.navigate('Authorization');
+        this.props.navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)
       }
     } catch (error) {
       this.setState({ IsLoading: false, MensagemErro: 'E-mail e/ou senha inválidos!' })
-      /* console.warn(error);
-      console.log(error); */
+      //console.warn(error);
+      //console.log(error);
     }
   };
 

@@ -15,6 +15,7 @@ import * as Location from 'expo-location';
 import api from '../services/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TesteModal from '../components/modalLocalizacao';
 
 export default class Mapa extends Component {
   constructor(props) {
@@ -38,9 +39,9 @@ export default class Mapa extends Component {
       })
       const dadosDaApi = resposta.data;
       this.setState({ listaBicicletarios: dadosDaApi });
-      /* console.warn(dadosDaApi) */
+      //console.warn(dadosDaApi) 
     } catch (error) {
-      console.warn(error);
+      //console.warn(error);
     }
   };
 
@@ -72,6 +73,7 @@ export default class Mapa extends Component {
   render() {
     return (
       <View style={styles.main}>
+        <TesteModal />
         <MapView style={styles.mainMap}
           showsUserLocation
           initialRegion={{
@@ -79,8 +81,8 @@ export default class Mapa extends Component {
             longitude: this.state.longitude,
             latitudeDelta: 0.030,
             longitudeDelta: 0.050,
-            /* latitudeDelta: 0.014,
-            longitudeDelta: 0.014, */
+            //latitudeDelta: 0.014,
+            //longitudeDelta: 0.014, 
           }}>
           {this.state.listaBicicletarios.map((item) => {
             return (
@@ -93,8 +95,7 @@ export default class Mapa extends Component {
                 title={item.nomeBicicletario}
                 description={item.rua}
               >
-                {/* <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario, latitude : item.latitude, longitude: item.longitude })}> */}
-                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item})}>
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item })}>
                   <Text style={styles.calloutText}>{item.nome}</Text>
                   <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                 </Callout>
@@ -117,7 +118,6 @@ export default class Mapa extends Component {
               </TouchableOpacity>
             </View>
           </View>
-
         </View>
       </View >
     );

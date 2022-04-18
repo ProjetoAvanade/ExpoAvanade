@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   numberVaga: {
     fontSize: 36,
     color: '#000',
-    /* fontFamily: 'Open Sans', */
+    //fontFamily: 'Open Sans',
   },
   mainInput: {
     borderWidth: 3,

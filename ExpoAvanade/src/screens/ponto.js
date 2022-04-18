@@ -105,7 +105,6 @@ export default class Ponto extends Component {
             <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
               <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
             </TouchableOpacity>
-
             <View style={styles.retangleAlignment}>
               <View style={styles.retangleBicicletario} />
             </View>

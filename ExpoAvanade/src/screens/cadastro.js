@@ -74,7 +74,7 @@ class Cadastro extends Component {
         hour12: true
       }).format(new Date(dataNascimento))
     })
-  }; */
+  };*/
 
   render() {
     return (
@@ -123,41 +123,6 @@ class Cadastro extends Component {
               placeholderTextColor='#000000'  
               onChangeText={dataNascimento => this.setState({ dataNascimento })}
             />
-            {/* <DatePicker
-              style={styles.mainInput}
-              date={this.state.dataNascimento}
-              mode="date"
-              placeholder="select date"
-              format="DD/MM/YYYY"
-              minDate="01-01-1900"
-              maxDate="01-01-2000"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-              dateIcon: {
-              position: 'absolute',
-              right: -5,
-              top: 4,
-              marginLeft: 0,
-              },
-              dateInput: {
-              borderColor: "gray",
-              alignItems: "flex-start",
-              borderWidth: 0,
-              borderBottomWidth: 1,
-              },
-              
-              placeholderText: {
-              fontSize: 17,
-              color: "gray"
-              },
-              
-              dateText: {
-              fontSize: 17,
-              }
-              }}
-              onChangeText={dataNascimento => this.setState({ dataNascimento })}
-            />*/}
             {
               this.state.isLoading === false &&
               <TouchableOpacity style={styles.mainBtnRegister} onPress={this.finalizarCadastro}>
