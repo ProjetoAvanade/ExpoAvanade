@@ -129,7 +129,7 @@ class Cadastro extends Component {
               placeholder='Foto'
               placeholderTextColor='#000000'
               keyboardType="default"></TextInput>
-            <TouchableOpacity style={styles.mainContentFormButton} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+            <TouchableOpacity style={styles.mainContentFormButton} onPress={this.realizarLogin} disabled={this.state.email === '' || this.state.senha === '' ? 'none' : ''}>
               <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
             </TouchableOpacity>
             <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>

@@ -77,8 +77,8 @@ export default class Perfil extends Component {
             <Image source={require('../../assets/img/icon_mold.png')} style={styles.mainContentImage} />
           </TouchableOpacity>
           <View style={styles.mainContentTexts}>
-            <Text style={styles.mainContentTextName}>Rosana Dolores</Text>
-            <Text style={styles.mainContentTextEmail}>rodolores@gmail.com</Text>
+            <Text style={styles.mainContentTextName}>{this.state.nomeUsuario}</Text>
+            <Text style={styles.mainContentTextEmail}>{this.state.email}</Text>
           </View>
           <Text style={styles.mainContentTextAccount}>Minha conta</Text>
         </View>
@@ -87,7 +87,7 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
-            <Text style={styles.mainCardsTextEmail}>Rosana Dolores, 11122233344, 10/10/1980</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, 11122233344, 10/10/1980</Text>
           </View>
         </View>
 
@@ -95,7 +95,7 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Email</Text>
-            <Text style={styles.mainCardsTextEmail}>rodolores@gmail.com</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.email}</Text>
           </View>
         </View>
 
@@ -103,7 +103,7 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_money.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Saldo</Text>
-            <Text style={styles.mainCardsTextEmail}>R$0,00</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.saldo}</Text>
           </View>
         </View>
 
@@ -111,13 +111,13 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
-            <Text style={styles.mainCardsTextEmail}>0</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.pontos}</Text>
           </View>
           <Text style={styles.mainCardsTextTrade}>Trocar</Text>
           <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.mainCard} onPress={this.realizarLogout}>
           <Image source={require('../../assets/img/icon_leave.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Sair</Text>

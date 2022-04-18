@@ -6,25 +6,28 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  StatusBar,
+  Platform,
+  StatusBar
 } from 'react-native';
 
 import MapView, { Callout, Marker } from 'react-native-maps';
-
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
 import api from '../services/api';
-// import Perfil from '../screens/perfil';
-// import Ponto1 from '../screens/ponto1';
-
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { backgroundColor, borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import TesteModal from '../components/modalLocalizacao';
 
 export default class Mapa extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listaBicicletarios: [],
-      idBicicletario: ''
+      idBicicletario: '',
+      erroMessagem: '',
+      latitude: null,
+      longitude: null,
     };
   }
 
@@ -38,14 +41,35 @@ export default class Mapa extends Component {
       })
       const dadosDaApi = resposta.data;
       this.setState({ listaBicicletarios: dadosDaApi });
-      /* console.warn(dadosDaApi) */
+      //console.warn(dadosDaApi) 
     } catch (error) {
-      console.warn(error);
+      //console.warn(error);
     }
+  };
+
+  buscarLocalizacao = async () => {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        erroMessagem: 'Permissão para acessar a localização negada!',
+      })
+      return;
+    }
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      this.setState({
+        erroMessagem: 'Permissão para acessar a localização negada!',
+      })
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    this.setState({ longitude: parseFloat(location.coords.longitude), latitude: parseFloat(location.coords.latitude) });
+    //console.warn(this.state.longitude, this.state.latitude);
   };
 
   componentDidMount() {
     this.buscarBicicletarios();
+    this.buscarLocalizacao();
   }
 
   render() {
@@ -56,7 +80,7 @@ export default class Mapa extends Component {
           backgroundColor='#F3BC2C'
           hidden={false}
         />
-
+        <TesteModal />
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Perfil')}>
@@ -72,11 +96,14 @@ export default class Mapa extends Component {
         </View>
 
         <MapView style={styles.mainMap}
+          showsUserLocation
           initialRegion={{
-            latitude: -23.53641,
-            longitude: -46.6462,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
             latitudeDelta: 0.030,
             longitudeDelta: 0.050,
+            //latitudeDelta: 0.014,
+            //longitudeDelta: 0.014, 
           }}>
           {this.state.listaBicicletarios.map((item) => {
             return (
@@ -89,7 +116,7 @@ export default class Mapa extends Component {
                 title={item.nomeBicicletario}
                 description={item.rua}
               >
-                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario })}>
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item })}>
                   <Text style={styles.calloutText}>{item.nome}</Text>
                   <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                 </Callout>
@@ -100,8 +127,8 @@ export default class Mapa extends Component {
 
         <View style={styles.mainSearch}>
           <View style={styles.mainSearchInput}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Ponto1')}>
-              <Text style={styles.mainSearchInputText}>Para onde?</Text>
+            <TouchableOpacity style={styles.mainMenuInput} onPress={() => this.props.navigation.navigate('TrocaPontos')}>
+              <Text style={styles.mainBtnText}>Para onde?</Text>
             </TouchableOpacity>
           </View>
         </View>

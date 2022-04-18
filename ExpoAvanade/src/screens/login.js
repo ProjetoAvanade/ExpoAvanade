@@ -36,7 +36,7 @@ class Login extends Component {
       await AsyncStorage.setItem('userToken', token);
 
       this.setState({ IsLoading: false });
-      if (resposta.status == 200) {
+      if (resposta.status == 201) {
         this.props.navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)

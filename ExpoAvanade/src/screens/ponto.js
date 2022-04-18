@@ -10,200 +10,214 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import MapView, { Callout, Marker } from 'react-native-maps';
 import api from '../services/api';
 
-export default class Ponto extends Component {  
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     idBicicletario: props.route.params.id,
-  //     CEP: "",
-  //     bairro: "",
-  //     cidade: "",
-  //     horarioAberto: "",
-  //     horarioFechado: "",
-  //     nome: "",
-  //     numero: 0,
-  //     rua: "",
-  //     quantidadeVaga: 0,
-  //     vagaDisponivel: 0,
-  //   };
-  // }
+export default class Ponto extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      item: props.route.params.id,
+      CEP: "",
+      bairro: "",
+      cidade: "",
+      horarioAberto: "",
+      horarioFechado: "",
+      nome: "",
+      numero: 0,
+      rua: "",
+      listaVagas: [],
+      qntdVagaTotal: 0,
+      qntdVagaDisponivel: [],
+    };
+  }
 
-  // buscarInfoPonto = async () => {
-  //   try {
-  //     //console.warn(this.state.idBicicletario)
-  //     const token = await AsyncStorage.getItem('userToken');
-  //     const resposta = await api.get(`/Bicicletario/${this.state.idBicicletario}`, {
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-  //     })
-  //     if (resposta.status === 200) {
-  //       this.setState({
-  //         CEP: resposta.data.CEP,
-  //         bairro: resposta.data.bairro,
-  //         cidade: resposta.data.cidade,
-  //         nome: resposta.data.nome,
-  //         numero: resposta.data.numero,
-  //         rua: resposta.data.rua,
-  //         horarioAberto: resposta.data.horarioAberto,
-  //         horarioFechado: resposta.data.horarioFechado,
-  //         /*quantidadeVaga: resposta.data.idVaga[0].quantidadeVaga,
-  //         vagaDisponivel: resposta.data.idVaga[0].vagaDisponivel, */
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.warn(error);
-  //   }
-  // };
+  buscarInfoPonto = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get(`/Bicicletario/${this.state.item.idBicicletario}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (resposta.status === 200) {
+        this.setState({
+          CEP: resposta.data.CEP,
+          bairro: resposta.data.bairro,
+          cidade: resposta.data.cidade,
+          nome: resposta.data.nome,
+          numero: resposta.data.numero,
+          rua: resposta.data.rua,
+          horarioAberto: resposta.data.horarioAberto,
+          horarioFechado: resposta.data.horarioFechado,
+        });
+      }
+    } catch (error) {
+      //console.warn(error);
+    }
+  };
 
-  // componentDidMount() {
-  //   this.buscarInfoPonto();
-  // }
+  buscarVagasPonto = async () => {
+    try {
+      var arr = [];
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get(`/Vagas/${this.state.item.idBicicletario}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      const dadosDaApi = resposta.data;
+      this.setState({
+        listaVagas: dadosDaApi,
+        qntdVagaTotal: dadosDaApi.length,
+      })
+
+      // console.warn(this.state.listaVagas[1])
+      //console.warn(this.state.listaVagas)
+
+      if (this.state.listaVagas != []) {
+        this.state.listaVagas.forEach(function (b) {
+          if (b.statusVaga == true) {
+            arr.push(b)
+          }
+        });
+        //console.warn(arr)
+      }
+
+      this.setState({
+        qntdVagaDisponivel: arr
+      })
+    } catch (error) {
+      //console.warn(error);
+    }
+  };
+
+  componentDidMount() {
+    this.buscarInfoPonto();
+    this.buscarVagasPonto();
+  }
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.main}>
-          <ImageBackground style={styles.mainImage} source={require('../../assets/img/mapa.png')}>
-            <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
-              <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
+      <View style={styles.main}>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#FFFFFF'
+          hidden={false}
+        />
+
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
             </TouchableOpacity>
-
-            <View style={styles.retangleAlignment}>
-              <View style={styles.retangleBicicletario} />
-            </View>
-          </ImageBackground>
-
-          <View style={styles.mainBody}>
-            <View style={styles.titleSpace}>
-              <Text style={styles.titleBicicletario}>{this.state.nome}</Text>
-            </View>
-            <View style={styles.infoBicicletario}>
-              <View>
-                <Text style={styles.titleInfo}>Endereço:</Text>
-                <Text style={styles.textInfo}>{this.state.rua}, {this.state.numero} - {this.state.bairro}, {this.state.cidade}, {this.state.CEP}</Text>
-              </View>
-              <View>
-                <Text style={styles.titleInfo}>Áreas atendidas:</Text>
-                <Text style={styles.textInfo}>{this.state.cidade}</Text>
-              </View>
-              <View>
-                <Text style={styles.titleInfo}>Horas:</Text>
-                <Text style={styles.textInfo}>Aberto: {this.state.horarioAberto} ⋅ Fecha às {this.state.horarioFechado}</Text>
-              </View>
-              <View>
-                <Text style={styles.titleInfo}>Vagas:</Text>
-                <Text style={styles.textInfo}>Disponiveis = {this.state.vagaDisponivel}</Text>
-                <Text style={styles.textInfo}>Totais = {this.state.quantidadeVaga}</Text>
-              </View>
-              <View style={styles.btnPosition}>
-                <TouchableOpacity style={styles.btnPonto} onPress={() => this.props.navigation.navigate("Vaga")}>
-                  <Text style={styles.cardPontosText}>Estou no ponto</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
           </View>
         </View>
-      </ScrollView>
+
+        <View style={styles.mainContent}>
+          <View style={styles.mainContentHeader}>
+            <Text style={styles.mainContentTitle}>Carrefour Limão</Text>
+          </View>
+          <View style={styles.mainContentTextSpace}>
+            <Text style={styles.mainContentText}>Endereço: </Text>
+            <Text style={styles.mainContentText1}>Av. Otaviano A. Lima, 2888 - Freguesia do Ó, São Paulo - SP, 02701-000</Text>
+            <Text style={styles.mainContentText}>Horário:</Text>
+            <Text style={styles.mainContentText1}>00:00 - 23:59</Text>
+            <Text style={styles.mainContentText}>Vagas:</Text>
+            <Text style={styles.mainContentText1}>Disponiveis = 7 Totais = 15</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.mainContentButton} onPress={() => this.props.navigation.navigate('TutorialTrava')}>
+              <Text style={styles.mainContentButtonText}>Estou no ponto</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View >
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  // conteúdo da main
   main: {
-    flex: 0.4,
-    backgroundColor: '#CECED7',
-  },
-
-  mainBtnBack: {
-    width: 20,
-    height: 20,
-    marginLeft: 13,
-    marginTop: 20
-  },
-
-  mainImage: {
-    height: 270,
-  },
-
-  retangleBicicletario: {
-    width: 74,
-    height: 7,
-    backgroundColor: '#C4C4C4',
-    borderColor: 'rgba(0, 0, 0, 0.6)',
-    borderWidth: 1,
-  },
-
-  retangleAlignment: {
+    flex: 1,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
-    //marginTop: '58%',
-    marginTop: '55%',
   },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
 
-  mainBody: {
-    height: 586,
+  },
+  mainHeader: {
+    width: '100%',
+    // height: 65,
+    height: 232,
+    backgroundColor: '#ffffff',
+    // justifyContent: 'center',
+  },
+  mainHeaderSpace: {
+    width: '63%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '4.7%',
+    marginTop: '2%'
+  },
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
+  },
+  mainHeaderText: {
+    fontFamily: 'IBMPlexMono_700Bold',
+    fontSize: 25,
+  },
+  mainContent: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  mainContentHeader: {
+    width: '100%',
+    height: 80,
+    backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  mainContentTitle: {
+    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold',
+  },
+  mainContentText: {
+    fontSize: 20,
+    fontFamily: 'ABeeZee_400Regular',
+    // marginTop: 40,
+  },
+  mainContentText1: {
+    fontSize: 20,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#797979',
+    marginBottom: 40
+  },
+  mainContentTextSpace: {
+    width: '80%',
+    height: '47%',
+    // alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-
-  titleSpace: {
-    height: 103,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#rgba(0, 0, 0, 0.4)',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-  },
-
-  titleBicicletario: {
-    fontFamily: 'IBMPlexMono_700Bold',
-    fontSize: 30,
-    color: '#000'
-  },
-
-  infoBicicletario: {
-    paddingLeft: 38,
-    paddingRight: 38,
-    flex: 1,
-    justifyContent: 'space-evenly',
-    paddingBottom: 10,
-    paddingTop: 10,
-  },
-
-  titleInfo: {
-    fontFamily: 'ABeeZee_400Regular',    fontSize: 25,
-    color: '#000',
-  },
-
-  textInfo: {
-    fontFamily: 'ABeeZee_400Regular', 
-    fontSize: 18,
-    color: '#000',
-  },
-
-  btnPosition: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  btnPonto: {
-    backgroundColor: '#F3BC2C',
-    width: 157,
+  mainContentButton: {
     height: 60,
+    width: 150,
+    backgroundColor: '#F3BC2C',
     borderRadius: 5,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
-
-  cardPontosText: {
-    fontSize: 18,
-    color: '#000',
-    textAlign: 'center',
+  mainContentButtonText: {
+    fontSize: 20,
     fontFamily: 'IBMPlexMono_700Bold',
-  },
+    textAlign: 'center'
+  }
 });
