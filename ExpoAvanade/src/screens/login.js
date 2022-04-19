@@ -103,7 +103,7 @@ class Login extends Component {
 
           <View style={styles.mainTextSpace}>
             <Text style={styles.mainText}>Esqueceu sua senha?</Text>
-            <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => this.props.navigation.navigate('CadastroImg')}>
+            <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => this.props.navigation.navigate('CadastroTeste')}>
               <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
             </TouchableOpacity>
           </View>

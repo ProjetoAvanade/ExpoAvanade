@@ -1,231 +1,280 @@
-/* import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  ActivityIndicator,
-  Button,
-  Clipboard,
-  Image,
-  Share,
-  StatusBar,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  TextInput,
+  TouchableOpacity,
+  Button,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
 } from 'react-native';
-import { Constants } from 'expo';
-import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-export default class CadastroImg extends Component {
-  state = {
-    image: null,
-    uploading: false,
-  };
+import * as Permissions from 'expo-permissions';
+import api from '../services/api';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-  render() {
-    let {
-      image
-    } = this.state;
+export default function CadastroTeste({ navigation }) {
+  const [idTipoUsuario, setTipoUsuario] = useState(2);
+  const [nomeUsuario, setNomeUsuario] = useState('');
+  const [email, setEmail] = useState('sla@gmaill.com');
+  const [senha, setSenha] = useState('sla1234');
+  const [dataNascimento, setNascimento] = useState(new Date());
+  const [Cpf, setCpf] = useState('12');
 
-    return (
-      <View style={styles.container}>
-        <StatusBar barStyle="default" />
-
-        <Text
-          style={styles.exampleText}>
-          Example: Upload ImagePicker result
-        </Text>
-
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
-
-        <Button onPress={this._takePhoto} title="Take a photo" />
-
-        {this._maybeRenderImage()}
-        {this._maybeRenderUploadingOverlay()}
-      </View>
-    );
+  /* const options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      maxHeight: 200,
+      maxWidth: 200,
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    },
   }
 
-  _maybeRenderUploadingOverlay = () => {
-    if (this.state.uploading) {
-      return (
-        <View
-          style={[StyleSheet.absoluteFill, styles.maybeRenderUploading]}>
-          <ActivityIndicator color="#fff" size="large" />
-        </View>
-      );
-    }
-  };
+  const abrirGaleria = async () => {
+    const images = await launchImageLibrary(options);
+    console.warn(images)
+  } */
 
-  _maybeRenderImage = () => {
-    let {
-      image
-    } = this.state;
-
-    if (!image) {
-      return;
-    }
-
-    return (
-      <View
-        style={styles.maybeRenderContainer}>
-        <View
-          style={styles.maybeRenderImageContainer}>
-          <Image source={{ uri: image }} style={styles.maybeRenderImage} />
-        </View>
-
-        <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={styles.maybeRenderImageText}>
-          {image}
-        </Text>
-      </View>
-    );
-  };
-
-  _share = () => {
-    Share.share({
-      message: this.state.image,
-      title: 'Check out this photo',
-      url: this.state.image,
-    });
-  };
-
-  _copyToClipboard = () => {
-    Clipboard.setString(this.state.image);
-    alert('Copied image URL to clipboard');
-  };
-
-  _takePhoto = async () => {
-    const {
-      status: cameraPerm
-    } = await Permissions.askAsync(Permissions.CAMERA);
-
-    const {
-      status: cameraRollPerm
-    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-
-    // only if user allows permission to camera AND camera roll
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchCameraAsync({
+  const pickImage = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === "granted") {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
+        quality: 1,
       });
-
-      if (!pickerResult.cancelled) {
-        this.setState({ image: pickerResult.uri });
+      if (!result.cancelled) {
+        const a = result.uri;
       }
-
-      this.uploadImageAsync(pickerResult.uri);
     }
+
+
+    //if (!result.cancelled) {
+      //setUser({'image' : result.uri});
+    //}
+
   };
 
-  _pickImage = async () => {
-    const {
-      status: cameraRollPerm
-    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  function onSubmit() {
 
-    // only if user allows permission to camera roll
-    if (cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        base64: true,
-        aspect: [4, 3],
+    let formData = new FormData();
+
+    formData.append('name', user.name);
+    formData.append('groupId', user.group);
+    formData.append('groupId', user.group);
+    formData.append('groupId', user.group);
+    formData.append('groupId', user.group);
+
+    // Infer the type of the image
+    if (user.image) {
+      let fileName = user.image.split('/').pop();
+      let match = /\.(\w+)$/.exec(fileName);
+      let fileType = match ? `image/${match[1]}` : `image`;
+      formData.append('image', {
+        uri: Platform.OS === 'android' ? user.image : user.image.replace('file://', ''),
+        name: user.name,
+        type: fileType,
       });
-
-
-      if (!pickerResult.cancelled) {
-        this.setState({ image: pickerResult.uri});
-      }
-
-      this.uploadImageAsync(pickerResult.uri);
     }
-  };
 
- uploadImageAsync(pictureuri) {
-  let apiUrl = 'http://192.168.15.11:5000/api/usuario';
-
-
-
-    var data = new FormData();  
-    data.append('file', {  
-      uri: pictureuri,
-      name: 'file',
-      type: 'image/jpg'
-    })
-
-    fetch(apiUrl, {  
+    api.post('/Usuario', formData, {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data'
-      },
-      method: 'POST',
-      body: data
-    }).then(
-      response => {
-        console.log('succ ')
-        console.log(response)
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
       }
-      ).catch(err => {
-      console.log('err ')
-      console.log(err)
-    } )
-
-
-
-
+    })
+      .then(res => {
+        console.log('SUCCESS');
+        // ...
+      })
+      .catch(error => {
+        console.log(error);
+        // ...  
+      });
   }
 
+  return (
+    <View style={styles.main}>
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor='#F3BC2C'
+        hidden={false}
+      />
+
+      <View style={styles.mainGap}></View>
+      <View style={styles.mainHeader}>
+        <View style={styles.mainHeaderSpace}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+          </TouchableOpacity>
+          <Text style={styles.mainHeaderText}>Cadastro</Text>
+        </View>
+      </View>
+
+      <View style={styles.mainContent}>
+        <View style={styles.mainContentForm}>
+          <TextInput
+            style={styles.mainContentFormInput}
+            placeholder='Nome Completo'
+            placeholderTextColor='#000000'
+            value={nomeUsuario}
+            onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
+          />
+          <TextInput
+            style={styles.mainContentFormInput}
+            placeholder='CPF'
+            placeholderTextColor='#000000'
+            value={Cpf}
+            onChangeText={(Cpf) => setCpf(Cpf)}
+          />
+          <TextInput
+            style={styles.mainContentFormInput}
+            placeholder='Endereço de e-mail'
+            placeholderTextColor='#000000'
+            value={email}
+            onChangeText={(email) => setEmail(email)}
+          />
+          <TextInput
+            style={styles.mainContentFormInput}
+            placeholder='Senha'
+            placeholderTextColor='#000000'
+            keyboardType="default"
+            secureTextEntry={true}
+            passwordRules
+            value={senha}
+            onChangeText={(senha) => setSenha(senha)}
+          />
+          <TextInput
+            style={styles.mainContentFormInput}
+            placeholder='AAAA/MM/DD'
+            placeholderTextColor='#000000'
+            value={dataNascimento}
+            onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
+          />
+          <TextInput 
+            style={styles.mainContentFormInput}
+            placeholder='Foto'
+            placeholderTextColor='#000000'
+            keyboardType="default"
+          />
+          {/* <Image source={{ uri: user.image }} style={{ width: 200, height: 200 }} />
+        <Button onPress={pickImage} >Pick an image</Button>
+        <Button onPress={onSubmit} >Send</Button> */}
+          {/* {
+            this.state.isLoading === false &&
+            <TouchableOpacity style={styles.mainBtnRegister}>
+              <Text style={styles.mainBtnText}>Cadastrar</Text>
+            </TouchableOpacity>
+          }
+
+          {
+            this.state.isLoading === true &&
+            <TouchableOpacity style={styles.mainBtnRegister} disabled>
+              <Text style={styles.mainBtnText}>Carregando</Text>
+            </TouchableOpacity>
+          } */}
+          {/* <Text style={styles.mainTextError}>{this.state.mensagemErro}</Text> */}
+          {/* <TouchableOpacity style={styles.mainContentFormButton} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.mainContentFormButton}>
+            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+          </TouchableOpacity>
+          <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
+        </View>
+      </View>
+
+    </View >
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
+  main: {
     flex: 1,
-    justifyContent: 'center',
-  },
-  exampleText: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginHorizontal: 15,
-    textAlign: 'center',
-  },
-  maybeRenderUploading: {
+    backgroundColor: '#ffffff',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+
+  },
+  mainHeader: {
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
     justifyContent: 'center',
   },
-  maybeRenderContainer: {
-    borderRadius: 3,
-    elevation: 2,
-    marginTop: 30,
-    shadowColor: 'rgba(0,0,0,1)',
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      height: 4,
-      width: 4,
-    },
-    shadowRadius: 5,
-    width: 250,
+  mainHeaderSpace: {
+    width: '59%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '4.7%',
   },
-  maybeRenderImageContainer: {
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
-    overflow: 'hidden',
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
   },
-  maybeRenderImage: {
-    height: 250,
-    width: 250,
+  mainHeaderText: {
+    fontFamily: 'IBMPlexMono_700Bold',
+    fontSize: 25,
   },
-  maybeRenderImageText: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  }
-}); */
+  mainContent: {
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: '100%',
+    // marginTop: '10%'
+  },
+  mainContentForm: {
+    alignItems: 'center'
+  },
+  mainContentFormInput: {
+    backgroundColor: '#FFFFFF',
+    width: '70%',
+    // height: 60,
+    height: '8.5%',
+    marginTop: '8%',
+    borderColor: '#F3BC2C',
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingLeft: 20
+  },
+  mainContentFormButton: {
+    // width: 157,
+    width: '40%',
+    // height: 60,
+    height: '8%',
+    borderRadius: 5,
+    backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '8%',
 
-import React, { useState, useEffect } from 'react';
+  },
+  mainContentFormButtonText: {
+    fontSize: 25,
+    fontFamily: 'IBMPlexMono_700Bold',
+    color: '#000000'
+  },
+  mainContentFormText: {
+    fontSize: 14,
+    color: '#797979',
+    marginTop: '8%',
+    fontFamily: 'ABeeZee_400Regular',
+
+  },
+});
+
+/* import React, { useState, useEffect } from 'react';
 import {
     Text,
     View,
@@ -260,7 +309,7 @@ const CadastroImg = () => {
     );
 };
 
-export default CadastroImg
+export default CadastroImg */
 
 /* import React from "react";
 import { Button, PermissionsAndroid, StatusBar, StyleSheet, Text, View } from "react-native";
