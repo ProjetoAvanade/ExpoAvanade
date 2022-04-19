@@ -14,13 +14,9 @@ import TrocaRodas from './src/screens/trocaRodas';
 import TutorialDestrava from './src/screens/tutorialDestrava';
 import TutorialTrava from './src/screens/tutorialTrava';
 import Pesquisa from './src/screens/pesquisa';
+import Perfil from './src/screens/perfil';
 import Pagamento from './src/screens/pagamento';
-<<<<<<< HEAD
-/* import CadastroImg from './src/screens/cadastroImg'; */
-=======
-import Carteira from './src/screens/carteira';
-
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
+import CadastroImg from './src/screens/cadastroImg';
 
 const AuthStack = createStackNavigator();
 
@@ -87,12 +83,8 @@ export default function App() {
         <AuthStack.Screen name="Pagamento" component={Pagamento} />
         <AuthStack.Screen name="Ponto" component={Ponto} />
         <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
-<<<<<<< HEAD
-        {/* <AuthStack.Screen name="CadastroImg" component={CadastroImg} /> */}
-=======
-        <AuthStack.Screen name="Carteira" component={Carteira} />
-
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
+        <AuthStack.Screen name="Perfil" component={Perfil} />
+        <AuthStack.Screen name="CadastroImg" component={CadastroImg} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

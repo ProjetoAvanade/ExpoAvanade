@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
+import { borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default class Perfil extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ export default class Perfil extends Component {
       email: '',
       pontos: 0,
       saldo: 0,
+      CPF: '',
+      dataNascimento: Date()
     };
   }
 
@@ -40,6 +43,7 @@ export default class Perfil extends Component {
           email: dadosDaApi.email,
           pontos: dadosDaApi.pontos,
           saldo: dadosDaApi.saldo,
+          dataNascimento: dadosDaApi.dataNascimento
         });
       }
     } catch (error) {
@@ -47,14 +51,6 @@ export default class Perfil extends Component {
       //console.warn(error);
     }
   };
-
-  tirarFoto = async () => {
-    try {
-      this.props.navigation.navigate('Perfil');
-    } catch (error) {
-      //console.warn(error);
-    }
-  }
 
   componentDidMount() {
     this.buscarInfoPerfil();
@@ -90,19 +86,13 @@ export default class Perfil extends Component {
           <Text style={styles.mainContentTextAccount}>Minha conta</Text>
         </View>
 
-<<<<<<< HEAD
-            <TouchableOpacity onPress={this.tirarFoto}>
-              <Image style={styles.imageProfile} source={require('../../assets/img/profile.png')} />
-            </TouchableOpacity>
-=======
         <View style={styles.mainCard}>
           <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
-            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {this.state.dataNasc}</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, Falta CPF, {this.state.dataNascimento}</Text>
           </View>
         </View>
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
 
         <View style={styles.mainCard}>
           <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
@@ -168,15 +158,9 @@ const styles = StyleSheet.create({
     // marginLeft: 18,
     marginLeft: '4.7%',
   },
-<<<<<<< HEAD
-  mainHeaderText: {
-    fontFamily: 'IBMPlexMono_700Bold', fontSize: 36,
-    color: '#333',
-=======
   mainHeaderImage: {
     width: 25,
     height: 21.56,
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
   },
   mainHeaderText: {
     fontFamily: 'IBMPlexMono_700Bold',
@@ -199,17 +183,7 @@ const styles = StyleSheet.create({
   },
   mainContentTextName: {
     fontSize: 25,
-<<<<<<< HEAD
-    paddingTop: 10,
-    paddingBottom: 10,
-    fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
-    textAlign: 'center',
-    maxWidth: '80%',
-  },
-  mainBodyText: {
-=======
     color: '#000000',
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
     fontFamily: 'ABeeZee_400Regular',
 
   },
@@ -234,10 +208,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#000000'
   },
-<<<<<<< HEAD
-  btnPontosText: {
-    fontFamily: 'IBMPlexMono_700Bold', fontSize: 18,
-=======
   mainCardImage: {
     width: 30,
     marginLeft: 15,
@@ -247,21 +217,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000000',
     fontFamily: 'ABeeZee_400Regular',
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
 
   },
-<<<<<<< HEAD
-  btnLogoutText: {
-    fontFamily: 'IBMPlexMono_700Bold', fontSize: 25,
-    color: '#000',
-=======
   mainCardsTextEmail: {
     marginLeft: 15,
     fontSize: 14,
     color: '#797979',
     fontFamily: 'ABeeZee_400Regular',
 
->>>>>>> 5894259e4b7783ec3c46a5eb0633aaf211e868a7
   },
   mainCardNext: {
     marginLeft: 5,

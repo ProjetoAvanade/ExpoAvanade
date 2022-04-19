@@ -12,9 +12,6 @@ import {
 import MapView, { Callout, Marker } from 'react-native-maps';
 
 import api from '../services/api';
-import Perfil from '../screens/perfil';
-import Ponto from '../screens/ponto';
-
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { backgroundColor, borderBottomColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';

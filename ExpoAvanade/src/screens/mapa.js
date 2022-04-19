@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  TextInput,
   Platform,
   StatusBar
 } from 'react-native';
@@ -16,7 +15,6 @@ import * as Location from 'expo-location';
 import api from '../services/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import TesteModal from '../components/modalLocalizacao';
 
 export default class Mapa extends Component {
   constructor(props) {
@@ -89,10 +87,9 @@ export default class Mapa extends Component {
   };
 
   componentDidMount() {
-    this.buscarBicicletarios();
     this.buscarLocalizacao();
+    this.buscarBicicletarios();
     this.buscarInfoPerfil();
-
   }
 
   render() {
@@ -120,8 +117,8 @@ export default class Mapa extends Component {
 
         <MapView style={styles.mainMap}
           initialRegion={{
-            latitude: -23.53641,
-            longitude: -46.6462,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
             latitudeDelta: 0.030,
             longitudeDelta: 0.050,
           }}>
@@ -136,7 +133,7 @@ export default class Mapa extends Component {
                 title={item.nomeBicicletario}
                 description={item.rua}
               >
-                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item.idBicicletario })}>
+                <Callout onPress={() => this.props.navigation.navigate('Ponto', { id: item })}>
                   <Text style={styles.calloutText}>{item.nome}</Text>
                   <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                 </Callout>
