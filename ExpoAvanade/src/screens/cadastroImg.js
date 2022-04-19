@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,15 +13,20 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import { Camera } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
+import * as MediaLibrary from 'expo-media-library';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-export default function CadastroTeste({ navigation }) {
-  const [idTipoUsuario, setTipoUsuario] = useState(2);
-  const [nomeUsuario, setNomeUsuario] = useState('');
-  const [email, setEmail] = useState('sla@gmaill.com');
-  const [senha, setSenha] = useState('sla1234');
+export default function CadastroImg({ navigation }) {
+  const [idTipoUsuario] = useState(2);
+  const [nomeUsuario, setNomeUsuario] = useState('fsfs');
+  const [email, setEmail] = useState('sfsfs');
+  const [senha, setSenha] = useState('fsfsf');
   const [dataNascimento, setNascimento] = useState(new Date());
-  const [Cpf, setCpf] = useState('12');
+  const [Cpf, setCpf] = useState('4353');
+  const [image] = useState(null);
+  const [arquivo, setArquivo] = useState();
 
   /* const options = {
     title: 'Select Image',
@@ -39,6 +44,59 @@ export default function CadastroTeste({ navigation }) {
     const images = await launchImageLibrary(options);
     console.warn(images)
   } */
+  let cameraRef = useRef();
+  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  const [photo, setPhoto] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      setHasCameraPermission(cameraPermission.status === "granted");
+      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+    })();
+  }, []);
+
+  if (hasCameraPermission === undefined) {
+    return <Text>Requesting permissions...</Text>
+  } else if (!hasCameraPermission) {
+    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+  }
+
+  let takePic = async () => {
+    let options = {
+      quality: 1,
+      base64: true,
+      exif: false
+    };
+
+    let newPhoto = await cameraRef.current.takePictureAsync(options);
+    setPhoto(newPhoto);
+  };
+
+  if (photo) {
+    let sharePic = () => {
+      shareAsync(photo.uri).then(() => {
+        setPhoto(undefined);
+      });
+    };
+
+    let savePhoto = () => {
+      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+        setPhoto(undefined);
+      });
+    };
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <Image style={styles.preview} source={{ uri: "data:image/jpg;" + photo }} />
+        <Button title="Share" onPress={sharePic} />
+        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
+        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+      </SafeAreaView>
+    );
+  }
 
   const pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -53,35 +111,37 @@ export default function CadastroTeste({ navigation }) {
         const a = result.uri;
       }
     }
+  }
 
+  //if (!result.cancelled) {
+  //setUser({'image' : result.uri});
+  //}
 
-    //if (!result.cancelled) {
-      //setUser({'image' : result.uri});
-    //}
-
-  };
 
   function onSubmit() {
 
     let formData = new FormData();
 
-    formData.append('name', user.name);
-    formData.append('groupId', user.group);
-    formData.append('groupId', user.group);
-    formData.append('groupId', user.group);
-    formData.append('groupId', user.group);
+    formData.append('IdTipoUsuario', idTipoUsuario);
+    formData.append('NomeUsuario', nomeUsuario);
+    formData.append('Email', email);
+    formData.append('Senha', senha);
+    formData.append('DataNascimento', dataNascimento);
+    formData.append('Cpf', Cpf);
+    formData.append('Image', image);
+    formData.append('arquivo', arquivo);
 
     // Infer the type of the image
-    if (user.image) {
-      let fileName = user.image.split('/').pop();
+    /* if (arquivo) {
+      let fileName = image.split('/').pop();
       let match = /\.(\w+)$/.exec(fileName);
       let fileType = match ? `image/${match[1]}` : `image`;
       formData.append('image', {
-        uri: Platform.OS === 'android' ? user.image : user.image.replace('file://', ''),
+        uri: Platform.OS === 'android' ? image : image.replace('file://', ''),
         name: user.name,
         type: fileType,
       });
-    }
+    } */
 
     api.post('/Usuario', formData, {
       headers: {
@@ -90,11 +150,11 @@ export default function CadastroTeste({ navigation }) {
       }
     })
       .then(res => {
-        console.log('SUCCESS');
+        console.warn('SUCCESS');
         // ...
       })
       .catch(error => {
-        console.log(error);
+        console.warn(error);
         // ...  
       });
   }
@@ -157,12 +217,13 @@ export default function CadastroTeste({ navigation }) {
             value={dataNascimento}
             onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
           />
-          <TextInput 
+          <TextInput
             style={styles.mainContentFormInput}
             placeholder='Foto'
             placeholderTextColor='#000000'
             keyboardType="default"
           />
+           <Button title="Take Pic" onPress={takePic} />
           {/* <Image source={{ uri: user.image }} style={{ width: 200, height: 200 }} />
         <Button onPress={pickImage} >Pick an image</Button>
         <Button onPress={onSubmit} >Send</Button> */}
@@ -184,7 +245,7 @@ export default function CadastroTeste({ navigation }) {
             <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity> */}
           <TouchableOpacity style={styles.mainContentFormButton}>
-            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+            <Text style={styles.mainContentFormButtonText} onPress={onSubmit}>Cadastrar</Text>
           </TouchableOpacity>
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
         </View>

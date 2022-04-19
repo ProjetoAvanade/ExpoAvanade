@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 
 class TrocaRodas extends Component {
-  goBack = () => {
-    this.props.navigation.goBack();
-  }
 
   render() {
     return (
