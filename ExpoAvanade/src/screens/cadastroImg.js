@@ -23,9 +23,9 @@ export default function CadastroImg({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState('fsfs');
   const [email, setEmail] = useState('sfsfs');
   const [senha, setSenha] = useState('fsfsf');
-  const [dataNascimento, setNascimento] = useState(new Date());
-  const [Cpf, setCpf] = useState('4353');
-  const [image] = useState(null);
+  const [dataNascimento, setNascimento] = useState('2020/11/09');
+  const [cpf, setCpf] = useState('4353');
+  const [imagem] = useState(null);
   const [arquivo, setArquivo] = useState();
 
   /* const options = {
@@ -43,11 +43,10 @@ export default function CadastroImg({ navigation }) {
   const abrirGaleria = async () => {
     const images = await launchImageLibrary(options);
     console.warn(images)
-  } */
+  } 
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [photo, setPhoto] = useState();
 
   useEffect(() => {
     (async () => {
@@ -72,28 +71,29 @@ export default function CadastroImg({ navigation }) {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    setPhoto(newPhoto);
+    setImagem(newPhoto);
   };
 
-  if (photo) {
+  if (arquivo) {
     let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
+      shareAsync(arquivo.uri).then(() => {
+        setImagem(undefined);
       });
     };
 
     let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
+      MediaLibrary.saveToLibraryAsync(arquivo.uri).then(() => {
+        setImagem(undefined);
       });
     };
 
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;" + photo }} />
+{/*         <Image style={styles.preview} source={{ uri: "data:image/jpg;" + arquivo }} /> *
+        <Image style={styles.preview} source={{ uri: "http://localhost:5000/StaticFiles/Images/"+arquivo}} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <Button title="Discard" onPress={() => setImagem(undefined)} />
       </SafeAreaView>
     );
   }
@@ -108,7 +108,7 @@ export default function CadastroImg({ navigation }) {
         quality: 1,
       });
       if (!result.cancelled) {
-        const a = result.uri;
+        setImagem({'arquivo' : result.uri})
       }
     }
   }
@@ -127,37 +127,53 @@ export default function CadastroImg({ navigation }) {
     formData.append('Email', email);
     formData.append('Senha', senha);
     formData.append('DataNascimento', dataNascimento);
-    formData.append('Cpf', Cpf);
-    formData.append('Image', image);
+    formData.append('Cpf', cpf);
+    formData.append('Imagem', imagem);
     formData.append('arquivo', arquivo);
+    /* formData.append('arquivo', file, file.name) */
 
-    // Infer the type of the image
-    /* if (arquivo) {
-      let fileName = image.split('/').pop();
-      let match = /\.(\w+)$/.exec(fileName);
-      let fileType = match ? `image/${match[1]}` : `image`;
-      formData.append('image', {
-        uri: Platform.OS === 'android' ? image : image.replace('file://', ''),
-        name: user.name,
-        type: fileType,
-      });
-    } */
+  // Infer the type of the image
+  /* if (arquivo) {
+    let fileName = image.split('/').pop();
+    let match = /\.(\w+)$/.exec(fileName);
+    let fileType = match ? `image/${match[1]}` : `image`;
+    formData.append('image', {
+      uri: Platform.OS === 'android' ? image : image.replace('file://', ''),
+      name: user.name,
+      type: fileType,
+    });
+  } */
 
-    api.post('/Usuario', formData, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-      }
+  /* api.post('/Usuario', formData, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "multipart/form-data",
+    }
+  })
+    .then(res => {
+      console.warn('SUCCESS');
+      // ...
     })
-      .then(res => {
-        console.warn('SUCCESS');
-        // ...
-      })
-      .catch(error => {
-        console.warn(error);
-        // ...  
-      });
-  }
+    .catch(error => {
+      console.warn(error);
+      // ...  
+    }); *
+    axios({
+      method: "post",
+      url: "http://192.168.15.11:5000/api/Usuario",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then(function (response) {
+      console.warn(response);
+    })
+    .catch(function (response) {
+      //handle error
+      console.warn(response);
+    });
+}
+*/
+
 
   return (
     <View style={styles.main}>
@@ -190,8 +206,8 @@ export default function CadastroImg({ navigation }) {
             style={styles.mainContentFormInput}
             placeholder='CPF'
             placeholderTextColor='#000000'
-            value={Cpf}
-            onChangeText={(Cpf) => setCpf(Cpf)}
+            value={cpf}
+            onChangeText={(cpf) => setCpf(cpf)}
           />
           <TextInput
             style={styles.mainContentFormInput}
@@ -217,13 +233,15 @@ export default function CadastroImg({ navigation }) {
             value={dataNascimento}
             onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
           />
-          <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='Foto'
-            placeholderTextColor='#000000'
-            keyboardType="default"
-          />
-           <Button title="Take Pic" onPress={takePic} />
+          <TouchableOpacity style={styles.mainContentFormInput} onPress={() => navigation.navigate('Cameraa')}>
+            <TextInput
+              style={styles.mainContentFormInput}
+              placeholder='Foto'
+              placeholderTextColor='#000000'
+              keyboardType="default"
+            />
+          </TouchableOpacity>
+          {/*  <Button title="Take Pic" onPress={takePic} /> */}
           {/* <Image source={{ uri: user.image }} style={{ width: 200, height: 200 }} />
         <Button onPress={pickImage} >Pick an image</Button>
         <Button onPress={onSubmit} >Send</Button> */}
@@ -244,8 +262,11 @@ export default function CadastroImg({ navigation }) {
           {/* <TouchableOpacity style={styles.mainContentFormButton} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
             <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity> */}
-          <TouchableOpacity style={styles.mainContentFormButton}>
+          {/* <TouchableOpacity style={styles.mainContentFormButton}>
             <Text style={styles.mainContentFormButtonText} onPress={onSubmit}>Cadastrar</Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.mainContentFormButton}>
+            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity>
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
         </View>

@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Login from './src/screens/login';
-import Cadastro from './src/screens/cadastro';
 import Main from './src/screens/main';
 import Ponto from './src/screens/ponto';
 import Vaga from './src/screens/vaga';
@@ -17,6 +16,7 @@ import Pesquisa from './src/screens/pesquisa';
 import Perfil from './src/screens/perfil';
 import Pagamento from './src/screens/pagamento';
 import CadastroImg from './src/screens/cadastroImg';
+import Cameraa from './src/screens/camera';
 
 const AuthStack = createStackNavigator();
 
@@ -75,7 +75,6 @@ export default function App() {
         }}>
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Main" component={Main} />
-        <AuthStack.Screen name="Cadastro" component={Cadastro} />
         <AuthStack.Screen name="TrocaRodas" component={TrocaRodas} />
         <AuthStack.Screen name="TutorialTrava" component={TutorialTrava} />
         <AuthStack.Screen name="TutorialDestrava" component={TutorialDestrava} />
@@ -85,6 +84,7 @@ export default function App() {
         <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
         <AuthStack.Screen name="Perfil" component={Perfil} />
         <AuthStack.Screen name="CadastroImg" component={CadastroImg} />
+        <AuthStack.Screen name="Cameraa" component={Cameraa} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );
