@@ -12,13 +12,9 @@ Select * From tipoUsuario;
 GO
 
 --USUARIOS
-INSERT INTO usuarios(idTipoUsuario,nomeUsuario,email,senha,dataNascimento,cpf)
+INSERT INTO usuarios(idTipoUsuario,nomeUsuario,email,senha,dataNascimento,cpf, saldo, pontos)
 VALUES	
-(1,'Yuri Mitsugui Chiba','yuri@gmail.com','yuri123','2004-12-24',00000000001),
-(2,'Gustavo Henrique Ferreira Alves','gustavo@gmail.com','gustavo123','2004-07-16',00000000002),
-(2,'Leonardo Souza de Castro','leonardo@gmail.com','leonardo123','2005-06-03',00000000003),
-(2,'Luiz Felipe Vera Cruz','luiz@gmail.com','luiz123','2002-07-03',00000000004),
-(2,'Colin Lucas Batista Beluco','colin@gmail.com','colin223','2004-09-23',00000000005);
+(2,'paulo','paulo@gmail.com','fernando123','2004-12-24',000007779, 0, 30)
 GO
 
 Select * From usuarios;

@@ -7,7 +7,63 @@ import {
   TouchableOpacity, StatusBar
 } from 'react-native';
 
+import api from '../services/api';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 class TrocaRodas extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pontos: props.route.params.pontos,
+      saldo: 0,
+    };
+  }
+  /* trocarPontos = async () => {
+    try {
+      //this.setState({ IsLoading: true, MensagemErro: '' });
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.put('/Usuario',
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+        if (resposta == 200) {
+          console.warn('Troca efetuada com sucesso!');
+          console.warn(resposta)
+        }
+      } catch (error) {
+        console.warn(error);
+        console.log(error);
+      }
+    }; */
+  trocarPontos = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      console.warn(token)
+      console.warn(this.state.saldo)
+      //console.warn(this.state.pontos)
+      const resposta = await api.put('/Usuario', {
+        saldo: this.state.saldo
+      },
+        {
+          headers: { Authorization: 'Bearer ' + token },
+        })
+
+      if (resposta.status == 200) {
+        console.warn('Troca efetuado com sucesso!');
+        console.warn(resposta)
+      }
+    } catch (error) {
+      console.warn(error);
+      console.log(error);
+    }
+  };
+
+  setarSaldo = async () => {
+    this.setState({saldo : this.state.pontos})
+  }
 
   render() {
     return (
@@ -17,7 +73,6 @@ class TrocaRodas extends Component {
           backgroundColor='#F3BC2C'
           hidden={false}
         />
-
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <View style={styles.mainHeaderSpace}>
@@ -35,10 +90,15 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardPointsText}>15 pontos</Text>
                 <Text style={styles.cardTextBalance}>R$1,00</Text>
               </View>
-
-              <TouchableOpacity style={styles.btnPoints}>
-                <Text style={styles.cardPointsBtnText}>Trocar</Text>
-              </TouchableOpacity>
+              {/* {this.state.pontos = 15 
+              if (this.state.pontos = 15 ) {
+               this.setState({saldo : 1}) 
+            //{...this.setState({ saldo: 1})} 
+              } */}
+                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
+                  {console.warn(this.state.saldo)}
+                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -47,9 +107,9 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$2,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPoints}>
-                <Text style={styles.cardPointsBtnText}>Trocar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
+                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -58,9 +118,9 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$3,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPoints}>
-                <Text style={styles.cardPointsBtnText}>Trocar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
+                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -69,9 +129,9 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$4,00</Text>
               </View>
 
-              <TouchableOpacity style={styles.btnPoints}>
-                <Text style={styles.cardPointsBtnText}>Trocar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
+                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
+                </TouchableOpacity>
             </View>
           </View>
         </View>

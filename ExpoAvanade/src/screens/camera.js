@@ -11,7 +11,7 @@ function Cameraa() {
     const [nomeUsuario, setNomeUsuario] = useState('fsfs');
     const [email, setEmail] = useState('sfsfs');
     const [senha, setSenha] = useState('fsfsf');
-    const [dataNascimento, setNascimento] = useState('2020/11/09');
+    const [dataNascimento, setNascimento] = useState('2002-11-20');
     const [cpf, setCpf] = useState('4353');
     const [imagem] = useState(null);
     //const [arquivo, setArquivo] = useState();
@@ -127,7 +127,7 @@ function Cameraa() {
     {/*names of data object should be like this: name, type, uri*/ }
     axios({
         method: "post",
-        url: "http://192.168.15.11:5000/api/Usuario",
+        url: "http://192.168.3.115:5000/api/Usuario",
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
     })
