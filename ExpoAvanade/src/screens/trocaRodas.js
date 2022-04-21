@@ -16,54 +16,95 @@ class TrocaRodas extends Component {
     super(props);
     this.state = {
       pontos: props.route.params.pontos,
-      saldo: 0,
+      mensagemAcerto: '',
+      mensagemErro: ''
     };
   }
-  /* trocarPontos = async () => {
+
+  trocarPontos15 = async () => {
     try {
-      //this.setState({ IsLoading: true, MensagemErro: '' });
-      const token = await AsyncStorage.getItem('userToken');
-      const resposta = await api.put('/Usuario',
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
-        if (resposta == 200) {
-          console.warn('Troca efetuada com sucesso!');
-          console.warn(resposta)
-        }
-      } catch (error) {
-        console.warn(error);
-        console.log(error);
-      }
-    }; */
-  trocarPontos = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      console.warn(token)
-      console.warn(this.state.saldo)
       //console.warn(this.state.pontos)
+      const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.put('/Usuario', {
-        saldo: this.state.saldo
+        saldo: 1
       },
         {
           headers: { Authorization: 'Bearer ' + token },
         })
 
       if (resposta.status == 200) {
-        console.warn('Troca efetuado com sucesso!');
-        console.warn(resposta)
+        //console.warn('Troca efetuada com sucesso!');
+        this.setState({ mensagemAcerto: `Troca efetuada com sucesso!` })
       }
     } catch (error) {
-      console.warn(error);
-      console.log(error);
+      //console.warn(error);
+      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
     }
   };
 
-  setarSaldo = async () => {
-    this.setState({saldo : this.state.pontos})
-  }
+  trocarPontos30 = async () => {
+    try {
+      //console.warn(this.state.pontos)
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.put('/Usuario', {
+        saldo: 2
+      },
+        {
+          headers: { Authorization: 'Bearer ' + token },
+        })
+
+      if (resposta.status == 200) {
+        console.warn('Troca efetuada com sucesso!');
+        this.setState({ mensagemAcerto: `Troca efetuada com sucesso!` })
+      }
+    } catch (error) {
+      //console.warn(error);
+      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+    }
+  };
+
+  trocarPontos45 = async () => {
+    try {
+      //console.warn(this.state.pontos)
+      this.setState({ mensagemErro: '' });
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.put('/Usuario', {
+        saldo: 3
+      },
+        {
+          headers: { Authorization: 'Bearer ' + token },
+        })
+
+      if (resposta.status == 200) {
+        //console.warn('Troca efetuada com sucesso!');
+        this.setState({ mensagemAcerto: `Troca efetuada com sucesso!` })
+      }
+    } catch (error) {
+      //console.warn(error);
+      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+    }
+  };
+
+  trocarPontos60 = async () => {
+    try {
+      //console.warn(this.state.pontos)
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.put('/Usuario', {
+        saldo: 4
+      },
+        {
+          headers: { Authorization: 'Bearer ' + token },
+        })
+
+      if (resposta.status == 200) {
+        //console.warn('Troca efetuada com sucesso!');
+        this.setState({ mensagemAcerto: `Troca efetuada com sucesso!` })
+      }
+    } catch (error) {
+      //console.warn(error);
+      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+    }
+  };
 
   render() {
     return (
@@ -73,6 +114,7 @@ class TrocaRodas extends Component {
           backgroundColor='#F3BC2C'
           hidden={false}
         />
+
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
           <View style={styles.mainHeaderSpace}>
@@ -90,15 +132,10 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardPointsText}>15 pontos</Text>
                 <Text style={styles.cardTextBalance}>R$1,00</Text>
               </View>
-              {/* {this.state.pontos = 15 
-              if (this.state.pontos = 15 ) {
-               this.setState({saldo : 1}) 
-            //{...this.setState({ saldo: 1})} 
-              } */}
-                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
-                  {console.warn(this.state.saldo)}
-                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
-                </TouchableOpacity>
+
+              <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos15}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -107,9 +144,9 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$2,00</Text>
               </View>
 
-                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
-                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos30}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -118,9 +155,9 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$3,00</Text>
               </View>
 
-                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
-                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos45}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.cardPoints}>
@@ -129,10 +166,12 @@ class TrocaRodas extends Component {
                 <Text style={styles.cardTextBalance}>R$4,00</Text>
               </View>
 
-                <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos}>
-                  <Text style={styles.cardPointsBtnText}>Trocar</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={styles.btnPoints} onPress={this.trocarPontos60}>
+                <Text style={styles.cardPointsBtnText}>Trocar</Text>
+              </TouchableOpacity>
             </View>
+
+            <Text style={styles.mainTextError}>{this.state.mensagemErro != '' && this.state.mensagemErro} {this.state.mensagemAcerto != '' && this.state.mensagemAcerto}</Text>
           </View>
         </View>
       </View >
@@ -215,6 +254,12 @@ const styles = StyleSheet.create({
   cardPointsBtnText: {
     fontSize: 20,
     fontFamily: 'IBMPlexMono_700Bold', color: '#000',
+  },
+  mainTextError:{
+    fontSize: 14,
+    marginTop: '2%',
+    maxWidth: 320,
+    textAlign: 'center'
   },
 });
 

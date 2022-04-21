@@ -3,18 +3,18 @@ import { View, Text, StyleSheet, Image, Button, TextInput, TouchableOpacity } fr
 
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import api from '../services/api';
 
 function Cameraa() {
     // The path of the picked image
     const [arquivo, setArquivo] = useState('');
     const [idTipoUsuario] = useState(2);
-    const [nomeUsuario, setNomeUsuario] = useState('fsfs');
-    const [email, setEmail] = useState('sfsfs');
-    const [senha, setSenha] = useState('fsfsf');
-    const [dataNascimento, setNascimento] = useState('2002-11-20');
-    const [cpf, setCpf] = useState('4353');
+    const [nomeUsuario, setNomeUsuario] = useState('fernando');
+    const [email, setEmail] = useState('fernando@gmail.com');
+    const [senha, setSenha] = useState('fernando123');
+    const [dataNascimento, setNascimento] = useState(Date());
+    const [cpf, setCpf] = useState('43534');
     const [imagem] = useState(null);
-    //const [arquivo, setArquivo] = useState();
 
     // This function is triggered when the "Select an image" button pressed
     const showImagePicker = async () => {
@@ -22,7 +22,7 @@ function Cameraa() {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted === false) {
-            alert("You've refused to allow this appp to access your photos!");
+            alert("Você recusou a permissão de acesso a galeria!");
             return;
         }
 
@@ -43,7 +43,7 @@ function Cameraa() {
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
         if (permissionResult.granted === false) {
-            alert("You've refused to allow this appp to access your camera!");
+            alert("Você recusou a permissão de acesso a câmera!");
             return;
         }
 
@@ -58,148 +58,130 @@ function Cameraa() {
         }
     }
 
-    const filename = arquivo.split('/').pop();
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : `image`;
-    console.warn(arquivo)
-    /* function onSubmit() {
-        const filename = arquivo.split('/').pop();
-        const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : `image`;
-        console.warn(arquivo);
-        console.warn(filename, type)
-        let formData = new FormData();
 
-        formData.append('IdTipoUsuario', idTipoUsuario);
-        formData.append('NomeUsuario', nomeUsuario);
-        formData.append('Email', email);
-        formData.append('Senha', senha);
-        formData.append('DataNascimento', dataNascimento);
-        formData.append('Cpf', cpf);
-        formData.append('Imagem', imagem);
-        //formData.append('arquivo', arquivo); 
-        //formData.append('arquivo', file.name)
-        /* formData.append('arquivo',{
-            name: 'sla', 
-            uri: arquivo,
-            type: 'image/jpg'
-        }) *
-
-        //formData.append('arquivo', { uri: arquivo, name: filename, type: 'image/jpg' });
-
-        // Infer the type of the image
-        if (arquivo) {
+    const Cadastrar = async () => {
+        try {
+            const filename = arquivo.split('/').pop();
+            const match = /\.(\w+)$/.exec(filename);
+            const type = match ? `image/${match[1]}` : `image`;
+            const formData = new FormData()
+            formData.append('IdTipoUsuario', idTipoUsuario);
+            formData.append('NomeUsuario', nomeUsuario);
+            formData.append('Email', email);
+            formData.append('Senha', senha);
+            formData.append('DataNascimento', dataNascimento);
+            formData.append('cpf', cpf);
+            formData.append('Imagem', imagem);
             formData.append('arquivo', {
-                uri: Platform.OS === 'android' ? arquivo : arquivo.replace('file://', ''),
                 name: filename,
                 type: type,
+                uri: arquivo
             });
-        }
+            console.log(arquivo)
+            console.log(formData)
 
-        axios({
-            method: "post",
-            url: "http://192.168.15.11:5000/api/Usuario",
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(function (response) {
-                console.warn(response);
+            const resposta = await api.post('/Usuario', formData, {
+                headers: { "Content-Type": "multipart/form-data" },
             })
-            .catch(function (response) {
-                //handle error
-                console.warn(response);
-            });
-    } */
-    async function onSubmit() {
-        const formData = new FormData()
-        formData.append('IdTipoUsuario', idTipoUsuario);
-        formData.append('NomeUsuario', nomeUsuario);
-        formData.append('Email', email);
-        formData.append('Senha', senha);
-        formData.append('DataNascimento', dataNascimento);
-        formData.append('Cpf', cpf);
-        formData.append('Imagem', imagem);
-        data.append('arquivo', {
-            name: filename,
-            type: type,
-            uri: arquivo
-        })
-    {/*names of data object should be like this: name, type, uri*/ }
-    axios({
-        method: "post",
-        url: "http://192.168.3.115:5000/api/Usuario",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-    })
-        .then(function (response) {
-            console.warn(response);
-        })
-        .catch(function (response) {
-            //handle error
-            console.warn(response);
-        });
-}
 
-return (
-    <View style={styles.screen}>
-        <View style={styles.buttonContainer}>
-            <Button onPress={showImagePicker} title="Select an image" />
-            <Button onPress={openCamera} title="Open camera" />
-        </View>
-
-        <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='Nome Completo'
-            placeholderTextColor='#000000'
-            value={nomeUsuario}
-            onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
-        />
-        <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='CPF'
-            placeholderTextColor='#000000'
-            value={cpf}
-            onChangeText={(cpf) => setCpf(cpf)}
-        />
-        <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='Endereço de e-mail'
-            placeholderTextColor='#000000'
-            value={email}
-            onChangeText={(email) => setEmail(email)}
-        />
-        <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='Senha'
-            placeholderTextColor='#000000'
-            keyboardType="default"
-            secureTextEntry={true}
-            passwordRules
-            value={senha}
-            onChangeText={(senha) => setSenha(senha)}
-        />
-        <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='AAAA/MM/DD'
-            placeholderTextColor='#000000'
-            value={dataNascimento}
-            onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
-        />
-
-        <View style={styles.imageContainer}>
-            {
-                arquivo !== '' && <Image
-                    source={{ uri: arquivo }}
-                    style={styles.image}
-                />
+            if (resposta.status == 201) {
+                console.warn('Cadastrado realizado!');
+                console.warn(resposta)
             }
-        </View>
+        } catch (error) {
+            console.warn(error);
+            console.log(error);
+        };
 
-        <TouchableOpacity style={styles.mainContentFormButton} onPress={onSubmit}>
-            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
-        </TouchableOpacity>
-    </View>
-);
+        /*  async function onSubmit() {
+             const formData = new FormData()
+             formData.append('IdTipoUsuario', idTipoUsuario);
+             formData.append('NomeUsuario', nomeUsuario);
+             formData.append('Email', email);
+             formData.append('Senha', senha);
+             formData.append('DataNascimento', dataNascimento);
+             formData.append('Cpf', cpf);
+             formData.append('Imagem', imagem);
+             formData.append('arquivo', {
+                 name: filename,
+                 type: type,
+                 uri: arquivo
+             })
+         axios({
+             method: "post",
+             url: "http://192.168.3.115:5000/api/Usuario",
+             data: formData,
+             headers: { "Content-Type": "multipart/form-data" },
+         })
+             .then(function (response) {
+                 console.warn(response);
+             })
+             .catch(function (response) {
+                 //handle error
+                 console.warn(response);
+             }); */
+    }
+
+    return (
+        <View style={styles.screen}>
+            <View style={styles.buttonContainer}>
+                <Button onPress={showImagePicker} title="Select an image" />
+                <Button onPress={openCamera} title="Open camera" />
+            </View>
+
+            <TextInput
+                style={styles.mainContentFormInput}
+                placeholder='Nome Completo'
+                placeholderTextColor='#000000'
+                value={nomeUsuario}
+                onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
+            />
+            <TextInput
+                style={styles.mainContentFormInput}
+                placeholder='CPF'
+                placeholderTextColor='#000000'
+                value={cpf}
+                onChangeText={(cpf) => setCpf(cpf)}
+            />
+            <TextInput
+                style={styles.mainContentFormInput}
+                placeholder='Endereço de e-mail'
+                placeholderTextColor='#000000'
+                value={email}
+                onChangeText={(email) => setEmail(email)}
+            />
+            <TextInput
+                style={styles.mainContentFormInput}
+                placeholder='Senha'
+                placeholderTextColor='#000000'
+                keyboardType="default"
+                secureTextEntry={true}
+                passwordRules
+                value={senha}
+                onChangeText={(senha) => setSenha(senha)}
+            />
+            <TextInput
+                style={styles.mainContentFormInput}
+                placeholder='AAAA/MM/DD'
+                placeholderTextColor='#000000'
+                value={dataNascimento}
+                onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
+            />
+
+            <View style={styles.imageContainer}>
+                {
+                    arquivo !== '' && <Image
+                        source={{ uri: arquivo }}
+                        style={styles.image}
+                    />
+                }
+            </View>
+
+            <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar}>
+                <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+            </TouchableOpacity>
+        </View>
+    );
 }
 
 export default Cameraa;
