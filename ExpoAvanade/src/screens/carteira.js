@@ -79,23 +79,38 @@ export default class Carteira extends Component {
                 </View>
 
                 <View style={styles.mainContentModal}>
-                    <View>
-                        <Text >Adicione quantos créditos deseja comprar</Text>
+                    <View style={styles.mainContentModalTitle}>
+                        <Text style={styles.mainContentModalTitleText}>Adicione quantos créditos deseja comprar</Text>
                     </View>
-                    <View>
-                        <View>
-                            <TouchableOpacity></TouchableOpacity>
-                            <TouchableOpacity></TouchableOpacity>
-                            <TouchableOpacity></TouchableOpacity>
+                    <View style={styles.mainContentModalBottom}>
+                        <View style={styles.mainContentModalBottomSpace}>
+                            <TouchableOpacity style={styles.mainContentModalBottomBtn}>
+                                <Text>R$5,75</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.mainContentModalBottomBtn}>
+                                <Text>R$11,50</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.mainContentModalBottomBtn}>
+                                <Text>R$29,00</Text>
+                            </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity></TouchableOpacity>
+                        <TouchableOpacity style={styles.mainContentModalBottomPayment}  onPress={() => this.props.navigation.navigate('Cartao')}>
+                            <Text style={styles.mainContentModalTitleText}>Forma de pagamento</Text>
+                            {/* <View styles={styles.mainContentModalBottomPaymentSpace}> */}
+                            <Image source={require('../../assets/img/icon_card.png')} style={styles.mainContentModalBottomPaymentImage} />
+                                <Text style={styles.mainContentModalTitleText}>Novo cartão</Text>
+                                <Image source={require('../../assets/img/icon_next.png')} style={styles.mainContentModalBottomPaymentBack} />
+                            {/* </View> */}
+                        </TouchableOpacity>
 
-                        <TouchableOpacity></TouchableOpacity>
+                        <TouchableOpacity style={styles.mainContentModalBottomConfirmation}>
+                            <Text style={styles.mainContentModalBottomConfirmationText}>Confirmar</Text>
+                        </TouchableOpacity>
 
                     </View>
                 </View>
-            </View>
+            </View >
         );
     }
 }
@@ -136,8 +151,9 @@ const styles = StyleSheet.create({
     },
     mainContent: {
         width: '100%',
-        height: '50%',
-        alignItems: 'center'
+        height: 416,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     mainContentCard: {
         width: 337,
@@ -148,13 +164,87 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     mainContentCardTitle: {
-        fontSize: 20
+        fontSize: 20,
+        fontFamily: 'ABeeZee_400Regular',
+
     },
     mainContentCardWallet: {
         fontSize: 40
     },
     mainContentModal: {
         width: '100%',
-        height: '50%',
+        height: 450,
+    },
+    mainContentModalTitle: {
+        width: '100%',
+        backgroundColor: '#F3BC2C',
+        height: 65,
+        borderTopEndRadius: 5,
+        borderTopStartRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    mainContentModalBottom: {
+        width: '100%',
+        height: 205,
+        backgroundColor: '#F5F5F5',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1
+    },
+    mainContentModalBottomBtn: {
+        width: 120,
+        height: 50,
+        backgroundColor: '#F3BC2C',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // marginRight: 10
+    },
+    mainContentModalBottomSpace: {
+        width: 373,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    mainContentModalBottomConfirmation: {
+        width: 373,
+        height: 50,
+        backgroundColor: '#F3BC2C',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    mainContentModalBottomConfirmationText: {
+        fontSize: 20
+    },
+    mainContentModalBottomPaymentImage: {
+        width: 30,
+        height: 23.3
+    },
+    mainContentModalBottomPaymentNext: {
+        width: 20,
+        height: 20
+    },
+    mainContentModalBottomPayment: {
+        width: 373,
+        height: 50,
+        backgroundColor: '#F3BC2C',
+        borderRadius: 5,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    mainContentModalTitleText: {
+        fontSize: 14,
+        fontFamily: 'ABeeZee_400Regular',
+    },
+    mainContentModalBottomPaymentSpace: {
+        width: 200,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column-reverse'
     }
 });

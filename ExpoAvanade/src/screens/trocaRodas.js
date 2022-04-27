@@ -38,7 +38,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
     }
   };
 
@@ -59,7 +59,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
     }
   };
 
@@ -81,7 +81,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
     }
   };
 
@@ -102,7 +102,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui pontos apenas ${this.state.pontos}!` })
+      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
     }
   };
 
@@ -255,12 +255,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'IBMPlexMono_700Bold', color: '#000',
   },
-  mainTextError:{
-    fontSize: 14,
-    marginTop: '2%',
-    maxWidth: 320,
-    textAlign: 'center'
-  },
+  mainTextError: {
+    color: '#000'
+  }
 });
 
 export default TrocaRodas;

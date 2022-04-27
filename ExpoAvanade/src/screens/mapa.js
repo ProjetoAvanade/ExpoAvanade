@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,10 +13,13 @@ import MapView, { Callout, Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import api from '../services/api';
+//import { Modalize } from 'react-native-modalize';
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Mapa extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -93,6 +96,10 @@ export default class Mapa extends Component {
   }
 
   render() {
+    /* const modalizeRef = useRef(null);
+    function onOpen() {
+      modalizeRef.current?.open();
+    } */
     return (
       <View style={styles.main}>
         <StatusBar
@@ -144,9 +151,21 @@ export default class Mapa extends Component {
 
         <View style={styles.mainSearch}>
           <View style={styles.mainSearchInput}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Ponto1')}>
+            <TouchableOpacity >
               <Text style={styles.mainSearchInputText}>Para onde?</Text>
             </TouchableOpacity>
+
+            {/* <Modalize
+              ref={modalizeRef}
+              snapPoint={150}
+            >
+              <View style={styles.testeModal}>
+                <Text>1</Text>
+                <Text>2</Text>
+              </View>
+
+            </Modalize> */}
+
           </View>
         </View>
 
@@ -224,5 +243,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     // alignItems: 'center',
     // justifyContent: 'center'
+  },
+  testeModal: {
+    flex: 1,
+    height: 180,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

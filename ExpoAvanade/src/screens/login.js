@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  StatusBar
 } from 'react-native';
 
 import api from '../services/api';
@@ -16,8 +17,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Email: 'gustavo@gmail.com',
-      Senha: 'gustavo123',
+      Email: '',
+      Senha: '',
       MensagemErro: '',
       IsLoading: false,
     };
@@ -58,10 +59,15 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.main}>
+        <StatusBar
+        barStyle='dark-content'
+        backgroundColor='#FFFFFF'
+        hidden={false}
+      />
         <View style={styles.mainDiv}>
 
           <View style={styles.mainImageSpace}>
-            <Image source={require('../../assets/img/icon.png')} style={styles.mainImage} />
+            <Image source={require('../../assets/icon1.png')} style={styles.mainImage} />
           </View>
 
           <View style={styles.mainFormAlignment}>
