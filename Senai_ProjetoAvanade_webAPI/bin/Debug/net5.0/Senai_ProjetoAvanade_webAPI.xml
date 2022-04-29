@@ -78,7 +78,7 @@
             <param name="id">Id da vaga a ser buscada</param>
             <param name="status_novo">Novo valor para o status dessa vaga</param>
         </member>
-        <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IReservaRepository.Cadastrar(Senai_ProjetoAvanade_webAPI.ViewModels.reservacadasViewModel)">
+        <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IReservaRepository.Cadastrar(Senai_ProjetoAvanade_webAPI.ViewModels.reservacadasViewModel,System.Int32)">
             <summary>
             Método para criar uma nova reserva de uma vaga
             </summary>
@@ -98,6 +98,13 @@
             <param name="id">Id do usuario logado</param>
             <returns>Uma lista de reservas</returns>
         </member>
+        <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IReservaRepository.AtualizarPontos(System.Int32)">
+            <summary>
+            Metodo responsavel pela atualizacao de Pontos em uma conta de usuarios após o pagamento
+            </summary>
+            <param name="id">Id do usuario atual logado</param>
+            <returns>As informacoes do usuario logado</returns>
+        </member>
         <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IUsuarioRepository.Login(System.String,System.String)">
             <summary>
             Metodo responsavel pelo login do usuario
@@ -111,6 +118,13 @@
             Método de cadastro de usuario
             </summary>
             <param name="usuarionovo">Novo objeto do tipo usuario para cadastro</param>
+        </member>
+        <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IUsuarioRepository.BuscarId(System.Int32)">
+            <summary>
+            Metodo responsavel por buscar um ususario especifico pelo ID
+            </summary>
+            <param name="id">Id a ser buscado</param>
+            <returns>Um usuario especifico</returns>
         </member>
         <member name="M:Senai_ProjetoAvanade_webAPI.Interfaces.IVagasRepository.ListarTodas(System.Int32)">
             <summary>

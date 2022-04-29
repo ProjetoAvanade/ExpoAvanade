@@ -5,17 +5,16 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import api from '../services/api';
 
-export default function CadastroImg() {
-    // The path of the picked image
-    const [arquivo, setArquivo] = useState('');
+function Cameraa() {
     const [idTipoUsuario] = useState(2);
-    const [nomeUsuario, setNomeUsuario] = useState('senai');
-    const [email, setEmail] = useState('senai@gmail.com');
-    const [senha, setSenha] = useState('senai123');
-    const [dataNascimento, setNascimento] = useState('10/11/1999');
-    const [cpf, setCpf] = useState('4353472');
-    const [imagem] = useState(null);
-    const [result, setResult] = useState(null);
+    const [nomeUsuario, setNomeUsuario] = useState('algm');
+    const [email, setEmail] = useState('aglm@gmail.com');
+    const [senha, setSenha] = useState('algu7171');
+    const [dataNascimento, setNascimento] = useState('11/11/2011');
+    const [cpf, setCpf] = useState('111192928');
+    const [imagem] = useState(true);
+    const [arquivo, setArquivo] = useState('');
+    const [result, setResult] = useState('');
 
     // This function is triggered when the "Select an image" button pressed
     const showImagePicker = async () => {
@@ -61,7 +60,94 @@ export default function CadastroImg() {
         }
     }
 
-    const CadastrarImgg = async () => {
+
+    const Cadastrar = async () => {
+        const filename = arquivo.split('/').pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : `image`;
+        let formData = new FormData();
+        formData.append('idTipoUsuario', idTipoUsuario);
+        formData.append('nomeUsuario', nomeUsuario);
+        formData.append('email', email);
+        formData.append('senha', senha);
+        formData.append('dataNascimento', dataNascimento);
+        formData.append('cpf', cpf);
+        formData.append('imagem', imagem);
+        formData.append('arquivo', {
+            uri: arquivo, name: filename, type: type
+        })
+        fetch('$/Usuario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData,
+        }).then(response => {
+            console.log('Usuario Cadastrado')
+        }).catch(erro => {
+            console.log(erro)
+        })
+
+        /*  try {
+             const filename = arquivo.split('/').pop();
+             const match = /\.(\w+)$/.exec(filename);
+             const type = match ? `image/${match[1]}` : `image`;
+             const formData = new FormData()
+             formData.append('idTipoUsuario', idTipoUsuario);
+             formData.append('nomeUsuario', nomeUsuario);
+             formData.append('email', email);
+             formData.append('senha', senha);
+             formData.append('dataNascimento', dataNascimento);
+             formData.append('cpf', cpf);
+             /* formData.append('imagem', imagem);
+             formData.append('arquivo', {
+                 name: filename,
+                 type: type,
+                 uri: arquivo
+             }); *
+             console.log(arquivo)
+             console.log(formData)
+ 
+             const resposta = await api.post('/Usuario', formData, {
+                 headers: { "Content-Type": "multipart/form-data" },
+             })
+ 
+             if (resposta.status == 201) {
+                 console.warn('Cadastrado realizado!');
+                 console.warn(resposta)
+             }
+         } catch (error) {
+             console.warn(error);
+             console.log(error);
+         }; */
+
+
+        /* const formData = new FormData()
+        formData.append('IdTipoUsuario', idTipoUsuario);
+        formData.append('NomeUsuario', nomeUsuario);
+        formData.append('Email', email);
+        formData.append('Senha', senha);
+        formData.append('DataNascimento', dataNascimento);
+        formData.append('Cpf', cpf);
+        formData.append('Imagem', imagem);
+        /* formData.append('arquivo', {
+            name: filename,
+            type: type,
+            uri: arquivo
+        }) *
+        axios({
+            method: "post",
+            url: "http://192.168.15.11:5000/api/Usuario",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            }); */
         /* let Data = new FormData();
         Data.append('idTipoUsuario', idTipoUsuario);
         Data.append('nomeUsuario', nomeUsuario);
@@ -70,134 +156,31 @@ export default function CadastroImg() {
         Data.append('dataNascimento', dataNascimento);
         Data.append('cpf', cpf);
         Data.append('imagem', imagem);
-        Data.append('arquivo', {
-            uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-            type: result.type,
-            name: result.uri.replace(/^.*[\\\/]/, '')
-        });
-        console.warn(Data)
-        fetch("http://192.168.3.77:5000/api/Usuario", {
+        Data.append('arquivo',
+            {
+                uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
+                type: result.type,
+                name: result.uri.replace(/^.*[\\\/]/, '')
+            });
+        fetch("http://192.168.15.11:5000/api/Usuario", {
             body: Data,
             method: "post",
             headers: { 'Content-Type': 'multipart/form-data' }
-        })
-            .then((response) => response.json())
+        }).then((response) => response.json())
             .then((json) => {
-                console.log({ json });
+                console.log({
+                    json
+                });
             })
             .catch((err) => {
-                console.log({ err });
-                console.warn(err)
+                console.log({
+                    err
+                });
+                console.log(Data)
             }); */
-        /* return await fetch('http://192.168.3.77:5000/api/Usuario', {
-            method: 'POST',
-            body: Data,
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        }); */
-        let data = new FormData();
-        data.append('idTipoUsuario', idTipoUsuario);
-        data.append('nomeUsuario', nomeUsuario);
-        data.append('email', email);
-        data.append('senha', senha);
-        data.append('dataNascimento', dataNascimento);
-        data.append('cpf', cpf);
-        data.append('imagem', imagem);
-        data.append('arquivo', {
-            /* uri: arquivo,
-            name: 'file',
-            type: 'image/jpg' */
-            uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-            type: result.type,
-            name: result.uri.replace(/^.*[\\\/]/, '')
-        })
-        console.warn(data)
-
-        fetch('http://192.168.3.77:5000/api/Usuario', {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            method: 'POST',
-            body: data
-        }).then(
-            response => {
-                console.log('succ ')
-                console.log(response)
-                console.warn(response)
-            }
-        ).catch(err => {
-            console.log('err ')
-            console.log(err)
-            console.warn(err)
-        })
     }
 
-    const Cadastrar = async () => {
-        try {
-            const filename = arquivo.split('/').pop();
-            const match = /\.(\w+)$/.exec(filename);
-            const type = match ? `image/${match[1]}` : `image`;
-            const formData = new FormData()
-            formData.append('idTipoUsuario', idTipoUsuario);
-            formData.append('nomeUsuario', nomeUsuario);
-            formData.append('email', email);
-            formData.append('senha', senha);
-            formData.append('dataNascimento', dataNascimento);
-            formData.append('cpf', cpf);
-            formData.append('imagem', imagem);
-            formData.append('arquivo', {
-                name: filename,
-                type: type,
-                uri: arquivo
-                /* uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-                type: result.type,
-                name: result.uri.replace(/^.*[\\\/]/, '') */
-            });
-            console.log(arquivo)
-            console.log(formData)
 
-            const resposta = await api.post('/Usuario', formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-
-            if (resposta.status == 201) {
-                console.warn('Cadastrado realizado!');
-                console.warn(resposta)
-            }
-        } catch (error) {
-            console.warn(error);
-            console.log(error);
-        };
-
-        /*  async function onSubmit() {
-             const formData = new FormData()
-             formData.append('IdTipoUsuario', idTipoUsuario);
-             formData.append('NomeUsuario', nomeUsuario);
-             formData.append('Email', email);
-             formData.append('Senha', senha);
-             formData.append('DataNascimento', dataNascimento);
-             formData.append('Cpf', cpf);
-             formData.append('Imagem', imagem);
-             formData.append('arquivo', {
-                 name: filename,
-                 type: type,
-                 uri: arquivo
-             })
-         axios({
-             method: "post",
-             url: "http://192.168.3.115:5000/api/Usuario",
-             data: formData,
-             headers: { "Content-Type": "multipart/form-data" },
-         })
-             .then(function (response) {
-                 console.warn(response);
-             })
-             .catch(function (response) {
-                 //handle error
-                 console.warn(response);
-             }); */
-    }
 
     return (
         <View style={styles.screen}>
@@ -260,6 +243,8 @@ export default function CadastroImg() {
         </View>
     );
 }
+
+export default Cameraa;
 
 // Kindacode.com
 // Just some styles

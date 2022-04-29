@@ -10,195 +10,91 @@ import {
   StyleSheet,
   StatusBar,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
-import api from '../services/api';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-export default function CadastroTeste({ navigation }) {
-  // The path of the picked image
-  const [arquivo, setArquivo] = useState('');
+import * as ImagePicker from 'expo-image-picker';
+import api from '../services/api';
+
+export default function Cadastro({ navigation }) {
   const [idTipoUsuario] = useState(2);
-  const [nomeUsuario, setNomeUsuario] = useState('fernando');
-  const [email, setEmail] = useState('fernando@gmail.com');
-  const [senha, setSenha] = useState('fernando123');
-  const [dataNascimento, setNascimento] = useState('10/10/1999');
-  const [cpf, setCpf] = useState('43534');
-  const [imagem] = useState(null);
-  const [result, setResult] = useState(null);
+  const [nomeUsuario, setNomeUsuario] = useState('algm');
+  const [email, setEmail] = useState('aglm@gmail.com');
+  const [senha, setSenha] = useState('algu7171');
+  const [dataNascimento, setNascimento] = useState('11/11/2011');
+  const [cpf, setCpf] = useState('111192928');
+  const [imagem] = useState(true);
+  const [arquivo, setArquivo] = useState('');
+  const [result, setResult] = useState('');
 
   // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
-      // Ask the user for the permission to access the media library 
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    // Ask the user for the permission to access the media library 
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-      if (permissionResult.granted === false) {
-          alert("Você recusou a permissão de acesso a galeria!");
-          return;
-      }
+    if (permissionResult.granted === false) {
+      alert("Você recusou a permissão de acesso a galeria!");
+      return;
+    }
 
-      const result = await ImagePicker.launchImageLibraryAsync();
+    const result = await ImagePicker.launchImageLibraryAsync();
 
-      // Explore the result
-      console.log(result);
+    // Explore the result
+    console.log(result);
 
-      if (!result.cancelled) {
-          setArquivo(result.uri);
-          setResult(result);
-          console.log(result.uri);
-      }
+    if (!result.cancelled) {
+      setArquivo(result.uri);
+      setResult(result);
+      console.log(result.uri);
+    }
   }
 
   // This function is triggered when the "Open camera" button pressed
   const openCamera = async () => {
-      // Ask the user for the permission to access the camera
-      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
-      if (permissionResult.granted === false) {
-          alert("Você recusou a permissão de acesso a câmera!");
-          return;
-      }
+    if (permissionResult.granted === false) {
+      alert("Você recusou a permissão de acesso a câmera!");
+      return;
+    }
 
-      const result = await ImagePicker.launchCameraAsync();
+    const result = await ImagePicker.launchCameraAsync();
 
-      // Explore the result
-      console.log(result);
+    // Explore the result
+    console.log(result);
 
-      if (!result.cancelled) {
-          setArquivo(result.uri);
-          setResult(result);
-          console.log(result.uri);
-      }
-  }
-
-  const CadastrarImgg = async () => {
-      /* let Data = new FormData();
-      Data.append('idTipoUsuario', idTipoUsuario);
-      Data.append('nomeUsuario', nomeUsuario);
-      Data.append('email', email);
-      Data.append('senha', senha);
-      Data.append('dataNascimento', dataNascimento);
-      Data.append('cpf', cpf);
-      Data.append('imagem', imagem);
-      Data.append('arquivo', {
-          uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-          type: result.type,
-          name: result.uri.replace(/^.*[\\\/]/, '')
-      });
-      console.warn(Data)
-      fetch("http://192.168.3.77:5000/api/Usuario", {
-          body: Data,
-          method: "post",
-          headers: { 'Content-Type': 'multipart/form-data' }
-      })
-          .then((response) => response.json())
-          .then((json) => {
-              console.log({ json });
-          })
-          .catch((err) => {
-              console.log({ err });
-              console.warn(err)
-          }); */
-      /* return await fetch('http://192.168.3.77:5000/api/Usuario', {
-          method: 'POST',
-          body: Data,
-          headers: {
-              'content-type': 'multipart/form-data',
-          },
-      }); */
-      let data = new FormData();
-      data.append('idTipoUsuario', idTipoUsuario);
-      data.append('nomeUsuario', nomeUsuario);
-      data.append('email', email);
-      data.append('senha', senha);
-      data.append('dataNascimento', dataNascimento);
-      data.append('cpf', cpf);
-      data.append('imagem', imagem);
-      data.append('arquivo', {  
-          uri: arquivo,
-          name: 'file',
-          type: 'image/jpg'
-        })
-    
-        fetch('http://192.168.3.77:5000/api/Usuario', {  
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data'
-          },
-          method: 'POST',
-          body: data
-        }).then(
-          response => {
-            console.log('succ ')
-            console.log(response)
-          }
-          ).catch(err => {
-          console.log('err ')
-          console.log(err)
-        } )
+    if (!result.cancelled) {
+      setArquivo(result.uri);
+      setResult(result);
+      console.log(result.uri);
+    }
   }
 
   const Cadastrar = async () => {
-      try {
-          const filename = arquivo.split('/').pop();
-          const match = /\.(\w+)$/.exec(filename);
-          const type = match ? `image/${match[1]}` : `image`;
-          const formData = new FormData()
-          formData.append('IdTipoUsuario', idTipoUsuario);
-          formData.append('NomeUsuario', nomeUsuario);
-          formData.append('Email', email);
-          formData.append('Senha', senha);
-          formData.append('DataNascimento', dataNascimento);
-          formData.append('cpf', cpf);
-          formData.append('Imagem', imagem);
-          formData.append('arquivo', {
-              name: filename,
-              type: type,
-              uri: arquivo
-          });
-          console.log(arquivo)
-          console.log(formData)
-
-          const resposta = await api.post('/Usuario', formData, {
-              headers: { "Content-Type": "multipart/form-data" },
-          })
-
-          if (resposta.status == 201) {
-              console.warn('Cadastrado realizado!');
-              console.warn(resposta)
-          }
-      } catch (error) {
-          console.warn(error);
-          console.log(error);
-      };
-
-      /*  async function onSubmit() {
-           const formData = new FormData()
-           formData.append('IdTipoUsuario', idTipoUsuario);
-           formData.append('NomeUsuario', nomeUsuario);
-           formData.append('Email', email);
-           formData.append('Senha', senha);
-           formData.append('DataNascimento', dataNascimento);
-           formData.append('Cpf', cpf);
-           formData.append('Imagem', imagem);
-           formData.append('arquivo', {
-               name: filename,
-               type: type,
-               uri: arquivo
-           })
-       axios({
-           method: "post",
-           url: "http://192.168.3.115:5000/api/Usuario",
-           data: formData,
-           headers: { "Content-Type": "multipart/form-data" },
-       })
-           .then(function (response) {
-               console.warn(response);
-           })
-           .catch(function (response) {
-               //handle error
-               console.warn(response);
-           }); */
+    const filename = arquivo.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    const type = match ? `image/${match[1]}` : `image`;
+    let formData = new FormData();
+    formData.append('idTipoUsuario', idTipoUsuario);
+    formData.append('nomeUsuario', nomeUsuario);
+    formData.append('email', email);
+    formData.append('senha', senha);
+    formData.append('dataNascimento', dataNascimento);
+    formData.append('cpf', cpf);
+    formData.append('imagem', imagem);
+    formData.append('arquivo', {
+      uri: arquivo, name: filename, type: type
+    })
+    fetch('http://192.168.15.11:5000/api/Usuario', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: formData,
+    }).then(response => {
+      console.log('Usuario Cadastrado')
+    }).catch(erro => {
+      console.log(erro)
+    })
   }
 
   return (
@@ -259,13 +155,10 @@ export default function CadastroTeste({ navigation }) {
             value={dataNascimento}
             onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
           />
-          <TouchableOpacity style={styles.mainContentFormInputImage}>
+          <TouchableOpacity style={styles.mainContentFormInputImage} onPress={showImagePicker}>
             <Text>Foto</Text>
             <Image source={require('../../assets/img/icon_photo.png')} style={styles.mainHeaderImage} />
           </TouchableOpacity>
-          {/* <Image source={{ uri: user.image }} style={{ width: 200, height: 200 }} />
-        <Button onPress={pickImage} >Pick an image</Button>
-        <Button onPress={onSubmit} >Send</Button> */}
           {/* {
             this.state.isLoading === false &&
             <TouchableOpacity style={styles.mainBtnRegister}>
@@ -278,11 +171,16 @@ export default function CadastroTeste({ navigation }) {
               <Text style={styles.mainBtnText}>Carregando</Text>
             </TouchableOpacity>
           } */}
-          {/* <Text style={styles.mainTextError}>{this.state.mensagemErro}</Text> */}
-          {/* <TouchableOpacity style={styles.mainContentFormButton} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
-            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity style={styles.mainContentFormButton}>
+          <View style={styles.imageContainer}>
+            {
+              arquivo !== '' && <Image
+                source={{ uri: arquivo }}
+                style={styles.image}
+              />
+            }
+          </View>
+
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar}>
             <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity>
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
@@ -383,6 +281,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 20,
     paddingRight: 20
-
-  }
+  },
+  imageContainer: {
+    padding: 10
+  },
+  image: {
+    width: 20,
+    height: 20,
+  },
 });

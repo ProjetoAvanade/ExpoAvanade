@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="StaticFiles\imagem\**" />
-    <Content Remove="StaticFiles\imagem\**" />
-    <EmbeddedResource Remove="StaticFiles\imagem\**" />
-    <None Remove="StaticFiles\imagem\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.15" />
@@ -27,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="StaticFiles\Imagens\" />
+    <Folder Include="StaticFiles\imagem\" />
   </ItemGroup>
 
 	<PropertyGroup>

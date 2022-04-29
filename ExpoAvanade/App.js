@@ -6,7 +6,6 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 import Login from './src/screens/login';
 import Cadastro from './src/screens/cadastro';
 import Main from './src/screens/main';
@@ -18,8 +17,8 @@ import TutorialTrava from './src/screens/tutorialTrava';
 import Pesquisa from './src/screens/pesquisa';
 import Perfil from './src/screens/perfil';
 import Pagamento from './src/screens/pagamento';
-import CadastroImg from './src/screens/cadastroImg';
 import Cartao from './src/screens/cartao';
+/* import CadastroImg from './src/screens/cadastroImg'; */
 
 const AuthStack = createStackNavigator();
 
@@ -87,8 +86,8 @@ export default function App() {
         <AuthStack.Screen name="Ponto" component={Ponto} />
         <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
         <AuthStack.Screen name="Perfil" component={Perfil} />
-        <AuthStack.Screen name="CadastroImg" component={CadastroImg} />
         <AuthStack.Screen name="Cartao" component={Cartao} />
+        {/* <AuthStack.Screen name="CadastroImg" component={CadastroImg} /> */}
       </AuthStack.Navigator>
     </NavigationContainer>
   );
