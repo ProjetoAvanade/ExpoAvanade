@@ -9,47 +9,8 @@ export default class Cartao extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nomeUsuario: '',
-            email: '',
-            pontos: 0,
-            saldo: 0,
+            numeroCartao: 0,
         };
-    }
-
-    realizarLogout = async () => {
-        try {
-            await AsyncStorage.removeItem('userToken');
-            this.props.navigation.navigate('Login');
-        } catch (error) {
-            //console.warn(error);
-        }
-    }
-
-    buscarInfoPerfil = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.get('/Usuario', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            if (resposta.status === 200) {
-                const dadosDaApi = resposta.data;
-                this.setState({
-                    nomeUsuario: dadosDaApi.nomeUsuario,
-                    email: dadosDaApi.email,
-                    pontos: dadosDaApi.pontos,
-                    saldo: dadosDaApi.saldo,
-                });
-            }
-        } catch (error) {
-            //console.warn(resposta)
-            //console.warn(error);
-        }
-    };
-
-    componentDidMount() {
-        this.buscarInfoPerfil();
     }
 
     render() {
@@ -122,7 +83,7 @@ export default class Cartao extends Component {
                     </TextInput>
                 </View>
                 <TouchableOpacity style={styles.mainContentModalBottomConfirmation}>
-                    <Text style={styles.mainContentModalBottomConfirmationText}>Prosseguir</Text>
+                    <Text style={styles.mainContentModalBottomConfirmationText} onPress={() => this.props.navigation.navigate('Saldo')}>Prosseguir</Text>
                 </TouchableOpacity>
 
             </View >

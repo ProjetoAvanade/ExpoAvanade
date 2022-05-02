@@ -9,47 +9,8 @@ export default class Carteira extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nomeUsuario: '',
-            email: '',
-            pontos: 0,
             saldo: 0,
         };
-    }
-
-    realizarLogout = async () => {
-        try {
-            await AsyncStorage.removeItem('userToken');
-            this.props.navigation.navigate('Login');
-        } catch (error) {
-            //console.warn(error);
-        }
-    }
-
-    buscarInfoPerfil = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.get('/Usuario', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            if (resposta.status === 200) {
-                const dadosDaApi = resposta.data;
-                this.setState({
-                    nomeUsuario: dadosDaApi.nomeUsuario,
-                    email: dadosDaApi.email,
-                    pontos: dadosDaApi.pontos,
-                    saldo: dadosDaApi.saldo,
-                });
-            }
-        } catch (error) {
-            //console.warn(resposta)
-            //console.warn(error);
-        }
-    };
-
-    componentDidMount() {
-        this.buscarInfoPerfil();
     }
 
     render() {
@@ -80,7 +41,7 @@ export default class Carteira extends Component {
 
                 <View style={styles.mainContentModal}>
                     <View style={styles.mainContentModalTitle}>
-                        <Text style={styles.mainContentModalTitleText}>Adicione quantos créditos deseja comprar</Text>
+                        <Text style={styles.mainContentModalTitleText} onPress={() => this.props.navigation.navigate('Cartao')}>Adicione quantos créditos deseja comprar</Text>
                     </View>
                     <View style={styles.mainContentModalBottom}>
                         <View style={styles.mainContentModalBottomSpace}>
@@ -95,10 +56,10 @@ export default class Carteira extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity style={styles.mainContentModalBottomPayment}  onPress={() => this.props.navigation.navigate('Cartao')}>
+                        <TouchableOpacity style={styles.mainContentModalBottomPayment} onPress={() => this.props.navigation.navigate('Cartao')}>
                             <Text style={styles.mainContentModalTitleText}>Forma de pagamento</Text>
                             {/* <View styles={styles.mainContentModalBottomPaymentSpace}> */}
-                            <Image source={require('../../assets/img/icon_card.png')} style={styles.mainContentModalBottomPaymentImage} />
+                                <Image source={require('../../assets/img/icon_card.png')} style={styles.mainContentModalBottomPaymentImage} />
                                 <Text style={styles.mainContentModalTitleText}>Novo cartão</Text>
                                 <Image source={require('../../assets/img/icon_next.png')} style={styles.mainContentModalBottomPaymentBack} />
                             {/* </View> */}

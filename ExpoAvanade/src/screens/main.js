@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   Text,
+  focused
 } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -31,39 +32,7 @@ class Main extends Component {
 
           screenOptions={({ route }) => ({
             tabBarIcon: () => {
-              if (route.name === 'Mapa') {
-                return (
-                  <View style={styles.iconNav}>
-                    <Image
-                      style={styles.tabBarIcon}
-                      source={require('../../assets/img/icon_locationInactive.png')}
-                    />
-                    <Text style={styles.textNav}>Localização</Text>
-                  </View>
-                )
-              }
-              if (route.name === 'Carteira') {
-                return (
-                  <View style={styles.iconNav}>
-                    <Image
-                      style={styles.tabBarIcon2}
-                      source={require('../../assets/img/icon_walletInactive.png')}
-                    />
-                    <Text style={styles.textNav}>Carteira</Text>
-                  </View>
-                )
-              }
-              if (route.name === 'PontoProximo') {
-                return (
-                  <View style={styles.iconNav}>
-                    <Image
-                      style={styles.tabBarIcon3}
-                      source={require('../../assets/img/icon_nearbyInactive.png')}
-                    />
-                    <Text style={styles.textNav}>Pontos próximos</Text>
-                  </View>
-                )
-              }
+
             },
 
             // React Navigation 6.x
@@ -77,9 +46,58 @@ class Main extends Component {
             }
           })}
         >
-          <bottomTab.Screen name="Mapa" component={Mapa} />
-          <bottomTab.Screen name="Carteira" component={Carteira} />
-          <bottomTab.Screen name="PontoProximo" component={PontoProximo} />
+          <bottomTab.Screen name="Mapa" component={Mapa} options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+                <Image
+                  source={require('../../assets/img/icon_location.png')}
+                  resizeMode='contain'
+                  style={{
+                    width: 30,
+                    height: 26,
+                    tintColor: focused ? '#F3BC2C' : '#000000'
+                  }}
+                />
+                <Text style={{
+                  color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular'
+                }}>Mapa</Text>
+              </View>
+            )
+          }} />
+          <bottomTab.Screen name="Carteira" component={Carteira} options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+                <Image
+                  source={require('../../assets/img/icon_wallet.png')}
+                  resizeMode='contain'
+                  style={{
+                    width: 30,
+                    height: 26,
+                    tintColor: focused ? '#F3BC2C' : '#000000'
+                  }}
+                />
+                <Text style={{
+                  color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular'
+                }}>Carteira digital</Text>
+              </View>
+            )
+          }} />
+          <bottomTab.Screen name="PontoProximo" component={PontoProximo} options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={{ alignItems: 'center', justifyContent: 'center', }}>
+                <Image
+                  source={require('../../assets/img/icon_pointsnearby.png')}
+                  resizeMode='contain'
+                  style={{
+                    width: 30,
+                    height: 30,
+                    tintColor: focused ? '#F3BC2C' : '#000000'
+                  }}
+                />
+                <Text style={{ color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular' }}>Pontos próximos</Text>
+              </View>
+            )
+          }} />
 
         </bottomTab.Navigator>
 
@@ -93,29 +111,29 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-  iconNav: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  textNav: {
-    fontSize: 12,
-    color: '#000',
-    fontFamily: 'IBMPlexMono_700Bold',
-  },
-  tabBarIcon: {
-    height: 30,
-    width: 25.14,
-    marginBottom: 5
-  },
-  tabBarIcon2: {
-    height: 26.25,
-    width: 30,
-    marginBottom: 7
-  },
-  tabBarIcon3: {
-    height: 30,
-    width: 30,
-    marginBottom: 5
-  }
+  // iconNav: {
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  // },
+  // textNav: {
+  //   fontSize: 12,
+  //   color: '#000',
+  //   fontFamily: 'IBMPlexMono_700Bold',
+  // },
+  // tabBarIcon: {
+  //   height: 30,
+  //   width: 25.14,
+  //   marginBottom: 5
+  // },
+  // tabBarIcon2: {
+  //   height: 26.25,
+  //   width: 30,
+  //   marginBottom: 7
+  // },
+  // tabBarIcon3: {
+  //   height: 30,
+  //   width: 30,
+  //   marginBottom: 5
+  // }
 });
 export default Main;

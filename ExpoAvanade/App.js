@@ -9,16 +9,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/screens/login';
 import Cadastro from './src/screens/cadastro';
 import Main from './src/screens/main';
-import Ponto from './src/screens/ponto';
-import Vaga from './src/screens/vaga';
 import TrocaRodas from './src/screens/trocaRodas';
-import TutorialDestrava from './src/screens/tutorialDestrava';
-import TutorialTrava from './src/screens/tutorialTrava';
-import Pesquisa from './src/screens/pesquisa';
 import Perfil from './src/screens/perfil';
-import Pagamento from './src/screens/pagamento';
 import Cartao from './src/screens/cartao';
-/* import CadastroImg from './src/screens/cadastroImg'; */
+import ModalLocalizacao from './src/components/modalLocalizacao';
+import Ponto from './src/screens/ponto';
 
 const AuthStack = createStackNavigator();
 
@@ -79,15 +74,10 @@ export default function App() {
         <AuthStack.Screen name="Main" component={Main} />
         <AuthStack.Screen name="Cadastro" component={Cadastro} />
         <AuthStack.Screen name="TrocaRodas" component={TrocaRodas} />
-        <AuthStack.Screen name="TutorialTrava" component={TutorialTrava} />
-        <AuthStack.Screen name="TutorialDestrava" component={TutorialDestrava} />
-        <AuthStack.Screen name="Vaga" component={Vaga} />
-        <AuthStack.Screen name="Pagamento" component={Pagamento} />
-        <AuthStack.Screen name="Ponto" component={Ponto} />
-        <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
         <AuthStack.Screen name="Perfil" component={Perfil} />
         <AuthStack.Screen name="Cartao" component={Cartao} />
-        {/* <AuthStack.Screen name="CadastroImg" component={CadastroImg} /> */}
+        <AuthStack.Screen name="Ponto" component={Ponto} />
+        <AuthStack.Screen name="ModalLocalizacao" component={ModalLocalizacao} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

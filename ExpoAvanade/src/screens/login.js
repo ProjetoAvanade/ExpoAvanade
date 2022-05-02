@@ -99,9 +99,9 @@ class Login extends Component {
             {
               // Caso seja false, renderiza o botão habilitado com o texto 'Login'
               this.state.IsLoading === false &&
-              <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
-                <Text style={styles.mainBtnText}>Logar</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+                  <Text style={styles.mainBtnText}>Logar</Text>
+                </TouchableOpacity>
             }
 
             <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>

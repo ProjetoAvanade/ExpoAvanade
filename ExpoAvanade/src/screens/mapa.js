@@ -6,20 +6,19 @@ import {
   Image,
   TouchableOpacity,
   Platform,
-  StatusBar
+  StatusBar,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 
 import MapView, { Callout, Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import api from '../services/api';
-//import { Modalize } from 'react-native-modalize';
-
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Mapa extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +27,12 @@ export default class Mapa extends Component {
       erroMessagem: '',
       latitude: null,
       longitude: null,
+      modalVisible: false,
     };
+  }
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
   }
 
   buscarBicicletarios = async () => {
@@ -96,10 +100,6 @@ export default class Mapa extends Component {
   }
 
   render() {
-    /* const modalizeRef = useRef(null);
-    function onOpen() {
-      modalizeRef.current?.open();
-    } */
     return (
       <View style={styles.main}>
         <StatusBar
@@ -107,6 +107,66 @@ export default class Mapa extends Component {
           backgroundColor='#F3BC2C'
           hidden={false}
         />
+        {/* <Modal
+          animationType={'slide'}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            alert('Modal has been closed.');
+          }}>
+          <View style={styles.modalTime}>
+            <Text style={styles.modalTitle}>Confirme o tempo</Text>
+
+            <View>
+              <Text style={styles.modalTextTitle}>R$3,75</Text>
+              <Text style={styles.modalText}>1 Hora</Text>
+              <Text style={styles.modalTextInfo}>Válido até 10:30</Text>
+            </View>
+
+            <View>
+              <Text style={styles.modalTextTitle}>R$ 6,50</Text>
+              <Text style={styles.modalText}>2 Hora</Text>
+              <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
+            </View>
+
+            <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text>
+
+            <TouchableOpacity style={styles.modalBtn}>
+              <Text style={styles.modalTextTitle}>Confirmar</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal> */}
+        <Modal
+          animationType={'slide'}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            alert('Modal has been closed.');
+          }}>
+          <View style={styles.modalPoint}>
+            <View style={styles.modalPointInfo}>
+              <Image source={require('../../assets/img/profile.png')} style={styles.modalImage}></Image>
+              <Text style={styles.modalText}>Nome do ponto:</Text>
+              <Text style={styles.modalTextInfo}>Carrefour Limão</Text>
+            </View>
+
+            <View style={styles.modalPointInfo}>
+              <Image source={require('../../assets/img/profile.png')} style={styles.modalImage}></Image>
+              <Text style={styles.modalText}>Horário:</Text>
+              <Text style={styles.modalTextInfo}>00:00 - 23:59</Text>
+            </View>
+
+            <View style={styles.modalPointInfo}>
+              <Image source={require('../../assets/img/profile.png')} style={styles.modalImage}></Image>
+              <Text style={styles.modalText}>Vagas:</Text>
+              <Text style={styles.modalTextInfo}>Disponiveis = X   |   Totais = X</Text>
+            </View>
+
+            <TouchableOpacity style={styles.modalBtn}>
+              <Text style={styles.modalTextTitle}>Prosseguir</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
 
         <View style={styles.mainGap}></View>
         <View style={styles.mainHeader}>
@@ -132,6 +192,7 @@ export default class Mapa extends Component {
           {this.state.listaBicicletarios.map((item) => {
             return (
               <Marker
+                onPress={() => { this.setModalVisible(true); }}
                 key={item.idBicicletario}
                 coordinate={{
                   latitude: parseFloat(item.latitude),
@@ -151,21 +212,9 @@ export default class Mapa extends Component {
 
         <View style={styles.mainSearch}>
           <View style={styles.mainSearchInput}>
-            <TouchableOpacity >
+            <TouchableOpacity>
               <Text style={styles.mainSearchInputText}>Para onde?</Text>
             </TouchableOpacity>
-
-            {/* <Modalize
-              ref={modalizeRef}
-              snapPoint={150}
-            >
-              <View style={styles.testeModal}>
-                <Text>1</Text>
-                <Text>2</Text>
-              </View>
-
-            </Modalize> */}
-
           </View>
         </View>
 
@@ -244,11 +293,51 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center'
   },
-  testeModal: {
+/*   testeModal: {
     flex: 1,
     height: 180,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  }, */
+
+
+
+
+  modalPoint: {
+    backgroundColor: '#F5F5F5',
+    width: 411,
+    height: 232,
+  },
+
+  modalImage: {
+    width: 30,
+    height: 36
+  },
+
+  modalBtn: {
+    width: 373,
+    height: 50,
+    justifyContent: 'center',
+    alignContent: 'center'
+  },
+
+  modalTextTitle: {
+    //fontFamily: ,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+
+  modalText: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 14,
+    color: '#000'
+  },
+
+  modalTextInfo: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 14,
+    color: '#342C2C'
+  },
 });
