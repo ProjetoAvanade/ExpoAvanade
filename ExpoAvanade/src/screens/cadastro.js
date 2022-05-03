@@ -24,7 +24,7 @@ export default function Cadastro({ navigation }) {
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
   const [result, setResult] = useState('');
-  const [sucess, setSucess] = useState(false);
+  const [sucess, setSucess] = useState();
 
   // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
@@ -83,9 +83,10 @@ export default function Cadastro({ navigation }) {
     formData.append('cpf', cpf);
     formData.append('imagem', imagem);
     formData.append('arquivo', {
-      uri: arquivo, name: filename, type: type
+      uri: arquivo, name: filename, type: 'image'
     })
-    fetch('http://192.168.15.11:5000/api/Usuario', {
+    //fetch('http://192.168.15.11:5000/api/Usuario', {
+    fetch('http://192.168.4.187:5000/api/Usuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -183,7 +184,7 @@ export default function Cadastro({ navigation }) {
             }
           </View>
 
-          {sucess != true &&
+          {sucess == false &&
             <Text style={styles.mainTextError}>Não foi possível realizar o cadastro!</Text>
           }
 

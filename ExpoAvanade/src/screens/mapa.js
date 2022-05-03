@@ -36,7 +36,6 @@ export default function Mapa({ navigation }) {
     const [listaVagas, setListaVagas] = useState([]);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
-    const [visibleModal2, setVisibleModal2] = useState(false);
 
     const buscarBicicletarios = async () => {
         try {
@@ -170,7 +169,7 @@ export default function Mapa({ navigation }) {
                         <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel}   |   Totais = {qntdVagaTotal}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => navigation.navigate('Cartao')}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => setVisible(false)}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
@@ -178,7 +177,7 @@ export default function Mapa({ navigation }) {
         );
     }
 
-    /* const ConfirmacaoTempo = () => {
+    const ConfirmacaoTempo = () => {
         return (
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
@@ -202,7 +201,7 @@ export default function Mapa({ navigation }) {
                 </View>
             </ModalPoup>
         );
-    } */
+    }
 
     const buscarVagasPonto = async () => {
         try {
@@ -305,7 +304,7 @@ export default function Mapa({ navigation }) {
             </MapView>
 
             <ModalLocalizacao />
-            {/* <ConfirmacaoTempo /> */}
+            <ConfirmacaoTempo />
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>
@@ -392,7 +391,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 232,
         borderRadius: 5,
-        marginTop: 375
+        marginTop: 462
     },
     modalPointInfo: {
         alignItems: 'center',

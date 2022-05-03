@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -9,132 +9,151 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-class PontoProximo extends Component {
-    goBack = () => {
-        this.props.navigation.goBack();
-    }
+import api from '../services/api';
 
-    render() {
-        return (
-            <View style={styles.main}>
-                <StatusBar
-                    barStyle='dark-content'
-                    backgroundColor='#F3BC2C'
-                    hidden={false}
-                />
+export default function PontoProximo({ navigation }) {
+    const [listaPontos, setListaPontos] = useState([]);
 
-                <View style={styles.mainGap}></View>
-                <View style={styles.mainHeader}>
-                    <View style={styles.mainHeaderSpace}>
+    const buscarPontosProximos = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.get('/Localizacao?Latitude=-23.53641&Longitude=-46.6462', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            const dadosDaApi = resposta.data;
+            setListaPontos(dadosDaApi)
+            console.warn(dadosDaApi) 
+            console.warn(listaPontos)
+        } catch (error) {
+            //console.warn(error);
+        }
+    };
 
-                        <Text style={styles.mainHeaderText}>Lista de pontos</Text>
-                    </View>
+    useEffect(() => {
+        buscarPontosProximos();
+    }, []);
+
+    return (
+        <View style={styles.main}>
+            <StatusBar
+                barStyle='dark-content'
+                backgroundColor='#F3BC2C'
+                hidden={false}
+            />
+
+            <View style={styles.mainGap}></View>
+            <View style={styles.mainHeader}>
+                <View style={styles.mainHeaderSpace}>
+
+                    <Text style={styles.mainHeaderText}>Lista de pontos</Text>
                 </View>
+            </View>
 
-                <ScrollView style={styles.mainScroll}>
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+            <ScrollView style={styles.mainScroll}>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('')}>
-                        <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
-                        <View>
-                            <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
-                            <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
-                        </View>
-                        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-                    </TouchableOpacity>
-                </ScrollView>
-            </View >
-        );
-    }
+                <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('')}>
+                    <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
+                    <View>
+                        <Text style={styles.mainCardsTextName}>Carrefour limão</Text>
+                        <Text style={styles.mainCardsTextEmail}>Av. Otaviano A. Lima</Text>
+                    </View>
+                    <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+                    <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+                </TouchableOpacity>
+            </ScrollView>
+        </View >
+    );
 }
 
 const styles = StyleSheet.create({
@@ -210,5 +229,3 @@ const styles = StyleSheet.create({
         fontFamily: 'ABeeZee_400Regular',
     },
 });
-
-export default PontoProximo;
