@@ -32,7 +32,6 @@ class Main extends Component {
 
           screenOptions={({ route }) => ({
             tabBarIcon: () => {
-
             },
 
             // React Navigation 6.x

@@ -34,7 +34,7 @@ class Login extends Component {
 
       const token = resposta.data.token;
       await AsyncStorage.setItem('userToken', token);
-      
+
       this.setState({ IsLoading: false });
       if (resposta.status == 201) {
         this.props.navigation.navigate('Main');
@@ -49,7 +49,7 @@ class Login extends Component {
   };
 
   LimparCampos = () => {
-    this.setState({ Email: '', Senha: ''})
+    this.setState({ Email: '', Senha: '' })
   };
 
   componentDidMount() {
@@ -60,10 +60,10 @@ class Login extends Component {
     return (
       <View style={styles.main}>
         <StatusBar
-        barStyle='dark-content'
-        backgroundColor='#FFFFFF'
-        hidden={false}
-      />
+          barStyle='dark-content'
+          backgroundColor='#FFFFFF'
+          hidden={false}
+        />
         <View style={styles.mainDiv}>
 
           <View style={styles.mainImageSpace}>
@@ -99,16 +99,21 @@ class Login extends Component {
             {
               // Caso seja false, renderiza o botão habilitado com o texto 'Login'
               this.state.IsLoading === false &&
-                <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
-                  <Text style={styles.mainBtnText}>Logar</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
+                <Text style={styles.mainBtnText}>Logar</Text>
+              </TouchableOpacity>
             }
 
-            <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
+            {/* <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text> */}
           </View>
 
+            {this.state.MensagemErro != '' &&
+              <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
+            }
           <View style={styles.mainTextSpace}>
-            <Text style={styles.mainText}>Esqueceu sua senha?</Text>
+            <View>
+              <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
+            </View>
             <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => this.props.navigation.navigate('Cadastro')}>
               <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
             </TouchableOpacity>
@@ -171,10 +176,11 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexMono_700Bold',
     color: '#000000'
   },
-  mainTextError:{
+  mainTextError: {
     fontSize: 14,
-    color: 'red',
-    marginTop: '2%',
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000',
+    marginTop: '5%',
   },
   mainTextSpace: {
     height: 91,
@@ -185,6 +191,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ABeeZee_400Regular',
     color: '#000000',
+  },
+  mainTextForget: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#000000',
+    marginTop: '5%'
   },
 });
 

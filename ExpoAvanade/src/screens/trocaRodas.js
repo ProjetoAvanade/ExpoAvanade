@@ -171,7 +171,13 @@ class TrocaRodas extends Component {
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.mainTextError}>{this.state.mensagemErro != '' && this.state.mensagemErro} {this.state.mensagemAcerto != '' && this.state.mensagemAcerto}</Text>
+            {this.state.mensagemErro != '' &&
+              <Text style={styles.mainTextError}>{this.state.mensagemErro}</Text>
+            }
+
+            {this.state.mensagemAcerto != '' &&
+              <Text style={styles.mainTextSucess}>{this.state.mensagemAcerto}</Text>
+            }
           </View>
         </View>
       </View >
@@ -256,7 +262,14 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexMono_700Bold', color: '#000',
   },
   mainTextError: {
-    color: '#000'
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000'
+  },
+  mainTextSucess: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#00ff00'
   }
 });
 

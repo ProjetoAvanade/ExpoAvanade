@@ -24,6 +24,7 @@ export default function Cadastro({ navigation }) {
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
   const [result, setResult] = useState('');
+  const [sucess, setSucess] = useState(false);
 
   // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
@@ -91,8 +92,10 @@ export default function Cadastro({ navigation }) {
       },
       body: formData,
     }).then(response => {
+      setSucess(true)
       console.log('Usuario Cadastrado')
     }).catch(erro => {
+      setSucess(false)
       console.log(erro)
     })
   }
@@ -108,7 +111,7 @@ export default function Cadastro({ navigation }) {
       <View style={styles.mainGap}></View>
       <View style={styles.mainHeader}>
         <View style={styles.mainHeaderSpace}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
           </TouchableOpacity>
           <Text style={styles.mainHeaderText}>Cadastro</Text>
@@ -180,9 +183,18 @@ export default function Cadastro({ navigation }) {
             }
           </View>
 
+          {sucess != true &&
+            <Text style={styles.mainTextError}>Não foi possível realizar o cadastro!</Text>
+          }
+
+          {sucess == true &&
+            <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
+          }
+
           <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar}>
             <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity>
+
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
         </View>
       </View>
@@ -289,4 +301,14 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  mainTextError: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000'
+  },
+  mainTextSucess: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#00ff00'
+  }
 });

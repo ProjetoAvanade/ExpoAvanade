@@ -1,4 +1,4 @@
-USE [db-gp11];
+USE dbgp11;
 GO
 
 --TIPO USUARIO
@@ -23,9 +23,7 @@ GO
 --BICICLETARIO
 INSERT INTO bicicletarios(nome,rua,numero,bairro,cidade,cep,horarioAberto,horarioFechado,latitude,longitude)
 VALUES
-('Bicicletário Alameda','Alamenda',200,'bairro um','São Paulo','11111111','05:00:00.0000000', '23:59:59.9999999','-23.53641','-46.6462'),
-('Bicicletário Sesi Vila Leopoldina','Weber',400,'bairro dois','São Paulo','22222222','05:00:00.0000000','23:59:59.9999999','-23.52749','-46.72938'),
-('Bicicletário Sesi Osasco','Calçadão',600,'bairro tres','São Paulo','33333333','05:00:00.0000000','23:59:59.9999999','-23.52681','-46.77609');
+('Bicicletário SCSS','Centroo',7000,'bairro trs','SCS','3333323313','06:00:00.0000000','21:59:59.9999999','-23.372310','-46.33430');
 GO
 
 SELECT * FROM bicicletarios

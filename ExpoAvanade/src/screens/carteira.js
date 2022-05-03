@@ -13,6 +13,26 @@ export default class Carteira extends Component {
         };
     }
 
+    buscarInfoPerfil = async () => {
+        try {
+          const token = await AsyncStorage.getItem('userToken');
+          const resposta = await api.get('/Usuario', {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+          if (resposta.status === 200) {
+            const dadosDaApi = resposta.data;
+            this.setState({
+              saldo: dadosDaApi.saldo,
+            });
+          }
+        } catch (error) {
+          //console.warn(resposta)
+          //console.warn(error);
+        }
+      };
+
     render() {
         return (
             <View style={styles.main}>
@@ -112,7 +132,7 @@ const styles = StyleSheet.create({
     },
     mainContent: {
         width: '100%',
-        height: 416,
+        height: '51%',
         alignItems: 'center',
         justifyContent: 'center'
     },

@@ -111,7 +111,7 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas')}>
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas', { pontos: this.state.pontos })}>
           <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
