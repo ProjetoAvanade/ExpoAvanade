@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AMD\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {}
+    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AMD\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj": {
+    "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AMD\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
+        "projectUniqueName": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj",
         "projectName": "Senai_ProjetoAvanade_webAPI",
-        "projectPath": "C:\\Users\\AMD\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\Senai_ProjetoAvanade_webAPI.csproj",
-        "packagesPath": "C:\\Users\\AMD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AMD\\Desktop\\ExpoAvanade\\Senai_ProjetoAvanade_webAPI\\obj\\",
+        "projectPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj",
+        "packagesPath": "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ProjetoAvanade\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\AMD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\42410863817.INFOSCS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -44,6 +44,14 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
+            "GeoCoordinate.NetCore": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[5.0.15, )"
@@ -52,13 +60,21 @@
               "target": "Package",
               "version": "[5.0.15, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.16, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.15, )"
+              "version": "[5.0.16, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer.Design": {
               "target": "Package",
               "version": "[1.1.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite": {
+              "target": "Package",
+              "version": "[5.0.16, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -69,6 +85,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[5.0.2, )"
+            },
+            "NetTopologySuite": {
+              "target": "Package",
+              "version": "[2.4.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -97,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

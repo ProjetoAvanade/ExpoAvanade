@@ -31,6 +31,15 @@ namespace Senai_ProjetoAvanade_webAPI.Interfaces
         /// <returns>Um usuario especifico</returns>
         Usuario BuscarId(int id);
 
+        /// <summary>
+        /// Metodo responsavel pela atulizacao de saldo na conta
+        /// </summary>
+        /// <param name="teste">Novo valor de saldo</param>
+        /// <param name="id">Id do usuario logado</param>
+        /// <returns></returns>
         Usuario AtualizarSaldo(saldoViewModel teste, int id);
+
+
+        List<Bicicletario> ListarPontosProxixmos(double Latitude, double Longitude, int metros = 1000);
     }
 }
