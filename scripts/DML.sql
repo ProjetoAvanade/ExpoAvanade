@@ -30,11 +30,11 @@ SELECT * FROM bicicletarios
 GO;
 
 INSERT INTO vagas(idBicicletario,statusVaga)
-VALUES(2, 0),
-(2,1),
-(2,0),
-(2,0),
-(2,0)
+VALUES(3, 0),
+(3,1),
+(3,0),
+(3,0),
+(3,0)
 GO
 
 SELECT * FROM bicicletarios

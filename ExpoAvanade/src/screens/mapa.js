@@ -169,7 +169,7 @@ export default function Mapa({ navigation }) {
                         <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel}   |   Totais = {qntdVagaTotal}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => setVisible(false)}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), () => setIdBicicletario(0)}}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
@@ -205,6 +205,7 @@ export default function Mapa({ navigation }) {
 
     const buscarVagasPonto = async () => {
         try {
+            //console.warn(idBicicletario)
             var arr = [];
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.get(`/Vagas/${idBicicletario}`, {
@@ -216,13 +217,14 @@ export default function Mapa({ navigation }) {
             setListaVagas(dadosDaApi)
             setqntdVagaTotal(dadosDaApi.length)
 
-            console.log(dadosDaApi)
             console.warn(qntdVagaTotal)
-
+            
             if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == true) {
+                        console.warn(arr.push(b))
                         setqntdVagaDisponivel(arr.push(b))
+                        console.warn(qntdVagaDisponivel)
                     }
                 });
                 //console.warn(arr)
@@ -304,7 +306,7 @@ export default function Mapa({ navigation }) {
             </MapView>
 
             <ModalLocalizacao />
-            <ConfirmacaoTempo />
+            {/* <ConfirmacaoTempo /> */}
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>

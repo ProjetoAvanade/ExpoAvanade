@@ -11,7 +11,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -35,12 +34,12 @@ export default function PontoProximo({ navigation }) {
         const location = await Location.getCurrentPositionAsync({});
         setLongitude(parseFloat(location.coords.longitude))
         setLatitude(parseFloat(location.coords.latitude))
-        //console.warn(this.state.longitude, this.state.latitude);
     };
 
 
     const buscarPontosProximos = async () => {
         try {
+            await buscarLocalizacao();
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.get(`/Localizacao?Latitude=${latitude}&Longitude=${longitude}`, {
                 headers: {
@@ -50,23 +49,24 @@ export default function PontoProximo({ navigation }) {
             if (resposta.status === 200) {
                 const dadosDaApi = resposta.data;
                 setListaBicicletario(dadosDaApi)
-                setDistancia(dadosDaApi.distancia)
-                /* parseFloat(distancia).toFixed(2)
+                /*setDistancia(dadosDaApi.distancia)
+                parseFloat(distancia).toFixed(2)
                 console.log(distancia) */
             }
         } catch (error) {
-            //console.warn(resposta)
+            console.warn(resposta)
             //console.warn(error);
         }
     };
 
     useEffect(() => {
-        buscarPontosProximos();
         buscarLocalizacao();
+        buscarPontosProximos();
     }, []);
 
     return (
         <View style={styles.main}>
+            {console.warn(listaBicicletario)}
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'

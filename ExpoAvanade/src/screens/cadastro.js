@@ -98,6 +98,7 @@ export default function Cadastro({ navigation }) {
     }).catch(erro => {
       setSucess(false)
       console.log(erro)
+      console.log(formData)
     })
   }
 

@@ -63,7 +63,7 @@ class Main extends Component {
               </View>
             )
           }} />
-          <bottomTab.Screen name="Carteira" component={Carteira} options={{
+          {/* <bottomTab.Screen name="Carteira" component={Carteira} options={{
             tabBarIcon: ({ focused }) => (
               <View style={{ alignItems: 'center', justifyContent: 'center', }}>
                 <Image
@@ -80,7 +80,7 @@ class Main extends Component {
                 }}>Carteira digital</Text>
               </View>
             )
-          }} />
+          }} /> */}
           <bottomTab.Screen name="PontoProximo" component={PontoProximo} options={{
             tabBarIcon: ({ focused }) => (
               <View style={{ alignItems: 'center', justifyContent: 'center', }}>
