@@ -18,9 +18,7 @@ import PontoProximo from './pontoProximo';
 import Carteira from './carteira';
 
 
-class Main extends Component {
-
-  render() {
+export default function Main(){
     return (
       <View style={styles.main}>
         <StatusBar
@@ -104,8 +102,6 @@ class Main extends Component {
     );
   }
 
-};
-
 const styles = StyleSheet.create({
   main: {
     flex: 1,
@@ -135,4 +131,3 @@ const styles = StyleSheet.create({
   //   marginBottom: 5
   // }
 });
-export default Main;

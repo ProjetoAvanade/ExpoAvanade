@@ -36,6 +36,7 @@ export default function Mapa({ navigation }) {
     const [listaVagas, setListaVagas] = useState([]);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
+    const [position, setPosition] = useState([{"timestamp": 1651720499602, "mocked" : false,}]);
 
     const buscarBicicletarios = async () => {
         try {
@@ -67,7 +68,8 @@ export default function Mapa({ navigation }) {
         const location = await Location.getCurrentPositionAsync({});
         setLongitude(parseFloat(location.coords.longitude))
         setLatitude(parseFloat(location.coords.latitude))
-        //console.warn(this.state.longitude, this.state.latitude);
+        setPosition(location)
+        console.warn(position)
     };
 
     const buscarInfoPerfil = async () => {
@@ -169,7 +171,7 @@ export default function Mapa({ navigation }) {
                         <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel}   |   Totais = {qntdVagaTotal}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), () => setIdBicicletario(0)}}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), () => setIdBicicletario(0) }}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
@@ -218,7 +220,7 @@ export default function Mapa({ navigation }) {
             setqntdVagaTotal(dadosDaApi.length)
 
             console.warn(qntdVagaTotal)
-            
+
             if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == true) {

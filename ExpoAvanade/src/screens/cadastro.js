@@ -70,7 +70,7 @@ export default function Cadastro({ navigation }) {
     }
   }
 
-  const Cadastrar = async () => {
+  /* const Cadastrar = async () => {
     const filename = arquivo.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `image/${match[1]}` : `image`;
@@ -85,8 +85,8 @@ export default function Cadastro({ navigation }) {
     formData.append('arquivo', {
       uri: arquivo, name: filename, type: 'image'
     })
-    //fetch('http://192.168.15.11:5000/api/Usuario', {
-    fetch('http://192.168.4.187:5000/api/Usuario', {
+    //fetch('http://192.168.4.187:5000/api/Usuario', {
+    fetch('http://192.168.15.11:5000/api/Usuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -99,6 +99,39 @@ export default function Cadastro({ navigation }) {
       setSucess(false)
       console.log(erro)
       console.log(formData)
+    })
+  } */
+  
+  /* uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
+  type: result.type,
+  name: result.uri.replace(/^.*[\\\/]/, '') */
+  const Cadastrar = async () => {
+    const filename = arquivo.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    const type = match ? `image/${match[1]}` : `image`;
+    let formData = new FormData();
+    formData.append('idTipoUsuario', idTipoUsuario);
+    formData.append('nomeUsuario', nomeUsuario);
+    formData.append('email', email);
+    formData.append('senha', senha);
+    formData.append('dataNascimento', dataNascimento);
+    formData.append('cpf', cpf);
+    formData.append('imagem', imagem);
+    formData.append('arquivo', {
+      uri: arquivo, name: filename, type: type
+    })
+    fetch('http://192.168.15.11:5000/api/Usuario', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: formData,
+    }).then(response => {
+      console.log('Usuario Cadastrado')
+      setSucess(true)
+    }).catch(erro => {
+      console.log(erro)
+      setSucess(false)
     })
   }
 
