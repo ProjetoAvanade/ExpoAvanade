@@ -13,6 +13,7 @@ import TrocaRodas from './src/screens/trocaRodas';
 import Perfil from './src/screens/perfil';
 import Cartao from './src/screens/cartao';
 import ModalLocalizacao from './src/components/modalLocalizacao';
+import TestePagamento from './src/screens/testePagamento';
 
 const AuthStack = createStackNavigator();
 
@@ -76,6 +77,7 @@ export default function App() {
         <AuthStack.Screen name="Perfil" component={Perfil} />
         <AuthStack.Screen name="Cartao" component={Cartao} />
         <AuthStack.Screen name="ModalLocalizacao" component={ModalLocalizacao} />
+        <AuthStack.Screen name="TestePagamento" component={TestePagamento} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

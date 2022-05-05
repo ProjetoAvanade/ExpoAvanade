@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -20,26 +20,25 @@ export default function PontoProximo({ navigation }) {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
 
-    const buscarLocalizacao = async () => {
-        if (Platform.OS === 'android' && !Constants.isDevice) {
-            setErroMensagem('Permissão para acessar a localização negada!')
-            return;
-        }
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setErroMensagem('Permissão para acessar a localização negada!')
-            return;
-        };
-
-        const location = await Location.getCurrentPositionAsync({});
-        setLongitude(parseFloat(location.coords.longitude))
-        setLatitude(parseFloat(location.coords.latitude))
+   /*  const buscarLocalizacao = async () => {
     };
-
-
+     */
+    
     const buscarPontosProximos = async () => {
         try {
-            await buscarLocalizacao();
+            if (Platform.OS === 'android' && !Constants.isDevice) {
+                setErroMensagem('Permissão para acessar a localização negada!')
+                return;
+            }
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErroMensagem('Permissão para acessar a localização negada!')
+                return;
+            };
+        
+            const location = await Location.getCurrentPositionAsync({});
+            setLongitude(parseFloat(location.coords.longitude))
+            setLatitude(parseFloat(location.coords.latitude))
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.get(`/Localizacao?Latitude=${latitude}&Longitude=${longitude}`, {
                 headers: {
@@ -60,7 +59,7 @@ export default function PontoProximo({ navigation }) {
     };
 
     useEffect(() => {
-        buscarLocalizacao();
+        //buscarLocalizacao();
         buscarPontosProximos();
     }, []);
 
