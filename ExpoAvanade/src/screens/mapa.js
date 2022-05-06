@@ -195,8 +195,8 @@ export default function Mapa({ navigation }) {
                             <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
                         </View>
                     </View>
-                    <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text>
-                    <TouchableOpacity style={styles.modalBtn}>
+                    {/* <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text> */}
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), navigation.navigate('CadastrarReserva')}}>
                         <Text style={styles.modalTextTitle}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
@@ -219,8 +219,11 @@ export default function Mapa({ navigation }) {
             setqntdVagaTotal(dadosDaApi.length)
 
 
-            for (let userObject of listaVagas) {
-                console.log(userObject.statusVaga = true);
+            /*for (let userObject of listaVagas) {
+                let vagaOcupada = userObject.statusVaga == false
+                console.warn('ocupada: ' + userObject.statusVaga == 1)
+                let vagadis = dadosDaApi.length - vagaOcupada
+                console.log(vagadis)
                 /* if(userObject.statusVaga == false){
                     setqntdVagaDisponivel(userObject.statusVaga == false)
                     
@@ -229,9 +232,9 @@ export default function Mapa({ navigation }) {
                     console.warn(userObject.push())
                     setqntdVagaDisponivel(userObject.push())
                     console.warn(qntdVagaDisponivel)
-                } */
-            }
-            /* if (listaVagas != []) {
+                } *
+            }*/
+            if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == true) {
                         console.warn(arr.push(b))
@@ -240,7 +243,7 @@ export default function Mapa({ navigation }) {
                     }
                 });
                 //console.warn(arr)
-            } */
+            }
         } catch (error) {
             console.warn(error);
         }
@@ -252,20 +255,11 @@ export default function Mapa({ navigation }) {
         buscarVagasPonto();
     }
 
-    /* const Funcoess = () => {
-        const timerRef = useRef(null);
-        timerRef.current = setTimeout(() => 
-        {setVisible(true);
-            buscarInfoPonto();
-            buscarVagasPonto()}, 1000)
-        } */
-
     useEffect(() => {
         buscarLocalizacao();
         buscarBicicletarios();
         buscarInfoPerfil();
     }, []);
-
 
     return (
         <View style={styles.main}>
@@ -317,8 +311,8 @@ export default function Mapa({ navigation }) {
                 })}
             </MapView>
 
-            <ModalLocalizacao />
-            {/* <ConfirmacaoTempo /> */}
+            {/* <ModalLocalizacao /> */}
+            <ConfirmacaoTempo />
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>

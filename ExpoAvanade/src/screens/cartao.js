@@ -19,7 +19,25 @@ export default function Cartao({ navigation }) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("MerchantKey", "STFUVFSECYOELJWCGZXXQGXXDCCMMNUPXUIHMZUZ");
 
+        
         var raw = JSON.stringify({
+            "MerchantOrderId": "2014111700",
+            "Payment": {
+                "Type": "CreditCard",
+                "Amount": + quantidade,
+                "Installments": 1,
+                "SoftDescriptor": "123456789ABCD",
+                "CreditCard": {
+                    "CardNumber": + cartao,
+                    "Holder": "Teste Holder",
+                    "ExpirationDate": validade,
+                    "SecurityCode": codigoSeguranca,
+                    "Brand": marca
+                }
+            }
+        });
+        
+        /* var raw = JSON.stringify({
             "MerchantOrderId": "2014111700",
             "Payment": {
                 "Type": "CreditCard",
@@ -32,23 +50,6 @@ export default function Cartao({ navigation }) {
                     "ExpirationDate": "12/2021",
                     "SecurityCode": "123",
                     "Brand": "Visa"
-                }
-            }
-        });
-
-        /* var raw = JSON.stringify({
-            "MerchantOrderId": "2014111700",
-            "Payment": {
-                "Type": "CreditCard",
-                "Amount": quantidade,
-                "Installments": 1,
-                "SoftDescriptor": "123456789ABCD",
-                "CreditCard": {
-                    "CardNumber": cartao,
-                    "Holder": "Teste Holder",
-                    "ExpirationDate": validade,
-                    "SecurityCode": codigoSeguranca,
-                    "Brand": marca
                 }
             }
         }); */

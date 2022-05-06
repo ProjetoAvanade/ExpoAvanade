@@ -52,6 +52,7 @@ export default function PontoProximo({ navigation }) {
             if (resposta.status === 200) {
                 const dadosDaApi = resposta.data;
                 setListaBicicletario(dadosDaApi)
+                console.warn(dadosDaApi[0].distancia)
             }
         } catch (error) {
             //console.warn(resposta)
@@ -66,7 +67,6 @@ export default function PontoProximo({ navigation }) {
 
     return (
         <View style={styles.main}>
-            {console.warn(listaBicicletario)}
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'
