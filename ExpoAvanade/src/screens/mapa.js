@@ -36,7 +36,7 @@ export default function Mapa({ navigation }) {
     const [listaVagas, setListaVagas] = useState([]);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
-    const [position, setPosition] = useState([{"timestamp": 1651720499602, "mocked" : false,}]);
+    const [position, setPosition] = useState([{ "timestamp": 1651720499602, "mocked": false, }]);
 
     const buscarBicicletarios = async () => {
         try {
@@ -69,7 +69,6 @@ export default function Mapa({ navigation }) {
         setLongitude(parseFloat(location.coords.longitude))
         setLatitude(parseFloat(location.coords.latitude))
         setPosition(location)
-        console.warn(position)
     };
 
     const buscarInfoPerfil = async () => {
@@ -171,7 +170,7 @@ export default function Mapa({ navigation }) {
                         <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel}   |   Totais = {qntdVagaTotal}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), () => setIdBicicletario(0) }}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), setIdBicicletario(0) }}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
@@ -219,9 +218,20 @@ export default function Mapa({ navigation }) {
             setListaVagas(dadosDaApi)
             setqntdVagaTotal(dadosDaApi.length)
 
-            console.warn(qntdVagaTotal)
 
-            if (listaVagas != []) {
+            for (let userObject of listaVagas) {
+                console.log(userObject.statusVaga = true);
+                /* if(userObject.statusVaga == false){
+                    setqntdVagaDisponivel(userObject.statusVaga == false)
+                    
+                } */
+                /* if (userObject.statusVaga = true) {
+                    console.warn(userObject.push())
+                    setqntdVagaDisponivel(userObject.push())
+                    console.warn(qntdVagaDisponivel)
+                } */
+            }
+            /* if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == true) {
                         console.warn(arr.push(b))
@@ -230,7 +240,7 @@ export default function Mapa({ navigation }) {
                     }
                 });
                 //console.warn(arr)
-            }
+            } */
         } catch (error) {
             console.warn(error);
         }

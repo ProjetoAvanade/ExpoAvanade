@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity,
     StatusBar,
+    Platform
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -20,25 +21,28 @@ export default function PontoProximo({ navigation }) {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
 
-   /*  const buscarLocalizacao = async () => {
+    const buscarLocalizacao = async () => {
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+            setErroMensagem('Permissão para acessar a localização negada!')
+            return;
+        }
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            setErroMensagem('Permissão para acessar a localização negada!')
+            return;
+        };
+
+        const location = await Location.getCurrentPositionAsync({});
+        setLongitude(parseFloat(location.coords.longitude))
+        setLatitude(parseFloat(location.coords.latitude))
     };
-     */
-    
+
     const buscarPontosProximos = async () => {
         try {
-            if (Platform.OS === 'android' && !Constants.isDevice) {
-                setErroMensagem('Permissão para acessar a localização negada!')
-                return;
-            }
-            const { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErroMensagem('Permissão para acessar a localização negada!')
-                return;
-            };
-        
-            const location = await Location.getCurrentPositionAsync({});
+            /* const location = await Location.getCurrentPositionAsync({});
             setLongitude(parseFloat(location.coords.longitude))
-            setLatitude(parseFloat(location.coords.latitude))
+            setLatitude(parseFloat(location.coords.latitude)) */
+            console.log(latitude, longitude)
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.get(`/Localizacao?Latitude=${latitude}&Longitude=${longitude}`, {
                 headers: {
@@ -48,19 +52,16 @@ export default function PontoProximo({ navigation }) {
             if (resposta.status === 200) {
                 const dadosDaApi = resposta.data;
                 setListaBicicletario(dadosDaApi)
-                /*setDistancia(dadosDaApi.distancia)
-                parseFloat(distancia).toFixed(2)
-                console.log(distancia) */
             }
         } catch (error) {
-            console.warn(resposta)
+            //console.warn(resposta)
             //console.warn(error);
         }
     };
 
     useEffect(() => {
-        //buscarLocalizacao();
-        buscarPontosProximos();
+        buscarLocalizacao();
+        buscarPontosProximos();;
     }, []);
 
     return (
@@ -89,7 +90,7 @@ export default function PontoProximo({ navigation }) {
                                     <Text style={styles.mainCardsTextName}>{item.nome}</Text>
                                     <Text style={styles.mainCardsTextEmail}>{item.rua}, {item.numero}</Text>
                                 </View>
-                                <Text style={styles.mainCardsTextTrade}>{parseInt(item.distancia).toFixed(2)}km</Text>
+                                <Text style={styles.mainCardsTextTrade}>{parseFloat(parseFloat(item.distancia).toFixed()/1000000).toFixed(1)}km</Text>
                                 <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
                             </TouchableOpacity>
                         </View>
