@@ -203,32 +203,30 @@ export default function Mapa({ navigation }) {
 
     const buscarVagasPonto = async () => {
         try {
-            //console.warn(idBicicletario)
-            var arr = [];
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.get(`/Vagas/${idBicicletario}`, {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            const dadosDaApi = resposta.data;
-            setListaVagas(dadosDaApi)
-            console.warn(listaVagas)
-            setqntdVagaTotal(dadosDaApi.length)
-
-            if (listaVagas != []) {
-                listaVagas.forEach(function (b) {
-                    if (b.statusVaga == true) {
-                        arr.push(b)
-                    }
-                    setqntdVagaDisponivel(arr)
-                });
-                console.warn(arr)
-            }
+          var arr = [];
+          const token = await AsyncStorage.getItem('userToken');
+          const resposta = await api.get(`/Vagas/${idBicicletario}`, {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+          const dadosDaApi = resposta.data;
+          setListaVagas(dadosDaApi);
+          setqntdVagaTotal(dadosDaApi.length)
+    
+          if (listaVagas != []) {
+            listaVagas.forEach(function (b) {
+              if (b.statusVaga == 0) {
+                arr.push(b)
+              }
+            });
+            console.warn(arr)
+          }
+          setqntdVagaDisponivel(arr)
         } catch (error) {
-            console.warn(error);
+          //console.warn(error);
         }
-    };
+      };
 
     const Funcoes = () => {
         setVisible(true);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
 
 import api from '../services/api';
 
@@ -27,7 +27,7 @@ export default function Vaga({ navigation, route }) {
 
       if (listaVagas != []) {
         listaVagas.forEach(function (b) {
-          if (b.statusVaga == false) {
+          if (b.statusVaga == 0) {
             arr.push(b)
           }
         });
@@ -58,14 +58,6 @@ export default function Vaga({ navigation, route }) {
       <Text style={styles.title}>Qual vaga você quer utilizar?</Text>
 
       <View style={styles.mainBody}>
-        {/* <View style={styles.selectVaga}>
-          <TextInput
-            style={styles.mainInput}
-            placeholder='Selecionar'
-            placeholderTextColor='#000000'
-            keyboardType="email-address"
-          />
-        </View> */}
 
         <View>
           <Text style={styles.btnConfirmText}>Vagas:</Text>

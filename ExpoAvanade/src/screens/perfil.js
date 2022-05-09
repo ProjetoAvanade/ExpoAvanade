@@ -50,7 +50,8 @@ export default class Perfil extends Component {
           imagem: dadosDaApi.imagem,
           pontos: dadosDaApi.pontos
         });
-        this.setState({uri: `http://192.168.15.11:5000/StaticFiles/imagem/${this.state.imagem}`})
+        //this.setState({uri: `http://192.168.15.11:5000/StaticFiles/imagem/${this.state.imagem}`})
+        this.setState({uri: `http://192.168.4.187:5000/StaticFiles/imagem/${this.state.imagem}`})
       }
     } catch (error) {
       //console.warn(resposta)
