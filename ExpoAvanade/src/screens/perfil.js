@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
 
-export default function Perfil({ navigation }) {
-  const [nomeUsuario, setNomeUsuario] = useState('');
-  const [email, setEmail] = useState('');
-  const [pontos, setPontos] = useState(0);
-  const [saldo, setSaldo] = useState(0);
-  const [dataNascimento, setDataNascimento] = useState(Date());
-  const [CPF, setCPF] = useState('');
+export default class Perfil extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nomeUsuario: '',
+      email: '',
+      pontos: 0,
+      saldo: 0,
+      cpf: '',
+      dataNascimento: Date(),
+      imagem: '',
+      uri: '',
+      pontos: 0,
+    };
+  }
 
-  const realizarLogout = async () => {
+  realizarLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
-      navigation.navigate('Login');
+      this.props.navigation.navigate('Login');
     } catch (error) {
       //console.warn(error);
     }
   }
 
-  const buscarInfoPerfil = async () => {
+  buscarInfoPerfil = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.get('/Usuario', {
@@ -32,11 +40,17 @@ export default function Perfil({ navigation }) {
       })
       if (resposta.status === 200) {
         const dadosDaApi = resposta.data;
-        setNomeUsuario(dadosDaApi.nomeUsuario)
-        setEmail(dadosDaApi.email)
-        setPontos(dadosDaApi.pontos)
-        setSaldo(dadosDaApi.saldo)
-        setDataNascimento(dadosDaApi.dataNascimento)
+        this.setState({
+          nomeUsuario: dadosDaApi.nomeUsuario,
+          email: dadosDaApi.email,
+          pontos: dadosDaApi.pontos,
+          saldo: dadosDaApi.saldo,
+          dataNascimento: dadosDaApi.dataNascimento,
+          cpf: dadosDaApi.cpf,
+          imagem: dadosDaApi.imagem,
+          pontos: dadosDaApi.pontos
+        });
+        this.setState({uri: `http://192.168.15.11:5000/StaticFiles/imagem/${this.state.imagem}`})
       }
     } catch (error) {
       //console.warn(resposta)
@@ -44,84 +58,105 @@ export default function Perfil({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    buscarInfoPerfil();
-  }, []);
+  componentDidMount() {
+    this.buscarInfoPerfil();
+  }
 
-  return (
-    <View style={styles.main}>
-      <StatusBar
-        barStyle='dark-content'
-        backgroundColor='#F3BC2C'
-        hidden={false}
-      />
+  render() {
+    return (
+      <View style={styles.main}>
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
 
-      <View style={styles.mainGap}></View>
-      <View style={styles.mainHeader}>
-        <View style={styles.mainHeaderSpace}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+            </TouchableOpacity>
+
+            <Text style={styles.mainHeaderText}>Meu perfil</Text>
+          </View>
+        </View>
+
+        <View style={styles.mainContent}>
+          <TouchableOpacity>
+            {
+              this.state.imagem != '' &&
+              <Image
+                source={{ uri: this.state.uri }}
+                style={styles.mainContentImage} />
+            }
+
+            {
+              this.state.imagem == '' &&
+              <Image
+                source={require('../../assets/img/icon_mold.png')}
+                style={styles.mainContentImage} />
+            }
           </TouchableOpacity>
-          <Text style={styles.mainHeaderText}>Meu perfil</Text>
+          <View style={styles.mainContentTexts}>
+            <Text style={styles.mainContentTextName}>{this.state.nomeUsuario}</Text>
+            <Text style={styles.mainContentTextEmail}>{this.state.email}</Text>
+          </View>
+          <Text style={styles.mainContentTextAccount}>Minha conta</Text>
         </View>
-      </View>
 
-      <View style={styles.mainContent}>
-        <TouchableOpacity>
-          <Image source={require('../../assets/img/icon_mold.png')} style={styles.mainContentImage} />
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
+            {/* <Text style={styles.mainCardsTextEmail}>{nomeUsuario},
+            {Intl.DateTimeFormat("pt-BR", {
+              year: 'numeric', month: 'short', day: 'numeric',
+            }).format(new Date(Cpf))},
+            {dataNascimento}
+          </Text> */}
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {this.state.dataNascimento}</Text>
+          </View>
+        </View>
+
+        <View style={styles.mainCard}>
+          <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Email</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.email}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('Carteira')}>
+          <Image source={require('../../assets/img/icon_money.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Saldo</Text>
+            <Text style={styles.mainCardsTextEmail}>R${this.state.saldo}</Text>
+          </View>
+          <Text style={styles.mainCardsTextTrade2}>Adicionar</Text>
+          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
         </TouchableOpacity>
-        <View style={styles.mainContentTexts}>
-          <Text style={styles.mainContentTextName}>{nomeUsuario}</Text>
-          <Text style={styles.mainContentTextEmail}>{email}</Text>
-        </View>
-        <Text style={styles.mainContentTextAccount}>Minha conta</Text>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas', { pontos: this.state.pontos })}>
+          <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.pontos}</Text>
+          </View>
+          <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.mainCard} onPress={() => this.realizarLogout()}>
+          <Image source={require('../../assets/img/icon_leave.png')} style={styles.mainCardImage} />
+          <View>
+            <Text style={styles.mainCardsTextName}>Sair</Text>
+          </View>
+        </TouchableOpacity>
+
       </View>
-
-      <View style={styles.mainCard}>
-        <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
-        <View>
-          <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
-          <Text style={styles.mainCardsTextEmail}>{nomeUsuario}, Falta CPF, {dataNascimento}</Text>
-        </View>
-      </View>
-
-      <View style={styles.mainCard}>
-        <Image source={require('../../assets/img/icon_email.png')} style={styles.mainCardImage} />
-        <View>
-          <Text style={styles.mainCardsTextName}>Email</Text>
-          <Text style={styles.mainCardsTextEmail}>{email}</Text>
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('Carteira')}>
-        <Image source={require('../../assets/img/icon_money.png')} style={styles.mainCardImage} />
-        <View>
-          <Text style={styles.mainCardsTextName}>Saldo</Text>
-          <Text style={styles.mainCardsTextEmail}>R${saldo}</Text>
-        </View>
-        <Text style={styles.mainCardsTextTrade2}>Adicionar</Text>
-        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.mainCard} onPress={() => navigation.navigate('TrocaRodas', { pontos : pontos })}>
-        <Image source={require('../../assets/img/icon_wheel.png')} style={styles.mainCardImage} />
-        <View>
-          <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
-          <Text style={styles.mainCardsTextEmail}>{pontos}</Text>
-        </View>
-        <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.mainCard} onPress={() => realizarLogout()}>
-        <Image source={require('../../assets/img/icon_leave.png')} style={styles.mainCardImage} />
-        <View>
-          <Text style={styles.mainCardsTextName}>Sair</Text>
-        </View>
-      </TouchableOpacity>
-
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

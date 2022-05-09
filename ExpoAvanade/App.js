@@ -13,6 +13,7 @@ import TrocaRodas from './src/screens/trocaRodas';
 import Perfil from './src/screens/perfil';
 import Cartao from './src/screens/cartao';
 import CadastrarReserva from './src/screens/cadastrarReserva';
+import Vaga from './src/screens/vaga';
 
 const AuthStack = createStackNavigator();
 
@@ -76,6 +77,7 @@ export default function App() {
         <AuthStack.Screen name="Perfil" component={Perfil} />
         <AuthStack.Screen name="Cartao" component={Cartao} />
         <AuthStack.Screen name="CadastrarReserva" component={CadastrarReserva} />
+        <AuthStack.Screen name="Vaga" component={Vaga} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

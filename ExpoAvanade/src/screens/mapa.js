@@ -25,9 +25,6 @@ export default function Mapa({ navigation }) {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [nomeUsuario, setNomeUsuario] = useState('');
-    /* const [email, setEmail] = useState('');
-    const [pontos, setPontos] = useState(0);
-    const [saldo, setSaldo] = useState(0); */
     const [horarioAberto, setHorarioAberto] = useState('');
     const [horarioFechado, setHorarioFechado] = useState('');
     const [nomePonto, setNomePonto] = useState('');
@@ -167,10 +164,10 @@ export default function Mapa({ navigation }) {
                     <View style={styles.modalPointInfo}>
                         <Image source={require('../../assets/img/icon_spaces.png')}></Image>
                         <Text style={styles.modalText}>Vagas:</Text>
-                        <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel}   |   Totais = {qntdVagaTotal}</Text>
+                        <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel.length}   |   Totais = {qntdVagaTotal}</Text>
                     </View>
 
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), setIdBicicletario(0) }}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Vaga', { idBicicletario: idBicicletario }) }}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
@@ -196,7 +193,7 @@ export default function Mapa({ navigation }) {
                         </View>
                     </View>
                     {/* <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text> */}
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), navigation.navigate('CadastrarReserva')}}>
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('CadastrarReserva') }}>
                         <Text style={styles.modalTextTitle}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
@@ -216,33 +213,17 @@ export default function Mapa({ navigation }) {
             })
             const dadosDaApi = resposta.data;
             setListaVagas(dadosDaApi)
+            console.warn(listaVagas)
             setqntdVagaTotal(dadosDaApi.length)
 
-
-            /*for (let userObject of listaVagas) {
-                let vagaOcupada = userObject.statusVaga == false
-                console.warn('ocupada: ' + userObject.statusVaga == 1)
-                let vagadis = dadosDaApi.length - vagaOcupada
-                console.log(vagadis)
-                /* if(userObject.statusVaga == false){
-                    setqntdVagaDisponivel(userObject.statusVaga == false)
-                    
-                } */
-                /* if (userObject.statusVaga = true) {
-                    console.warn(userObject.push())
-                    setqntdVagaDisponivel(userObject.push())
-                    console.warn(qntdVagaDisponivel)
-                } *
-            }*/
             if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == true) {
-                        console.warn(arr.push(b))
-                        setqntdVagaDisponivel(arr.push(b))
-                        console.warn(qntdVagaDisponivel)
+                        arr.push(b)
                     }
+                    setqntdVagaDisponivel(arr)
                 });
-                //console.warn(arr)
+                console.warn(arr)
             }
         } catch (error) {
             console.warn(error);
@@ -311,8 +292,8 @@ export default function Mapa({ navigation }) {
                 })}
             </MapView>
 
-            {/* <ModalLocalizacao /> */}
-            <ConfirmacaoTempo />
+            <ModalLocalizacao />
+            {/* <ConfirmacaoTempo /> */}
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>

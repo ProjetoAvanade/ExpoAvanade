@@ -15,15 +15,17 @@ import api from '../services/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function CadastrarReserva({ navigation }) {
-    const [idVaga, setIdVaga] = useState(16)
+export default function CadastrarReserva({ navigation, route }) {
+    //const [idVaga, setIdVaga] = useState(idVaga)
+    //const idVaga = navigation.getParam('idVaga')
+    const idVaga = route.params.idVaga
     const [idReserva, setIdReserva] = useState(6)
 
     const criarReserva = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.post('/Reserva', {
-                idVaga: 16
+                idVaga : idVaga
             },
                 {
                     headers: {
@@ -75,7 +77,7 @@ export default function CadastrarReserva({ navigation }) {
     };
 
     useEffect(() => {
-        //criarReserva();
+        criarReserva();
     }, []);
 
     return (

@@ -15,7 +15,7 @@ const bottomTab = createBottomTabNavigator();
 import Mapa from './mapa';
 import Perfil from './perfil';
 import PontoProximo from './pontoProximo';
-import Carteira from './carteira';
+//import Carteira from './carteira';
 
 
 export default function Main(){
