@@ -16,7 +16,7 @@ import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CadastrarReserva({ navigation, route }) {
-    const idVaga = route.params.idVaga
+    /* const idVaga = route.params.idVaga
     const [idReserva, setIdReserva] = useState()
     const [carregar, setCarregar] = useState(false);
     
@@ -29,7 +29,7 @@ export default function CadastrarReserva({ navigation, route }) {
         })
         const dadosDaApi = await resposta.data;
         setIdReserva(dadosDaApi.reverse()[0].idReserva);
-        console.warn(idReserva + 'foi krl')
+        console.warn(idReserva)
     }
     
     const criarReserva = async () => {
@@ -59,7 +59,7 @@ export default function CadastrarReserva({ navigation, route }) {
                     if(carregar == true){
                         listarReserva();
                         setCarregar(false)
-                    } */
+                    } *
                 }
             }
         } catch (error) {
@@ -71,7 +71,7 @@ export default function CadastrarReserva({ navigation, route }) {
     useEffect(() => {
         criarReserva();
         listarReserva();
-    });
+    }); */
     
     
     return (

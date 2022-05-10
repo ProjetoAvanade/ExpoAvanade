@@ -46,16 +46,10 @@ export default class PontoProximo extends Component {
  */
     buscarPontosProximos = async () => {
         try {
-            const { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErroMensagem('Permissão para acessar a localização negada!')
-                return;
-            };
-
             const location = await Location.getCurrentPositionAsync({});
             this.setState({
                 latitude: parseFloat(location.coords.latitude),
-                longitude: parseFloat(location.coords.latitude)
+                longitude: parseFloat(location.coords.longitude)
             });
             console.log(this.state.latitude, this.state.longitude)
             const token = await AsyncStorage.getItem('userToken');
@@ -109,7 +103,7 @@ export default class PontoProximo extends Component {
                                         <Text style={styles.mainCardsTextName}>{item.nome}</Text>
                                         <Text style={styles.mainCardsTextEmail}>{item.rua}, {item.numero}</Text>
                                     </View>
-                                    <Text style={styles.mainCardsTextTrade}>{parseFloat(parseFloat(item.distancia).toFixed() / 1000000).toFixed(1)}km</Text>
+                                    <Text style={styles.mainCardsTextTrade}>{parseFloat(parseFloat(item.distancia).toFixed() / 1000).toFixed(1)}km</Text>
                                     <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
                                 </TouchableOpacity>
                             </View>
