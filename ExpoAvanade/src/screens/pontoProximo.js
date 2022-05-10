@@ -26,7 +26,7 @@ export default class PontoProximo extends Component {
         };
     }
 
-    buscarLocalizacao = async () => {
+   /*  buscarLocalizacao = async () => {
         if (Platform.OS === 'android' && !Constants.isDevice) {
             setErroMensagem('Permissão para acessar a localização negada!')
             return;
@@ -43,12 +43,20 @@ export default class PontoProximo extends Component {
             longitude: parseFloat(location.coords.latitude)
         });
     };
-
+ */
     buscarPontosProximos = async () => {
         try {
-            /* const location = await Location.getCurrentPositionAsync({});
-            setLongitude(parseFloat(location.coords.longitude))
-            setLatitude(parseFloat(location.coords.latitude)) */
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErroMensagem('Permissão para acessar a localização negada!')
+                return;
+            };
+
+            const location = await Location.getCurrentPositionAsync({});
+            this.setState({
+                latitude: parseFloat(location.coords.latitude),
+                longitude: parseFloat(location.coords.latitude)
+            });
             console.log(this.state.latitude, this.state.longitude)
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.get(`/Localizacao?Latitude=${this.state.latitude}&Longitude=${this.state.longitude}`, {
@@ -60,7 +68,7 @@ export default class PontoProximo extends Component {
                 const dadosDaApi = resposta.data;
                 console.warn(dadosDaApi)
                 this.setState({
-                    listaBicicletario : dadosDaApi
+                    listaBicicletario: dadosDaApi
                 });
             }
         } catch (error) {
@@ -70,7 +78,7 @@ export default class PontoProximo extends Component {
     };
 
     componentDidMount() {
-        this.buscarLocalizacao();
+        //this.buscarLocalizacao();
         this.buscarPontosProximos();
     };
 
@@ -91,6 +99,7 @@ export default class PontoProximo extends Component {
                 </View>
 
                 <ScrollView style={styles.mainScroll}>
+                    {console.warn(this.state.latitude, this.state.longitude)}
                     {this.state.listaBicicletario.map((item) => {
                         return (
                             <View key={item.idBicicletario}>

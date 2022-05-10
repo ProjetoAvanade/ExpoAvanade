@@ -34,6 +34,7 @@ export default function Mapa({ navigation }) {
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
     const [position, setPosition] = useState([{ "timestamp": 1651720499602, "mocked": false, }]);
+    const [carregar, setCarregar] = useState(true);
 
     const buscarBicicletarios = async () => {
         try {
@@ -203,30 +204,31 @@ export default function Mapa({ navigation }) {
 
     const buscarVagasPonto = async () => {
         try {
-          var arr = [];
-          const token = await AsyncStorage.getItem('userToken');
-          const resposta = await api.get(`/Vagas/${idBicicletario}`, {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          })
-          const dadosDaApi = resposta.data;
-          setListaVagas(dadosDaApi);
-          setqntdVagaTotal(dadosDaApi.length)
-    
-          if (listaVagas != []) {
-            listaVagas.forEach(function (b) {
-              if (b.statusVaga == false) {
-                arr.push(b)
-              }
-            });
-            console.warn(arr)
-          }
-          setqntdVagaDisponivel(arr)
+            var arr = [];
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.get(`/Vagas/${idBicicletario}`, {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            const dadosDaApi = resposta.data;
+            setListaVagas(dadosDaApi);
+            setqntdVagaTotal(dadosDaApi.length)
+            console.warn(dadosDaApi)
+
+            if (listaVagas != []) {
+                listaVagas.forEach(function (b) {
+                    if (b.statusVaga == false) {
+                        arr.push(b)
+                    }
+                });
+                console.warn(arr)
+            }
+            setqntdVagaDisponivel(arr)
         } catch (error) {
-          //console.warn(error);
+            //console.warn(error);
         }
-      };
+    };
 
     const Funcoes = () => {
         setVisible(true);
@@ -239,6 +241,14 @@ export default function Mapa({ navigation }) {
         buscarBicicletarios();
         buscarInfoPerfil();
     }, []);
+
+    /* useEffect(() => {
+        if (carregar == true) {
+            buscarLocalizacao();
+            buscarBicicletarios();
+            setTimeout(function () { setCarregar(false) }, 5000)
+        }
+    }); */
 
     return (
         <View style={styles.main}>

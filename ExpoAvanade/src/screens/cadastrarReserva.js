@@ -18,88 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function CadastrarReserva({ navigation, route }) {
     const idVaga = route.params.idVaga
     const [idReserva, setIdReserva] = useState()
-
-    /* const criarReserva = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.post('/Reserva', {
-                idVaga: idVaga
-            },
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                })
-            if (resposta.status === 201) {
-                //console.warn('Cadastrado com sucesso!')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    const listarReserva = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.get('/Reserva', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            if (resposta.status === 200) {
-                var dadosDaApi = await resposta.data;
-                let arr = await dadosDaApi.reverse()
-                setListaReserva(arr[0])
-                console.warn(listaReserva)
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    const atualizarReserva = async () => {
-        try {
-            let arr = await dadosDaApi.reverse()
-            setIdReserva(arr[0].idReserva)
-            console.warn(idReserva)
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put(`/Reserva/${listaReserva[0].idReserva}`, {
-                statusPagamento: true
-            },
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                })
-            if (resposta.status === 204) {
-                console.warn('Reserva finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    const atualizarPontos = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put('/Reserva', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            console.warn(resposta)
-            if (resposta.status === 200) {
-                console.warn('Troca finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    }; */
-
+    const [carregar, setCarregar] = useState(false);
+    
     const listarReserva = async () => {
         const token = await AsyncStorage.getItem('userToken');
         const resposta = await api.get('/Reserva', {
@@ -109,22 +29,22 @@ export default function CadastrarReserva({ navigation, route }) {
         })
         const dadosDaApi = await resposta.data;
         setIdReserva(dadosDaApi.reverse()[0].idReserva);
-        console.warn(idReserva)
+        console.warn(idReserva + 'foi krl')
     }
-
+    
     const criarReserva = async () => {
         try {
             var token = await AsyncStorage.getItem('userToken');
             const resposta = await api.post('/Reserva', {
                 idVaga: idVaga
             },
-                {
-                    headers: {
+            {
+                headers: {
                         Authorization: 'Bearer ' + token,
                     },
                 })
-            if (resposta.status === 201) {
-                console.warn('Cadastrado com sucesso!')
+                if (resposta.status === 201) {
+                    console.warn('Cadastrado com sucesso!')
                 const resposta = await api.put(`/Vagas/${idVaga}`, {
                     statusVaga: 1
                 },
@@ -134,7 +54,12 @@ export default function CadastrarReserva({ navigation, route }) {
                         },
                     })
                 if (resposta.status === 204) {
-                    console.warn('Atualizou a reserva')
+                    console.warn('Atualizou a vaga')
+                    /* setCarregar(true)
+                    if(carregar == true){
+                        listarReserva();
+                        setCarregar(false)
+                    } */
                 }
             }
         } catch (error) {
@@ -142,57 +67,21 @@ export default function CadastrarReserva({ navigation, route }) {
             console.warn(error);
         }
     };
-
-    /* const atualizarReserva = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put(`/Reserva/${idReserva}`, {
-                statusPagamento: true
-            },
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                })
-            if (resposta.status === 204) {
-                console.warn('Reserva finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    const atualizarPontos = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put('/Reserva', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            console.warn(resposta)
-            if (resposta.status === 200) {
-                console.warn('Troca finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    }; */
-
+    
     useEffect(() => {
         criarReserva();
         listarReserva();
-    }, []);
-
+    });
+    
+    
     return (
         <View style={styles.main}>
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'
                 hidden={false}
-            />
+                />
+            {console.warn(idReserva)}
             <View style={styles.mainGap}></View>
             <View style={styles.mainHeader}>
                 <View style={styles.mainHeaderSpace}>
@@ -204,7 +93,7 @@ export default function CadastrarReserva({ navigation, route }) {
             </View>
 
             <View style={styles.mainContent}>
-                <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva:  idReserva}) }}>
+                <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva }) }}>
                     <Text style={styles.mainContentFormButtonText}>Finalizar reserva</Text>
                 </TouchableOpacity>
             </View>
@@ -272,3 +161,128 @@ const styles = StyleSheet.create({
         color: '#000000'
     },
 });
+/* const criarReserva = async () => {
+    try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.post('/Reserva', {
+            idVaga: idVaga
+        },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            if (resposta.status === 201) {
+            //console.warn('Cadastrado com sucesso!')
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+};
+
+const listarReserva = async () => {
+    try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.get('/Reserva', {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        })
+        if (resposta.status === 200) {
+            var dadosDaApi = await resposta.data;
+            let arr = await dadosDaApi.reverse()
+            setListaReserva(arr[0])
+            console.warn(listaReserva)
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+};
+
+const atualizarReserva = async () => {
+    try {
+        let arr = await dadosDaApi.reverse()
+        setIdReserva(arr[0].idReserva)
+        console.warn(idReserva)
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.put(`/Reserva/${listaReserva[0].idReserva}`, {
+            statusPagamento: true
+        },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            if (resposta.status === 204) {
+            console.warn('Reserva finalizada')
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+};
+
+const atualizarPontos = async () => {
+    try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.put('/Reserva', {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        })
+        console.warn(resposta)
+        if (resposta.status === 200) {
+            console.warn('Troca finalizada')
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+}; */
+
+/* const atualizarVaga = async () => {
+    try {
+        console.warn(vaga)
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.put(`/Vaga/${idVaga}`, {
+            statusVaga: 1
+        },
+        {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+        if (resposta.status === 204) {
+            console.warn('Vaga atualizada')
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+};
+
+
+/*const atualizarPontos = async () => {
+    try {
+        const token = await AsyncStorage.getItem('userToken');
+        const resposta = await api.put('/Reserva', {
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+        })
+        console.warn(resposta)
+        if (resposta.status === 200) {
+            console.warn('Troca finalizada')
+        }
+    } catch (error) {
+        console.warn(resposta)
+        console.warn(error);
+    }
+}; */
+
+/* useEffect(() => {
+    criarReserva();
+    listarReserva();
+}, []); */

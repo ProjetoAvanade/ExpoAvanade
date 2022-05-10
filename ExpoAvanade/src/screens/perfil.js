@@ -50,7 +50,7 @@ export default class Perfil extends Component {
           imagem: dadosDaApi.imagem,
           pontos: dadosDaApi.pontos
         });
-        let apiImg = 'http://192.168.15.11:5000'
+        let apiImg = 'https://api-avanade.azurewebsites.net/api'
         //let apiImg = 'http://192.168.4.187:5000'
         this.setState({uri: `${apiImg}/StaticFiles/imagem/${this.state.imagem}`})
       }

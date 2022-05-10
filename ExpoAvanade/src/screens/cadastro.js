@@ -120,7 +120,7 @@ export default function Cadastro({ navigation }) {
     formData.append('arquivo', {
       uri: arquivo, name: filename, type: type
     })
-    fetch('http://192.168.15.11:5000/api/Usuario', {
+    fetch('https://api-avanade.azurewebsites.net/api/Usuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'

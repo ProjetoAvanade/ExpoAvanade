@@ -11,6 +11,7 @@ export default function Vaga({ navigation, route }) {
   const [qntdVagaTotal, setqntdVagaTotal] = useState()
   const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([])
   const [idVaga, setIdVaga] = useState(0)
+  //const [carregar, setCarregar] = useState(true);
 
   const buscarVagasPonto = async () => {
     try {
@@ -40,8 +41,12 @@ export default function Vaga({ navigation, route }) {
   };
 
   useEffect(() => {
+    /* if (carregar == true) {
+      buscarVagasPonto()
+      setTimeout(function () { setCarregar(false) }, 5000)
+    } */
     buscarVagasPonto();
-  }, []);
+  });
 
   return (
     <View style={styles.main}>
