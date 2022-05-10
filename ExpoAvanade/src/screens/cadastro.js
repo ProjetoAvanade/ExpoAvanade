@@ -23,92 +23,61 @@ export default function Cadastro({ navigation }) {
   const [cpf, setCpf] = useState('111192928');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
-  const [result, setResult] = useState('');
+  //const [result, setResult] = useState('');
   const [sucess, setSucess] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  // This function is triggered when the "Select an image" button pressed
+  // Aciona a função feita com a biblioteca ImagePicker para acessar a galeria
   const showImagePicker = async () => {
-    // Ask the user for the permission to access the media library 
+    // Pede ao usuário o acesso a galeria
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
       alert("Você recusou a permissão de acesso a galeria!");
       return;
     }
-
+    
+    // Abre a galeria, o usuário poderá escolher a foto
     const result = await ImagePicker.launchImageLibraryAsync();
-
-    // Explore the result
     console.log(result);
 
     if (!result.cancelled) {
+      // Conseguir a uri da imagem no celular
       setArquivo(result.uri);
-      setResult(result);
-      console.log(result.uri);
+      //setResult(result);
+      //console.log(result.uri);
     }
   }
 
-  // This function is triggered when the "Open camera" button pressed
+  // Função feita com a biblioteca ImagePicker para acessar a câmera
   const openCamera = async () => {
-    // Ask the user for the permission to access the camera
+    // Pede ao usuário o acesso a galeria
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
       alert("Você recusou a permissão de acesso a câmera!");
       return;
     }
-
+    
+    // Abre a câmera, o usuário poderá tirar a foto
     const result = await ImagePicker.launchCameraAsync();
-
-    // Explore the result
     console.log(result);
 
     if (!result.cancelled) {
+      // Conseguir a uri da imagem no celular
       setArquivo(result.uri);
-      setResult(result);
-      console.log(result.uri);
+      //setResult(result);
+      //console.log(result.uri);
     }
   }
 
-  /* const Cadastrar = async () => {
-    const filename = arquivo.split('/').pop();
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `image/${match[1]}` : `image`;
-    let formData = new FormData();
-    formData.append('idTipoUsuario', idTipoUsuario);
-    formData.append('nomeUsuario', nomeUsuario);
-    formData.append('email', email);
-    formData.append('senha', senha);
-    formData.append('dataNascimento', dataNascimento);
-    formData.append('cpf', cpf);
-    formData.append('imagem', imagem);
-    formData.append('arquivo', {
-      uri: arquivo, name: filename, type: 'image'
-    })
-    //fetch('http://192.168.4.187:5000/api/Usuario', {
-    fetch('http://192.168.15.11:5000/api/Usuario', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      body: formData,
-    }).then(response => {
-      setSucess(true)
-      console.log('Usuario Cadastrado')
-    }).catch(erro => {
-      setSucess(false)
-      console.log(erro)
-      console.log(formData)
-    })
-  } */
-  
-  /* uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-  type: result.type,
-  name: result.uri.replace(/^.*[\\\/]/, '') */
   const Cadastrar = async () => {
+    setIsLoading(true);
+    
     const filename = arquivo.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `image/${match[1]}` : `image`;
+    
     let formData = new FormData();
     formData.append('idTipoUsuario', idTipoUsuario);
     formData.append('nomeUsuario', nomeUsuario);
@@ -127,11 +96,12 @@ export default function Cadastro({ navigation }) {
       },
       body: formData,
     }).then(response => {
-      console.log('Usuario Cadastrado')
-      setSucess(true)
+      console.log('Usuario Cadastrado');
+      setSucess(true);
+      setIsLoading(false);
     }).catch(erro => {
-      console.log(erro)
-      setSucess(false)
+      console.log(erro);
+      setIsLoading(false);
     })
   }
 
@@ -226,9 +196,21 @@ export default function Cadastro({ navigation }) {
             <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
           }
 
-          <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar}>
+{
+              // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
+              isLoading === false &&
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar} disabled={
+            nomeUsuario == '' || senha == '' || email == '' || dataNascimento == null || cpf == '' || arquivo == '' ? 'none' : ''}>
             <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
           </TouchableOpacity>
+}
+
+{
+  // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+  isLoading === true && <TouchableOpacity style={styles.mainContentFormButton} disabled>
+            <Text style={styles.mainContentFormButtonText}>Carregando...</Text>
+          </TouchableOpacity>
+}
 
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
         </View>
