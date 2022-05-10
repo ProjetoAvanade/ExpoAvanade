@@ -27,7 +27,7 @@ export default function Vaga({ navigation, route }) {
 
       if (listaVagas != []) {
         listaVagas.forEach(function (b) {
-          if (b.statusVaga == 0) {
+          if (b.statusVaga == false) {
             arr.push(b)
           }
         });

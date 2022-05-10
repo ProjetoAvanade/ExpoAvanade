@@ -5,30 +5,46 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
 
-export default function Cartao({ navigation }) {
-    const [cartao, setCartao] = useState('');
+export default function Cartao({ navigation, route }) {
+    const idReserva = route.params.idReserva
+    const [cartao, setCartao] = useState('4024.0071.5376.3191');
     const [quantidade, setQuantidade] = useState(10);
-    const [validade, setValidade] = useState('');
-    const [codigoSeguranca, setCodigoSeguranca] = useState('');
-    const [marca, setMarca] = useState('');
+    const [validade, setValidade] = useState('12/2021');
+    const [codigoSeguranca, setCodigoSeguranca] = useState('123');
+    const [marca, setMarca] = useState('Visa');
     const [sucess, setSucess] = useState();
 
     const Pagar = async () => {
+        /* var raw = JSON.stringify({
+            "MerchantOrderId": "2014111700",
+            "Payment": {
+                "Type": "CreditCard",
+                "Amount": quantidade,
+                "Installments": 1,
+                "SoftDescriptor": "123456789ABCD",
+                "CreditCard": {
+                    "CardNumber": cartao,
+                    "Holder": "Teste Holder",
+                    "ExpirationDate": validade,
+                    "SecurityCode": codigoSeguranca,
+                    "Brand": marca
+                }
+            }
+        }); */
         var myHeaders = new Headers();
         myHeaders.append("MerchantId", "33976ff8-42cf-49dc-bc03-2d9583410eb1");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("MerchantKey", "STFUVFSECYOELJWCGZXXQGXXDCCMMNUPXUIHMZUZ");
 
-        
         var raw = JSON.stringify({
-            "MerchantOrderId": "2014111700",
+            "MerchantOrderId": "2014111710",
             "Payment": {
                 "Type": "CreditCard",
-                "Amount": + quantidade,
+                "Amount": quantidade,
                 "Installments": 1,
                 "SoftDescriptor": "123456789ABCD",
                 "CreditCard": {
-                    "CardNumber": + cartao,
+                    "CardNumber": cartao,
                     "Holder": "Teste Holder",
                     "ExpirationDate": validade,
                     "SecurityCode": codigoSeguranca,
@@ -36,23 +52,6 @@ export default function Cartao({ navigation }) {
                 }
             }
         });
-        
-        /* var raw = JSON.stringify({
-            "MerchantOrderId": "2014111700",
-            "Payment": {
-                "Type": "CreditCard",
-                "Amount": 15700,
-                "Installments": 1,
-                "SoftDescriptor": "123456789ABCD",
-                "CreditCard": {
-                    "CardNumber": "4024.0071.5376.3191",
-                    "Holder": "Teste Holder",
-                    "ExpirationDate": "12/2021",
-                    "SecurityCode": "123",
-                    "Brand": "Visa"
-                }
-            }
-        }); */
 
         var requestOptions = {
             method: 'POST',
@@ -61,23 +60,50 @@ export default function Cartao({ navigation }) {
             redirect: 'follow'
         };
 
-        /* .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error)); */
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
-            /* /* .then(response => {
-                console.warn('Pagamento Concluído')
-                console.log(response)
-                setSucess(true)
-            })
-            .catch(erro => {
-                console.log(erro)
-                setSucess(false)
-            }) */
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
+            setSucess(true)
     }
+
+    /* const atualizarReserva = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put(`/Reserva/${idReserva}`, {
+                statusPagamento: true
+            },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                })
+            if (resposta.status === 204) {
+                console.warn('Reserva finalizada')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+    const atualizarPontos = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put('/Reserva', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            console.warn(resposta)
+            if (resposta.status === 200) {
+                console.warn('Troca finalizada')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    }; */
 
     return (
         <View style={styles.main}>
@@ -86,7 +112,6 @@ export default function Cartao({ navigation }) {
                 backgroundColor='#F3BC2C'
                 hidden={false}
             />
-
             <View style={styles.mainGap}></View>
             <View style={styles.mainHeader}>
                 <View style={styles.mainHeaderSpace}>
@@ -101,11 +126,10 @@ export default function Cartao({ navigation }) {
                 <Text style={styles.mainContentText}>Numero do cartão</Text>
                 <TextInput
                     style={styles.mainContentInput}
-                    placeholder='XXXX XXXX XXXX XXXX'
+                    placeholder='XXXX.XXXX.XXXX.XXXX'
                     placeholderTextColor='#000000'
-                    keyboardType="email-address"
                     value={cartao}
-                    onChange={(cartao) => setCartao(cartao)}>
+                    onChangeText={(cartao) => setCartao(cartao)}>
                 </TextInput>
             </View>
 
@@ -130,7 +154,7 @@ export default function Cartao({ navigation }) {
                         placeholderTextColor='#000000'
                         keyboardType="email-address"
                         value={validade}
-                        onChange={(validade) => setValidade(validade)}>
+                        onChangeText={(validade) => setValidade(validade)}>
                     </TextInput>
                 </View>
                 <View style={styles.mainContentInputSpace}>
@@ -141,7 +165,7 @@ export default function Cartao({ navigation }) {
                         placeholderTextColor='#000000'
                         keyboardType="email-address"
                         value={codigoSeguranca}
-                        onChange={(codigoSeguranca) => setCodigoSeguranca(codigoSeguranca)}>
+                        onChangeText={(codigoSeguranca) => setCodigoSeguranca(codigoSeguranca)}>
                     </TextInput>
                 </View>
             </View>
@@ -157,11 +181,11 @@ export default function Cartao({ navigation }) {
             </View> */}
 
             {sucess == false &&
-                <Text style={styles.mainContentText}>Não foi possível realizar o pagamento!</Text>
+                <Text style={styles.mainContentTextError}>Não foi possível realizar o pagamento!</Text>
             }
 
             {sucess == true &&
-                <Text style={styles.mainContentText}>Pagamento realizado com sucesso!</Text>
+                <Text style={styles.mainContentTextSucess}>Pagamento realizado com sucesso!</Text>
             }
             <TouchableOpacity style={styles.mainContentModalBottomConfirmation} onPress={Pagar}>
                 <Text style={styles.mainContentModalBottomConfirmationText}>Prosseguir</Text>
@@ -207,6 +231,14 @@ const styles = StyleSheet.create({
     },
     mainContentText: {
         fontSize: 12
+    },
+    mainContentTextSucess: {
+        fontSize: 16,
+        color: 'green'
+    },
+    mainContentTextError: {
+        fontSize: 16,
+        color: '#ff0000'
     },
     mainContentInput: {
         width: 360,
