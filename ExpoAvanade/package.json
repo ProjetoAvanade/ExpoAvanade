@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo-google-fonts/abeezee": "^0.2.2",
     "@expo-google-fonts/ibm-plex-mono": "^0.2.2",
+    "@expo-google-fonts/poppins": "^0.2.2",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
@@ -28,6 +29,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-countdown-component": "^2.7.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-image-picker": "^4.7.3",
