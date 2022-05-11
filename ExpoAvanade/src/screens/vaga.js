@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Select, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet, Text, View, Select, Image, TouchableOpacity, Modal, Animated
+} from 'react-native';
 
 import api from '../services/api';
 
@@ -7,11 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Vaga({ navigation, route }) {
   const idBicicletario = route.params.idBicicletario
-  const [listaVagas, setListaVagas] = useState([])
-  const [qntdVagaTotal, setqntdVagaTotal] = useState()
-  const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([])
-  const [idVaga, setIdVaga] = useState(0)
-  //const [carregar, setCarregar] = useState(true);
+  const [qntdVagaTotal, setqntdVagaTotal] = useState();
+  const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
+  const [idVaga, setIdVaga] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [horas, setHoras] = useState(0);
 
   const buscarVagasPonto = async () => {
     try {
@@ -22,9 +24,9 @@ export default function Vaga({ navigation, route }) {
           Authorization: 'Bearer ' + token,
         },
       })
-      const dadosDaApi = resposta.data;
-      setListaVagas(dadosDaApi);
-      setqntdVagaTotal(dadosDaApi.length)
+
+      const listaVagas = resposta.data;
+      setqntdVagaTotal(listaVagas.length)
 
       if (listaVagas != []) {
         listaVagas.forEach(function (b) {
@@ -32,7 +34,7 @@ export default function Vaga({ navigation, route }) {
             arr.push(b)
           }
         });
-        console.warn(arr)
+        //console.warn(arr)
       }
       setqntdVagaDisponivel(arr)
     } catch (error) {
@@ -40,16 +42,76 @@ export default function Vaga({ navigation, route }) {
     }
   };
 
+  const ModalPoup = ({ visible, children }) => {
+    const [showModal, setShowModal] = React.useState(visible);
+    const scaleValue = React.useRef(new Animated.Value(0)).current;
+    React.useEffect(() => {
+      toggleModal();
+    }, [visible]);
+    const toggleModal = () => {
+      if (visible) {
+        setShowModal(true);
+        Animated.spring(scaleValue, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }).start();
+      } else {
+        setTimeout(() => setShowModal(false), 200);
+        Animated.timing(scaleValue, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
+    return (
+      <Modal transparent visible={showModal}>
+        <View style={styles.modalBackGround}>
+          <Animated.View
+            style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+            {children}
+          </Animated.View>
+        </View>
+      </Modal>
+    );
+  };
+
+  const ConfirmacaoTempo = () => {
+    return (
+      <ModalPoup visible={visible}>
+        <View style={styles.modalPoint}>
+          <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
+          <View style={styles.modalBackGrounds}>
+            <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
+              <Text style={styles.modalTextTitle}>R$3,75</Text>
+              <Text style={styles.modalText}>1 Hora</Text>
+              <Text style={styles.modalTextInfo}>Válido até 10:30</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalBackGroundYellow} onPress={() => setHoras(2)}>
+              <Text style={styles.modalTextTitle}>R$ 6,50</Text>
+              <Text style={styles.modalText}>2 Hora</Text>
+              <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text>
+          <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga }, {horas: horas}) }}>
+            <Text style={styles.modalTextTitle}>Confirmar</Text>
+          </TouchableOpacity>
+        </View>
+      </ModalPoup>
+    );
+  }
+
   useEffect(() => {
-    /* if (carregar == true) {
-      buscarVagasPonto()
-      setTimeout(function () { setCarregar(false) }, 5000)
-    } */
     buscarVagasPonto();
-  });
+  }, []);
+
+  //onPress={() => { navigation.navigate('CadastrarReserva', { idVaga: idVaga }) }}
 
   return (
     <View style={styles.main}>
+      {console.warn(horas)}
       <View style={styles.mainHeader}>
         <View style={styles.mainTitleSpace}>
           <TouchableOpacity style={styles.btnBackSpace} onPress={() => navigation.goBack()}>
@@ -74,7 +136,7 @@ export default function Vaga({ navigation, route }) {
           {qntdVagaDisponivel.map((item) => {
             return (
               <View key={item.idVaga}>
-                <TouchableOpacity style={styles.vagaCard} onPress={() => setIdVaga(item.idVaga)}>
+                <TouchableOpacity style={styles.vagaCard} onPress={() => {setIdVaga(item.idVaga), setVisible(true)}}>
                   <Text style={styles.vagaCardText}>{item.idVaga}</Text>
                 </TouchableOpacity>
               </View>
@@ -82,11 +144,13 @@ export default function Vaga({ navigation, route }) {
           })}
         </View>
 
-        <TouchableOpacity style={styles.btnConfirm} onPress={() => { navigation.navigate('CadastrarReserva', { idVaga: idVaga }) }}>
+        <TouchableOpacity style={styles.btnConfirm} onPress={() => setVisible(true)}>
           <Text style={styles.btnConfirmText}>Confirmar</Text>
         </TouchableOpacity>
 
-        <Text>Vaga {idVaga} selecionada</Text>
+        <ConfirmacaoTempo />
+
+        <Text style={styles.mainConfirmText}>Vaga {idVaga} selecionada</Text>
       </View>
     </View >
   );
@@ -178,12 +242,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#000',
   },
-
   mainBodyVaga: {
     flexDirection: 'row',
 
   },
-
   vagaCard: {
     backgroundColor: 'green',
     width: 40,
@@ -196,6 +258,72 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'ABeeZee_400Regular',
     color: '#fff',
+  },
+  modalPoint: {
+    backgroundColor: '#F5F5F5',
+    width: '100%',
+    height: 232,
+    borderRadius: 5,
+    marginTop: 462
+  },
+  modalPointInfo: {
+    alignItems: 'center',
+    flex: 0.3,
+    flexDirection: 'row',
+    maxWidth: 200
+  },
+  modalBtn: {
+    width: 373,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF'
+  },
+  modalTextTitle: {
+    //fontFamily: ,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  modalText: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 14,
+    color: '#000'
+  },
+  modalTextInfo: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 14,
+    color: '#342C2C'
+  },
+  modalClose: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 30,
+    color: '#000',
+    marginLeft: '25%'
+  },
+  modalPointTime: {
+    backgroundColor: '#F5F5F5',
+    width: '100%',
+    height: 253,
+    borderRadius: 5,
+    marginTop: 375
+  },
+  modalBackGrounds: {
+    flexDirection: 'row'
+  },
+  modalBackGroundGray: {
+    backgroundColor: '#DBDBDB',
+    width: 175,
+    height: 75
+  },
+  modalBackGroundYellow: {
+    backgroundColor: '#F3BC2C',
+    width: 175,
+    height: 75
+  },
+  mainConfirmText: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 16,
+    color: 'green'
   }
-
 });
