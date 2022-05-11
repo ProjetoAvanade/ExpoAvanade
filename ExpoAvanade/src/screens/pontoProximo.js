@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         height: 21.56,
     },
     mainHeaderText: {
-        fontFamily: 'IBMPlexMono_700Bold',
+        fontFamily: 'Poppins_700Bold',
         fontSize: 25,
     },
     mainScroll: {

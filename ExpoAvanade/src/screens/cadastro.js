@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     height: 21.56,
   },
   mainHeaderText: {
-    fontFamily: 'IBMPlexMono_700Bold',
+    fontFamily: 'Poppins_700Bold',
     fontSize: 25,
   },
   mainContent: {
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   },
   mainContentFormButtonText: {
     fontSize: 25,
-    fontFamily: 'IBMPlexMono_700Bold',
+    fontFamily: 'Poppins_700Bold',
     color: '#000000'
   },
   mainContentFormText: {
@@ -296,7 +296,6 @@ const styles = StyleSheet.create({
     color: '#797979',
     marginTop: '8%',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainContentFormInputImage: {
     flexDirection: 'row',

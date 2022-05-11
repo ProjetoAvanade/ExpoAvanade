@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         height: 21.56,
     },
     mainHeaderText: {
-        fontFamily: 'IBMPlexMono_700Bold',
+        fontFamily: 'Poppins_700Bold',
         fontSize: 25,
     },
     mainContent: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
     mainContentFormButtonText: {
         fontSize: 25,
-        fontFamily: 'IBMPlexMono_700Bold',
+        fontFamily: 'Poppins_700Bold',
         color: '#000000'
     },
 });

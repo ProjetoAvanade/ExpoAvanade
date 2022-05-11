@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
         height: 50,
     },
     mainHeaderText: {
-        fontFamily: 'IBMPlexMono_700Bold',
+        fontFamily: 'Poppins_700Bold',
         fontSize: 14,
         // marginRight: 30,
     },

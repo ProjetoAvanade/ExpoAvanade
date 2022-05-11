@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     height: 21.56,
   },
   mainHeaderText: {
-    fontFamily: 'IBMPlexMono_700Bold',
+    fontFamily: 'Poppins_700Bold',
     fontSize: 25,
   },
   mainBody: {
@@ -259,7 +259,8 @@ const styles = StyleSheet.create({
   },
   cardPointsBtnText: {
     fontSize: 20,
-    fontFamily: 'IBMPlexMono_700Bold', color: '#000',
+    fontFamily: 'Poppins_700Bold',
+    color: '#000',
   },
   mainTextError: {
     fontSize: 14,
