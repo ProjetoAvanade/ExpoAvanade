@@ -30,11 +30,10 @@ export default function Mapa({ navigation }) {
     const [nomePonto, setNomePonto] = useState('');
     const [infosPonto, setInfosPonto] = useState([])
     const [visible, setVisible] = useState(false);
-    const [listaVagas, setListaVagas] = useState([]);
+    //const [listaVagas, setListaVagas] = useState([]);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
     const [position, setPosition] = useState([{ "timestamp": 1651720499602, "mocked": false, }]);
-    const [carregar, setCarregar] = useState(true);
 
     const buscarBicicletarios = async () => {
         try {
@@ -176,59 +175,31 @@ export default function Mapa({ navigation }) {
         );
     }
 
-    const ConfirmacaoTempo = () => {
-        return (
-            <ModalPoup visible={visible}>
-                <View style={styles.modalPoint}>
-                    <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
-                    <View style={styles.modalBackGrounds}>
-                        <View style={styles.modalBackGroundGray}>
-                            <Text style={styles.modalTextTitle}>R$3,75</Text>
-                            <Text style={styles.modalText}>1 Hora</Text>
-                            <Text style={styles.modalTextInfo}>Válido até 10:30</Text>
-                        </View>
-                        <View style={styles.modalBackGroundYellow}>
-                            <Text style={styles.modalTextTitle}>R$ 6,50</Text>
-                            <Text style={styles.modalText}>2 Hora</Text>
-                            <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
-                        </View>
-                    </View>
-                    {/* <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text> */}
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('CadastrarReserva') }}>
-                        <Text style={styles.modalTextTitle}>Confirmar</Text>
-                    </TouchableOpacity>
-                </View>
-            </ModalPoup>
-        );
-    }
-
     const buscarVagasPonto = async () => {
         try {
-            var arr = [];
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.get(`/Vagas/${idBicicletario}`, {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            const dadosDaApi = resposta.data;
-            setListaVagas(dadosDaApi);
-            setqntdVagaTotal(dadosDaApi.length)
-            console.warn(dadosDaApi)
-
-            if (listaVagas != []) {
-                listaVagas.forEach(function (b) {
-                    if (b.statusVaga == false) {
-                        arr.push(b)
-                    }
-                });
-                console.warn(arr)
-            }
-            setqntdVagaDisponivel(arr)
+          var arr = [];
+          const token = await AsyncStorage.getItem('userToken');
+          const resposta = await api.get(`/Vagas/${idBicicletario}`, {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          })
+          const listaVagas = resposta.data;
+          setqntdVagaTotal(listaVagas.length)
+    
+          if (listaVagas != []) {
+            listaVagas.forEach(function (b) {
+              if (b.statusVaga == false) {
+                arr.push(b)
+              }
+            });
+            console.warn(arr)
+          }
+          setqntdVagaDisponivel(arr)
         } catch (error) {
-            //console.warn(error);
+          //console.warn(error);
         }
-    };
+      };
 
     const Funcoes = () => {
         setVisible(true);
@@ -241,14 +212,6 @@ export default function Mapa({ navigation }) {
         buscarBicicletarios();
         buscarInfoPerfil();
     }, []);
-
-    /* useEffect(() => {
-        if (carregar == true) {
-            buscarLocalizacao();
-            buscarBicicletarios();
-            setTimeout(function () { setCarregar(false) }, 5000)
-        }
-    }); */
 
     return (
         <View style={styles.main}>
