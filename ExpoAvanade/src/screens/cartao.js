@@ -14,7 +14,61 @@ export default function Cartao({ navigation, route }) {
     const [marca, setMarca] = useState('Visa');
     const [sucess, setSucess] = useState();
 
-    const realizarPagamento = async () => {
+    const atualizarReserva = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put(`/Reserva/${idReserva}`, {
+                statusPagamento: true
+            },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                })
+            if (resposta.status === 204) {
+                console.warn('Reserva finalizada')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+    const atualizarPontos = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put('/Reserva', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            console.warn(resposta)
+            if (resposta.status === 200) {
+                console.warn('Troca finalizada')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+    const Pagar = async () => {
+        /* var raw = JSON.stringify({
+            "MerchantOrderId": "2014111700",
+            "Payment": {
+                "Type": "CreditCard",
+                "Amount": quantidade,
+                "Installments": 1,
+                "SoftDescriptor": "123456789ABCD",
+                "CreditCard": {
+                    "CardNumber": cartao,
+                    "Holder": "Teste Holder",
+                    "ExpirationDate": validade,
+                    "SecurityCode": codigoSeguranca,
+                    "Brand": marca
+                }
+            }
+        }); */
         var myHeaders = new Headers();
         myHeaders.append("MerchantId", "33976ff8-42cf-49dc-bc03-2d9583410eb1");
         myHeaders.append("Content-Type", "application/json");
@@ -49,49 +103,9 @@ export default function Cartao({ navigation, route }) {
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         setSucess(true)
-    }
-
-    const atualizarReserva = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put(`/Reserva/${idReserva}`, {
-                statusPagamento: true
-            },
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                })
-            if (resposta.status === 204) {
-                console.warn('Reserva finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    const atualizarPontos = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put('/Reserva', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            if (resposta.status === 200) {
-                console.warn('Atualizou os pontos')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
-    useEffect(() => {
         atualizarReserva();
         atualizarPontos();
-    }, []);
+    }
 
     return (
         <View style={styles.main}>
@@ -175,7 +189,7 @@ export default function Cartao({ navigation, route }) {
             {sucess == true &&
                 <Text style={styles.mainContentTextSucess}>Pagamento realizado com sucesso!</Text>
             }
-            <TouchableOpacity style={styles.mainContentModalBottomConfirmation} onPress={realizarPagamento()}>
+            <TouchableOpacity style={styles.mainContentModalBottomConfirmation} onPress={Pagar}>
                 <Text style={styles.mainContentModalBottomConfirmationText}>Prosseguir</Text>
             </TouchableOpacity>
 
@@ -272,5 +286,4 @@ const styles = StyleSheet.create({
     mainContentModalBottomConfirmationText: {
         fontSize: 20
     },
-
 });
