@@ -2,6 +2,7 @@
   "expo": {
     "name": "Bikecione",
     "slug": "Bikecione",
+    "scheme": "Bikecione",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon1.png",

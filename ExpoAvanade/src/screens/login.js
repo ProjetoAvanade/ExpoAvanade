@@ -10,8 +10,15 @@ import {
 } from 'react-native';
 
 import api from '../services/api';
-
+import * as AuthSession from 'expo-auth-session';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const AuthResponse = {
+  type: '',
+  params: {
+    acess_token: '',
+  }
+}
 
 class Login extends Component {
   constructor(props) {
@@ -23,7 +30,8 @@ class Login extends Component {
       IsLoading: false,
     };
   }
-
+  
+  
   realizarLogin = async () => {
     try {
       this.setState({ IsLoading: true, MensagemErro: '' });
@@ -31,7 +39,7 @@ class Login extends Component {
         email: this.state.Email,
         senha: this.state.Senha,
       })
-
+      
       const token = resposta.data.token;
       await AsyncStorage.setItem('userToken', token);
 
@@ -46,6 +54,24 @@ class Login extends Component {
       //console.warn(error);
       //console.log(error);
     }
+  };
+
+  realizarLogin = async () => {
+    const CLIENT_ID = '644948586565-6il3svvel0i1l5k5ep1n7lq7cctlkq5o.apps.googleusercontent.com';
+    const REDIRECT_URI = 'https://auth.expo.io/@ghzin/Bikecione';
+    const RESPONSE_TYPE = 'token';
+    const SCOPE = encodeURI('profile email');
+    
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
+    const response = await AuthSession
+    .startAsync({ authUrl })/*  as AuthResponse */
+    
+    type = response.params.acess_token
+    if(type === 'sucess'){
+      this.props.navigation.navigate('Main', { token: params.acess_token })
+    }
+    
+    console.log(response)
   };
 
   LimparCampos = () => {
@@ -104,12 +130,15 @@ class Login extends Component {
               </TouchableOpacity>
             }
 
+            <TouchableOpacity style={styles.mainBtnLogin} onPress={this.googleLogin}>
+              <Text style={styles.mainBtnText}>Google</Text>
+            </TouchableOpacity>
             {/* <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text> */}
           </View>
 
-            {this.state.MensagemErro != '' &&
-              <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
-            }
+          {this.state.MensagemErro != '' &&
+            <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
+          }
           <View style={styles.mainTextSpace}>
             <View>
               <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
