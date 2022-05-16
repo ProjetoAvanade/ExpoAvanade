@@ -82,6 +82,7 @@ export default function Vaga({ navigation, route }) {
       <ModalPoup visible={visible}>
         <View style={styles.modalPoint}>
           <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
+          <Text style={styles.modalTextTitle} onPress={() => setVisible(false)}>X</Text>
           <View style={styles.modalBackGrounds}>
             <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
               <Text style={styles.modalTextTitle}>R$3,75</Text>

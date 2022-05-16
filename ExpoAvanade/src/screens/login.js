@@ -56,7 +56,7 @@ class Login extends Component {
     }
   };
 
-  realizarLogin = async () => {
+  googleLogin = async () => {
     const CLIENT_ID = '644948586565-6il3svvel0i1l5k5ep1n7lq7cctlkq5o.apps.googleusercontent.com';
     const REDIRECT_URI = 'https://auth.expo.io/@ghzin/Bikecione';
     const RESPONSE_TYPE = 'token';
@@ -130,9 +130,9 @@ class Login extends Component {
               </TouchableOpacity>
             }
 
-            <TouchableOpacity style={styles.mainBtnLogin} onPress={this.googleLogin}>
+            {/* <TouchableOpacity style={styles.mainBtnLogin} onPress={this.googleLogin}>
               <Text style={styles.mainBtnText}>Google</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {/* <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text> */}
           </View>
 

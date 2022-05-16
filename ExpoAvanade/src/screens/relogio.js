@@ -19,7 +19,7 @@ export default function Relogio({ navigation, route }) {
   const idVaga = route.params.idVaga;
   const [idReserva, setIdReserva] = useState()
 
-  const listarReserva = async () => {
+  /* const listarReserva = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const resposta = await api.get('/Reserva', {
       headers: {
@@ -71,9 +71,9 @@ export default function Relogio({ navigation, route }) {
       //console.warn(error);
     }
   };
-
+ */
   useEffect(() => {
-    criarReserva();
+    //criarReserva();
   }, []);
 
   return (
@@ -93,7 +93,7 @@ export default function Relogio({ navigation, route }) {
       <View style={styles.mainContent}>
         <CountDown
           size={30}
-          until={3600}
+          until={60 * 20 + 30}
           onFinish={() => alert('Finished')}
           digitStyle={{ backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625' }}
           digitTxtStyle={{ color: '#1CC625' }}

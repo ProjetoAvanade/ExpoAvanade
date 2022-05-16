@@ -25,6 +25,7 @@ export default function Mapa({ navigation }) {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [nomeUsuario, setNomeUsuario] = useState('');
+    const [imagem, setImagem] = useState('');
     const [horarioAberto, setHorarioAberto] = useState('');
     const [horarioFechado, setHorarioFechado] = useState('');
     const [nomePonto, setNomePonto] = useState('');
@@ -79,13 +80,16 @@ export default function Mapa({ navigation }) {
             if (resposta.status === 200) {
                 const dadosDaApi = resposta.data;
                 setNomeUsuario(dadosDaApi.nomeUsuario);
-                setEmail(dadosDaApi.email);
-                setPontos(dadosDaApi.pontos);
-                setSaldo(dadosDaApi.saldo)
+                //setEmail(dadosDaApi.email);
+                //setPontos(dadosDaApi.pontos);
+                //setSaldo(dadosDaApi.saldo)
+                let apiImg = 'https://api-avanade.azurewebsites.net'
+                setImagem(`${apiImg}/StaticFiles/imagem/${dadosDaApi.imagem}`)
+                console.log(dadosDaApi)
             }
         } catch (error) {
             //console.warn(resposta)
-            //console.warn(error);
+            console.warn(error);
         }
     };
 
@@ -177,29 +181,29 @@ export default function Mapa({ navigation }) {
 
     const buscarVagasPonto = async () => {
         try {
-          var arr = [];
-          const token = await AsyncStorage.getItem('userToken');
-          const resposta = await api.get(`/Vagas/${idBicicletario}`, {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          })
-          const listaVagas = resposta.data;
-          setqntdVagaTotal(listaVagas.length)
-    
-          if (listaVagas != []) {
-            listaVagas.forEach(function (b) {
-              if (b.statusVaga == false) {
-                arr.push(b)
-              }
-            });
-            console.warn(arr)
-          }
-          setqntdVagaDisponivel(arr)
+            var arr = [];
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.get(`/Vagas/${idBicicletario}`, {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            const listaVagas = resposta.data;
+            setqntdVagaTotal(listaVagas.length)
+
+            if (listaVagas != []) {
+                listaVagas.forEach(function (b) {
+                    if (b.statusVaga == false) {
+                        arr.push(b)
+                    }
+                });
+                console.warn(arr)
+            }
+            setqntdVagaDisponivel(arr)
         } catch (error) {
-          //console.warn(error);
+            //console.warn(error);
         }
-      };
+    };
 
     const Funcoes = () => {
         setVisible(true);
@@ -224,7 +228,19 @@ export default function Mapa({ navigation }) {
             <View style={styles.mainHeader}>
                 <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
                     <View style={styles.mainHeaderSpace}>
-                        <Image source={require('../../assets/img/profile.png')} style={styles.mainHeaderProfile} />
+                        {
+                            imagem != '' &&
+                            <Image
+                                source={{ uri: imagem }}
+                                style={styles.mainHeaderProfile} />
+                        }
+
+                        {
+                            imagem == '' &&
+                            <Image
+                                source={require('../../assets/img/icon_mold.png')}
+                                style={styles.mainHeaderProfile} />
+                        }
                         <View>
                             <Text style={styles.mainHeaderText}>Olá,</Text>
                             <Text style={styles.mainHeaderText}>{nomeUsuario}</Text>
