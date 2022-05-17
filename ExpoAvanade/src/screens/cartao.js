@@ -34,6 +34,26 @@ export default function Cartao({ navigation, route }) {
         }
     };
 
+    const atualizarVaga = async () => {
+        try {
+          const token = await AsyncStorage.getItem('userToken');
+          const resposta = await api.put(`/Vagas/${idVaga}`, {
+            statusVaga: false
+          },
+            {
+              headers: {
+                Authorization: 'Bearer ' + token,
+              },
+            })
+          if (resposta.status === 204) {
+            console.warn('Vaga Atualizada')
+          }
+        } catch (error) {
+          console.warn(resposta)
+          console.warn(error);
+        }
+      };
+
     const atualizarPontos = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -104,6 +124,7 @@ export default function Cartao({ navigation, route }) {
             .catch(error => console.log('error', error));
         setSucess(true)
         atualizarReserva();
+        atualizarVaga();
         atualizarPontos();
     }
 

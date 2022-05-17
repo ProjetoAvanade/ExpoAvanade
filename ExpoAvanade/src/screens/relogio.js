@@ -19,7 +19,8 @@ export default function Relogio({ navigation, route }) {
   const idVaga = route.params.idVaga;
   const [idReserva, setIdReserva] = useState()
 
-  /* const listarReserva = async () => {
+  //listar as reservas para conseguir a última que foi cadastrada e utilizar ela
+  const listarReserva = async () => {
     const token = await AsyncStorage.getItem('userToken');
     const resposta = await api.get('/Reserva', {
       headers: {
@@ -27,10 +28,12 @@ export default function Relogio({ navigation, route }) {
       },
     })
     const dadosDaApi = resposta.data;
+    
+    //consigo a última reserva cadastrada
     setIdReserva(dadosDaApi.reverse()[0].idReserva);
-    console.warn(dadosDaApi.reverse()[0].idReserva)
   }
 
+   //atualizar vaga para ocupado
   const atualizarVaga = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -51,6 +54,7 @@ export default function Relogio({ navigation, route }) {
     }
   };
 
+  //criar uma reserva e realizar as funções relacionadas a vaga e reserva depois que cadastrado
   const criarReserva = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -71,9 +75,9 @@ export default function Relogio({ navigation, route }) {
       //console.warn(error);
     }
   };
- */
+
   useEffect(() => {
-    //criarReserva();
+    criarReserva();
   }, []);
 
   return (
@@ -93,7 +97,7 @@ export default function Relogio({ navigation, route }) {
       <View style={styles.mainContent}>
         <CountDown
           size={30}
-          until={60 * 20 + 30}
+          until={3600}
           onFinish={() => alert('Finished')}
           digitStyle={{ backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625' }}
           digitTxtStyle={{ color: '#1CC625' }}
@@ -104,11 +108,11 @@ export default function Relogio({ navigation, route }) {
           showSeparator
         />
 
-        <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva }) }}>
+        <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva, idVaga : idVaga }) }}>
           <Text style={styles.mainContentFormButtonText}>Finalizar reserva</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva }) }}>
+        <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva, idVaga : idVaga }) }}>
           <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
         </TouchableOpacity>
       </View>

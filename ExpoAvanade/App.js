@@ -15,6 +15,7 @@ import Cartao from './src/screens/cartao';
 import CadastrarReserva from './src/screens/cadastrarReserva';
 import Vaga from './src/screens/vaga';
 import Relogio from './src/screens/relogio';
+import TesteRelogio from './src/screens/testeRelogio';
 
 const AuthStack = createStackNavigator();
 
@@ -58,6 +59,7 @@ export default function App() {
         <AuthStack.Screen name="CadastrarReserva" component={CadastrarReserva} />
         <AuthStack.Screen name="Vaga" component={Vaga} />
         <AuthStack.Screen name="Relogio" component={Relogio} />
+        <AuthStack.Screen name="TesteRelogio" component={TesteRelogio} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

@@ -9118,19 +9118,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\AMD\\.nuget\\packages\\": {}
+    "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\AMD\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj",
+      "projectUniqueName": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\api\\Senai_ProjetoAvanade_webAPI.csproj",
       "projectName": "Senai_ProjetoAvanade_webAPI",
-      "projectPath": "C:\\Users\\AMD\\Desktop\\ProjetoAvanade\\Senai_ProjetoAvanade_webAPI.csproj",
-      "packagesPath": "C:\\Users\\AMD\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AMD\\Desktop\\ProjetoAvanade\\obj\\",
+      "projectPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\api\\Senai_ProjetoAvanade_webAPI.csproj",
+      "packagesPath": "C:\\Users\\42410863817.INFOSCS\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\42410863817.INFOSCS\\Desktop\\ExpoAvanade\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\AMD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\42410863817.INFOSCS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9213,7 +9213,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
