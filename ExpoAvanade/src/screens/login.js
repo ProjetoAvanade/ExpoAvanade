@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   mainBtnText: {
     fontSize: 25,
-    fontFamily: 'IBMPlexMono_700Bold',
+    fontFamily: 'Poppins_700Bold',
     color: '#000000'
   },
   mainTextError: {
