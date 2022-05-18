@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,150 +10,129 @@ import {
 } from 'react-native';
 
 import api from '../services/api';
-import * as AuthSession from 'expo-auth-session';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 
-const AuthResponse = {
-  type: '',
-  params: {
-    acess_token: '',
-  }
-}
+WebBrowser.maybeCompleteAuthSession();
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Email: '',
-      Senha: '',
-      MensagemErro: '',
-      IsLoading: false,
-    };
-  }
-  
-  
-  realizarLogin = async () => {
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [mensagemErro, setMensagemErro] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState();
+  const [userInfo, setUserInfo] = useState();
+  const [message, setMessage] = useState();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "694235095257-fkbf1u81sm5ii76om74j5b7h8u4v2m7a.apps.googleusercontent.com",
+    iosClientId: "694235095257-qnub27n3o6s0e3lo1sneio03o6ka5k9m.apps.googleusercontent.com",
+    expoClientId: "273107586669-e5gouu3ks6fqroo352ba6nh9jefept70.apps.googleusercontent.com"
+  })
+
+  const realizarLogin = async () => {
     try {
-      this.setState({ IsLoading: true, MensagemErro: '' });
+      setIsLoading(true);
+      setMensagemErro('');
       const resposta = await api.post('/Login', {
-        email: this.state.Email,
-        senha: this.state.Senha,
+        email: email,
+        senha: senha,
       })
-      
+
       const token = resposta.data.token;
       await AsyncStorage.setItem('userToken', token);
-
-      this.setState({ IsLoading: false });
+      setIsLoading(false);
       if (resposta.status == 201) {
-        this.props.navigation.navigate('Main');
-        console.log(token)
+        navigation.navigate('Main');
         //console.warn('Login efetuado com sucesso!');
         //console.warn(resposta)
       }
     } catch (error) {
-      this.setState({ IsLoading: false, MensagemErro: 'E-mail e/ou senha inválidos!' })
+      setIsLoading(false);
+      setMensagemErro('E-mail e/ou senha inválidos!');
       //console.warn(error);
       //console.log(error);
     }
   };
 
-  googleLogin = async () => {
-    const CLIENT_ID = '644948586565-6il3svvel0i1l5k5ep1n7lq7cctlkq5o.apps.googleusercontent.com';
-    const REDIRECT_URI = 'https://auth.expo.io/@ghzin/Bikecione';
-    const RESPONSE_TYPE = 'token';
-    const SCOPE = encodeURI('profile email');
-    
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
-    const response = await AuthSession
-    .startAsync({ authUrl })/*  as AuthResponse */
-    
-    type = response.params.acess_token
-    if(type === 'sucess'){
-      this.props.navigation.navigate('Main', { token: params.acess_token })
-    }
-    
-    console.log(response)
+  const limparCampos = () => {
+    setEmail('');
+    setSenha('')
   };
 
-  LimparCampos = () => {
-    this.setState({ Email: '', Senha: '' })
-  };
+  useEffect(() => {
+    limparCampos();
+  }, []);
 
-  componentDidMount() {
-    this.LimparCampos();
-  };
+  return (
+    <View style={styles.main}>
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor='#FFFFFF'
+        hidden={false}
+      />
+      <View style={styles.mainDiv}>
 
-  render() {
-    return (
-      <View style={styles.main}>
-        <StatusBar
-          barStyle='dark-content'
-          backgroundColor='#FFFFFF'
-          hidden={false}
-        />
-        <View style={styles.mainDiv}>
-
-          <View style={styles.mainImageSpace}>
-            <Image source={require('../../assets/icon1.png')} style={styles.mainImage} />
-          </View>
-
-          <View style={styles.mainFormAlignment}>
-            <TextInput
-              style={styles.mainInput}
-              placeholder='Endereço de E-mail'
-              placeholderTextColor='#000000'
-              keyboardType="email-address"
-              onChangeText={Email => this.setState({ Email })}
-            />
-            <TextInput
-              style={styles.mainInput}
-              placeholder='Senha'
-              placeholderTextColor='#000000'
-              keyboardType="default"
-              secureTextEntry={true}
-              passwordRules
-              onChangeText={Senha => this.setState({ Senha })}
-            />
-
-            {
-              // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
-              this.state.IsLoading === true &&
-              <TouchableOpacity style={styles.mainBtnLogin} disabled>
-                <Text style={styles.mainBtnText}>Loading</Text>
-              </TouchableOpacity>
-            }
-
-            {
-              // Caso seja false, renderiza o botão habilitado com o texto 'Login'
-              this.state.IsLoading === false &&
-              <TouchableOpacity style={styles.mainBtnLogin} onPress={this.realizarLogin} disabled={this.state.Email === '' || this.state.Senha === '' ? 'none' : ''}>
-                <Text style={styles.mainBtnText}>Logar</Text>
-              </TouchableOpacity>
-            }
-
-            {/* <TouchableOpacity style={styles.mainBtnLogin} onPress={this.googleLogin}>
-              <Text style={styles.mainBtnText}>Google</Text>
-            </TouchableOpacity> */}
-            {/* <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text> */}
-          </View>
-
-          {this.state.MensagemErro != '' &&
-            <Text style={styles.mainTextError}>{this.state.MensagemErro}</Text>
-          }
-          <View style={styles.mainTextSpace}>
-            <View>
-              <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
-            </View>
-            <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => this.props.navigation.navigate('Cadastro')}>
-              <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
-            </TouchableOpacity>
-          </View>
-
+        <View style={styles.mainImageSpace}>
+          <Image source={require('../../assets/icon1.png')} style={styles.mainImage} />
         </View>
-      </View >
-    );
-  }
+
+        <View style={styles.mainFormAlignment}>
+          <TextInput
+            style={styles.mainInput}
+            placeholder='Endereço de E-mail'
+            placeholderTextColor='#000000'
+            keyboardType="email-address"
+            onChangeText={Email => setEmail(Email)}
+          />
+          <TextInput
+            style={styles.mainInput}
+            placeholder='Senha'
+            placeholderTextColor='#000000'
+            keyboardType="default"
+            secureTextEntry={true}
+            passwordRules
+            onChangeText={Senha => setSenha(Senha)}
+          />
+
+          {
+            // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
+            isLoading === true &&
+            <TouchableOpacity style={styles.mainBtnLogin} disabled>
+              <Text style={styles.mainBtnText}>Loading</Text>
+            </TouchableOpacity>
+          }
+
+          {
+            // Caso seja false, renderiza o botão habilitado com o texto 'Login'
+            isLoading === false &&
+            <TouchableOpacity style={styles.mainBtnLogin} onPress={realizarLogin} disabled={email === '' || senha === '' ? 'none' : ''}>
+              <Text style={styles.mainBtnText}>Logar</Text>
+            </TouchableOpacity>
+          }
+
+          {/* <Text style={styles.mainTextError}>{MensagemErro}</Text> */}
+        </View>
+
+        {mensagemErro != '' &&
+          <Text style={styles.mainTextError}>{mensagemErro}</Text>
+        }
+        <View style={styles.mainTextSpace}>
+          <View>
+            <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
+          </View>
+          <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => navigation.navigate('Cadastro')}>
+            <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+    </View >
+  );
 }
+
 const styles = StyleSheet.create({
   main: {
     flex: 1,
@@ -203,7 +182,7 @@ const styles = StyleSheet.create({
   },
   mainBtnText: {
     fontSize: 25,
-    fontFamily: 'Poppins_700Bold',
+    fontFamily: 'IBMPlexMono_700Bold',
     color: '#000000'
   },
   mainTextError: {
@@ -229,5 +208,78 @@ const styles = StyleSheet.create({
     marginTop: '5%'
   },
 });
+/* // expo install expo-web-browser expo-auth-session expo-random
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 
-export default Login;
+WebBrowser.maybeCompleteAuthSession();
+
+export default function Login() {
+  const [accessToken, setAccessToken] = React.useState();
+  const [userInfo, setUserInfo] = React.useState();
+  const [message, setMessage] = React.useState();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: "273107586669-e5gouu3ks6fqroo352ba6nh9jefept70.apps.googleusercontent.com"
+  });
+
+  React.useEffect(() => {
+    setMessage(JSON.stringify(response));
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+    }
+  }, [response]);
+
+  async function getUserData() {
+    let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    });
+
+    userInfoResponse.json().then(data => {
+      setUserInfo(data);
+    });
+  }
+
+  function showUserInfo() {
+    if (userInfo) {
+      return (
+        <View style={styles.userInfo}>
+          <Image source={{uri: userInfo.picture}} style={styles.profilePic} />
+          <Text>Welcome {userInfo.name}</Text>
+          <Text>{userInfo.email}</Text>
+        </View>
+      );
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      {showUserInfo()}
+      <Button 
+        title={accessToken ? "Get User Data" : "Login"}
+        onPress={accessToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true}) }}
+      />
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  userInfo: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profilePic: {
+    width: 50,
+    height: 50
+  }
+}); */
