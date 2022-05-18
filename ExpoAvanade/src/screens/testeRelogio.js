@@ -38,6 +38,117 @@ const styles = StyleSheet.create({
 });
 
 
+import React, { useState, useEffect, Component } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import moment from "moment"
+export default class TesteRelogio extends Component {
+    state = {
+        eventDate: moment.duration().add({ hours: 0, minutes: 0, seconds: 10 }), // add 9 full days
+        hours: 0,
+        mins: 0,
+        secs: 0,
+    }
+    componentDidMount() {
+        this.updateTimer()
+    }
+    updateTimer = () => {
+        
+        const x = setInterval(() => {
+            let { eventDate } = this.state
+            
+            if (eventDate <= 0) {
+                clearInterval(this.setState(moment.duration().add({ hours: 0, minutes: 0, seconds: 0 })))
+            } else {
+                eventDate = eventDate.subtract(1, "s")
+                const hours = eventDate.hours()
+                const mins = eventDate.minutes()
+                const secs = eventDate.seconds()
+                
+                this.setState({
+                    hours,
+                    mins,
+                    secs,
+                    eventDate
+                })
+            }
+        }, 1000)
+    }
+    
+    atualizarTempo = () => {
+        this.setState({eventDate: moment.duration().add({ hours: 4, minutes: 0, seconds: 0 })})
+    }
+    
+    render() {
+        return (
+            <View style={styles.container}>
+                {console.log(this.props.route.params.horas)}
+                <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
+
+                <TouchableOpacity style={styles.mainContentFormButton} onPress={() => this.atualizarTempo()}>
+                    <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+}
+    /* const iso = Date.now();
+    const formatar = 'YYYY-MM-DD [as] HH:mm'
+    const tempoInicial = moment(iso).format(formatar)
+    const [tempoAdicionado, setTempoAdicionado] = useState()
+    const [horaAdicionada, setHoraAdicionada] = useState()
+
+    // Moment
+    const atualizarTempo = () => {
+        const adicionar = moment(iso).add(horaAdicionada, 'hour')
+        setTempoAdicionado(adicionar.format(formatar))
+        console.log(`De ${tempoInicial} para ${tempoAdicionado}`)
+    }
+
+    
+
+    /* useEffect(() => {
+        updateTimer();
+      }, []); *
+
+    return (
+        <View style={styles.container}>
+            <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 50 }}>{`${tempoInicial} para ${tempoAdicionado}`}</Text>
+
+            <TouchableOpacity style={styles.mainContentFormButton} onPress={() => {atualizarTempo(), setHoraAdicionada(1)}}>
+                <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}*/
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mainContentFormButton: {
+        width: 157,
+        height: 60,
+        borderRadius: 5,
+        backgroundColor: '#F3BC2C',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '20%'
+    },
+    mainContentFormButtonText: {
+        fontSize: 18,
+        fontFamily: 'ABeeZee_400Regular',
+        color: '#000000'
+    },
+});
+
+
 /* import React, { useState, useEffect } from 'react';
 
 
