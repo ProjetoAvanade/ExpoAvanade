@@ -12,10 +12,10 @@ import {
 import api from '../services/api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Google from 'expo-auth-session/providers/google';
+/* import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 
-WebBrowser.maybeCompleteAuthSession();
+WebBrowser.maybeCompleteAuthSession(); */
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -26,11 +26,11 @@ export default function Login({ navigation }) {
   const [userInfo, setUserInfo] = useState();
   const [message, setMessage] = useState();
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  /* const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "694235095257-fkbf1u81sm5ii76om74j5b7h8u4v2m7a.apps.googleusercontent.com",
     iosClientId: "694235095257-qnub27n3o6s0e3lo1sneio03o6ka5k9m.apps.googleusercontent.com",
     expoClientId: "273107586669-e5gouu3ks6fqroo352ba6nh9jefept70.apps.googleusercontent.com"
-  })
+  }) */
 
   const realizarLogin = async () => {
     try {

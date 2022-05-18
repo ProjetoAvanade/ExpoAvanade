@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -118,6 +118,234 @@ export default function Relogio({ navigation, route }) {
       </View>
     </View>
   );
+}
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+  },
+  mainGap: {
+    // height: 37,
+    height: '4.3%',
+  },
+  mainHeader: {
+    width: '100%',
+    // height: 65,
+    height: '7.6%',
+    backgroundColor: '#F3BC2C',
+    justifyContent: 'center',
+  },
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
+  },
+  mainHeaderSpace: {
+    width: '59%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // marginLeft: 18,
+    marginLeft: '4.7%',
+  },
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
+  },
+  mainHeaderText: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 25,
+  },
+  mainContent: {
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    marginTop: '60%'
+  },
+  mainContentFormButton: {
+    width: 157,
+    height: 60,
+    borderRadius: 5,
+    backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '20%'
+  },
+  mainContentFormButtonText: {
+    fontSize: 18,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#000000'
+  },
+}); */
+
+import React, { useState, useEffect, Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  StatusBar
+} from 'react-native';
+import moment from "moment"
+export default class Relogio extends Component {
+  state = {
+    eventDate: moment.duration().add({ hours: this.props.route.params.horas, minutes: 0, seconds: 0 }),
+    hours: 0,
+    mins: 0,
+    secs: 0,
+    idReserva: 1
+  }
+
+  
+  updateTimer = () => {
+    const x = setInterval(() => {
+      let { eventDate } = this.state
+
+      if (eventDate <= 0) {
+        clearInterval(this.setState(moment.duration().add({ hours: 0, minutes: 0, seconds: 0 })))
+      } else {
+        eventDate = eventDate.subtract(1, "s")
+        const hours = eventDate.hours()
+        const mins = eventDate.minutes()
+        const secs = eventDate.seconds()
+        
+        this.setState({
+          hours,
+          mins,
+          secs,
+          eventDate
+        })
+      }
+    }, 1000)
+  }
+  
+  atualizarTempo = async () => {
+    let { eventDate } = this.state
+    //this.setState({ eventDate: moment.duration().add({ hours: 1, minutes: 0, seconds: 0 }) })
+    eventDate = eventDate.add({ hours: 1, minutes: 0, seconds: 0 })
+    const hours = eventDate.hours() + 1
+    const mins = eventDate.minutes()
+    const secs = eventDate.seconds()
+    
+    this.setState({
+      hours,
+      mins,
+      secs,
+      eventDate
+    })
+  }
+
+  //listar as reservas para conseguir a última que foi cadastrada e utilizar ela
+  listarReserva = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    const resposta = await api.get('/Reserva', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    const dadosDaApi = resposta.data;
+
+    this.setState({ idReserva : dadosDaApi.reverse()[0].idReserva })
+    //consigo a última reserva cadastrada
+    //setIdReserva(dadosDaApi.reverse()[0].idReserva);
+  }
+
+  /*  //atualizar vaga para ocupado
+  atualizarVaga = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.put(`/Vagas/${idVaga}`, {
+        statusVaga: true
+      },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+      if (resposta.status === 204) {
+        console.warn('Vaga Atualizada')
+      }
+    } catch (error) {
+      console.warn(resposta)
+      console.warn(error);
+    }
+  };
+
+  //criar uma reserva e realizar as funções relacionadas a vaga e reserva depois que cadastrado
+  criarReserva = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.post('/Reserva', {
+        idVaga: idVaga
+      },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+      if (resposta.status == 201) {
+        console.warn('Cadastrado com sucesso!')
+        atualizarVaga();
+        listarReserva();
+      }
+    } catch (error) {
+      //console.warn(error);
+    }
+  }; */
+
+  componentDidMount() {
+    this.listarReserva();
+    this.updateTimer();
+  }
+  
+  render() {
+    return (
+      /* <View style={styles.container}>
+      <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
+  
+        <TouchableOpacity style={styles.mainContentFormButton} onPress={() => this.atualizarTempo()}>
+          <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
+        </TouchableOpacity>
+      </View> */
+      <View style={styles.main}>
+        {console.warn(this.state.idReserva)}
+        <StatusBar
+          barStyle='dark-content'
+          backgroundColor='#F3BC2C'
+          hidden={false}
+        />
+        <View style={styles.mainGap}></View>
+        <View style={styles.mainHeader}>
+          <View style={styles.mainHeaderSpace}>
+            <Text style={styles.mainHeaderText}>Reserva</Text>
+          </View>
+        </View>
+        <View style={styles.mainContent}>
+          <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
+
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={() => this.atualizarTempo()}>
+            <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva, idVaga: idVaga }) }}>
+            <Text style={styles.mainContentFormButtonText}>Finalizar reserva</Text>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva, idVaga: idVaga }) }}>
+            <Text style={styles.mainContentFormButtonText}>Finalizar reserva</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { navigation.navigate('Cartao', { idReserva: idReserva, idVaga: idVaga }) }}>
+            <Text style={styles.mainContentFormButtonText}>Adicionar mais tempo</Text>
+          </TouchableOpacity> */}
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

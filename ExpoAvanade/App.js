@@ -50,6 +50,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}>
+        <AuthStack.Screen name="TesteRelogio" component={TesteRelogio} />
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Main" component={Main} />
         <AuthStack.Screen name="Cadastro" component={Cadastro} />
@@ -59,7 +60,6 @@ export default function App() {
         <AuthStack.Screen name="CadastrarReserva" component={CadastrarReserva} />
         <AuthStack.Screen name="Vaga" component={Vaga} />
         <AuthStack.Screen name="Relogio" component={Relogio} />
-        <AuthStack.Screen name="TesteRelogio" component={TesteRelogio} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );
