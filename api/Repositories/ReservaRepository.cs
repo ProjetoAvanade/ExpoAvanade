@@ -91,6 +91,9 @@ namespace Senai_ProjetoAvanade_webAPI.Repositories
             return ctx.Reservas.Include(c => c.IdVagaNavigation).Include(c => c.IdUsuarioNavigation)
                 .Select(c => new Reserva() { 
                 IdReserva = c.IdReserva,
+                AbreTrava = c.AbreTrava,
+                FechaTrava = c.FechaTrava,
+                Preco = c.Preco,
                 IdUsuario = c.IdUsuario,
                 IdUsuarioNavigation = new Usuario()
                 {

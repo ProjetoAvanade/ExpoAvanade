@@ -110,7 +110,6 @@ export default function Vaga({ navigation, route }) {
 
   return (
     <View style={styles.main}>
-      {console.warn(horas)}
       <View style={styles.mainHeader}>
         <View style={styles.mainTitleSpace}>
           <TouchableOpacity style={styles.btnBackSpace} onPress={() => navigation.goBack()}>

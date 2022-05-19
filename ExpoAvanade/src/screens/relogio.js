@@ -56,7 +56,7 @@ export default class Relogio extends Component {
     let { eventDate } = this.state
     //this.setState({ eventDate: moment.duration().add({ hours: 1, minutes: 0, seconds: 0 }) })
     eventDate = eventDate.add({ hours: this.state.adicionaTempo, minutes: 0, seconds: 0 })
-    const hours = eventDate.hours() + 1
+    const hours = eventDate.hours() + this.state.adicionaTempo
     const mins = eventDate.minutes()
     const secs = eventDate.seconds()
 
@@ -115,9 +115,9 @@ export default class Relogio extends Component {
           },
         })
       if (resposta.status == 201) {
-        /* console.warn('Cadastrado com sucesso!')
-        atualizarVaga();
-        listarReserva(); */
+        console.warn('Cadastrado com sucesso!')
+        this.atualizarVaga();
+        this.listarReserva();
       }
     } catch (error) {
       //console.warn(error);
@@ -125,7 +125,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    /* this.criarReserva() */
+    //this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -166,24 +166,6 @@ export default class Relogio extends Component {
                   this.setState({ adicionaTempo: false, horaAdicionada: 1, mensagemTempo: true }),
                     this.adicionarTempo()
                 }}>1</Text>
-
-              <Text style={styles.mainContentFormButtonText}
-                onPress={() => {
-                  this.setState({ adicionaTempo: false, horaAdicionada: 2, mensagemTempo: true }),
-                    this.adicionarTempo()
-                }}>2</Text>
-
-              <Text style={styles.mainContentFormButtonText}
-                onPress={() => {
-                  this.setState({ adicionaTempo: false, horaAdicionada: 2, mensagemTempo: true }),
-                    this.adicionarTempo()
-                }}>3</Text>
-
-              <Text style={styles.mainContentFormButtonText}
-                onPress={() => {
-                  this.setState({ adicionaTempo: false, horaAdicionada: 2, mensagemTempo: true }),
-                    this.adicionarTempo()
-                }}>4</Text>
             </View>
           }
 

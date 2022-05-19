@@ -53,7 +53,7 @@ export default class Perfil extends Component {
         let apiImg = 'https://api-avanade.azurewebsites.net'
         //let apiImg = 'http://192.168.4.187:5000'
         this.setState({uri: `${apiImg}/StaticFiles/imagem/${this.state.imagem}`})
-        console.warn(this.state.uri)
+        //console.warn(this.state.uri)
       }
     } catch (error) {
       //console.warn(resposta)

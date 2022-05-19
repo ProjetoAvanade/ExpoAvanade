@@ -85,7 +85,7 @@ export default function Mapa({ navigation }) {
                 //setSaldo(dadosDaApi.saldo)
                 let apiImg = 'https://api-avanade.azurewebsites.net'
                 setImagem(`${apiImg}/StaticFiles/imagem/${dadosDaApi.imagem}`)
-                console.log(dadosDaApi)
+                //console.log(dadosDaApi)
             }
         } catch (error) {
             //console.warn(resposta)
@@ -197,7 +197,7 @@ export default function Mapa({ navigation }) {
                         arr.push(b)
                     }
                 });
-                console.warn(arr)
+                //console.warn(arr)
             }
             setqntdVagaDisponivel(arr)
         } catch (error) {
