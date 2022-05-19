@@ -96,7 +96,7 @@ export default function Vaga({ navigation, route }) {
             </TouchableOpacity>
           </View>
           <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text>
-          <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), navigation.navigate('TesteRelogio', { idVaga: idVaga, horas : horas }) }}>
+          <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas : horas }) }}>
             <Text style={styles.modalTextTitle}>Confirmar</Text>
           </TouchableOpacity>
         </View>
@@ -107,8 +107,6 @@ export default function Vaga({ navigation, route }) {
   useEffect(() => {
     buscarVagasPonto();
   }, []);
-
-  //onPress={() => { navigation.navigate('CadastrarReserva', { idVaga: idVaga }) }}
 
   return (
     <View style={styles.main}>

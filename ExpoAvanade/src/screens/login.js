@@ -98,10 +98,10 @@ export default function Login({ navigation }) {
           />
 
           {
-            // Caso seja true, renderiza o botão desabilitado com o texto 'Loading...'
+            // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
             isLoading === true &&
-            <TouchableOpacity style={styles.mainBtnLogin} disabled>
-              <Text style={styles.mainBtnText}>Loading</Text>
+            <TouchableOpacity style={styles.BtnLoginDisabled} disabled>
+              <Text style={styles.mainBtnText}>Carregando...</Text>
             </TouchableOpacity>
           }
 
@@ -176,6 +176,15 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '8%',
+  },
+  BtnLoginDisabled: {
+    width: 200,
+    height: 60,
+    borderRadius: 5,
+    backgroundColor: '#F5D52C',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '8%',
