@@ -18,6 +18,7 @@ import api from '../services/api';
 
 export default function Cartao({ navigation, route }) {
     const idReserva = route.params.idReserva
+    const idVaga = route.params.idVaga
     const [preco, setPreco] = useState(0);
     const [visible, setVisible] = useState(false);
     const [cartao, setCartao] = useState('4024.0071.5376.3191');
@@ -26,7 +27,8 @@ export default function Cartao({ navigation, route }) {
     const [codigoSeguranca, setCodigoSeguranca] = useState('123');
     const [marca, setMarca] = useState('Visa');
     const [sucess, setSucess] = useState();
-
+    //const [tempoReserva, setTempoReserva] = useState(0);
+    
     const atualizarPagamento = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -39,7 +41,7 @@ export default function Cartao({ navigation, route }) {
                     },
                 })
             if (resposta.status === 204) {
-                console.warn('Reserva finalizada')
+                console.warn('Pagamento finalizado')
             }
         } catch (error) {
             console.warn(resposta)
@@ -98,7 +100,7 @@ export default function Cartao({ navigation, route }) {
         
         //setar preço certo dps e tempo de duração da reserva
         setPreco(dadosDaApi.reverse()[0].idReserva)
-        console.warn(preco)
+        console.warn(dadosDaApi.reverse()[0])
     }
     
     const ModalPoup = ({ visible, children }) => {
