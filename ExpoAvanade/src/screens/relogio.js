@@ -19,10 +19,12 @@ export default class Relogio extends Component {
     mins: 0,
     secs: 0,
     idVaga: this.props.route.params.idVaga,
+    saldo: this.props.route.params.saldo,
     idReserva: 0,
     adicionaTempo: false,
     horaAdicionada: 0,
-    mensagemTempo: false
+    mensagemTempo: false,
+    saldo : this.props.route.params.saldo,
   }
 
   //atualização do tempo do relógio a cada segundo
@@ -120,12 +122,12 @@ export default class Relogio extends Component {
         this.listarReserva();
       }
     } catch (error) {
-      //console.warn(error);
+      console.warn(error);
     }
   };
 
   componentDidMount() {
-    //this.criarReserva()
+    this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -147,7 +149,7 @@ export default class Relogio extends Component {
           <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
           <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
 
-          <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga }) }}>
+          <TouchableOpacity style={styles.mainContentFormButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo : this.state.saldo }) }}>
             <Text style={styles.mainContentFormButtonText}>Finalizar reserva</Text>
           </TouchableOpacity>
 

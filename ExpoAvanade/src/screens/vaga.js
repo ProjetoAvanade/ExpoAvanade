@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Vaga({ navigation, route }) {
   const idBicicletario = route.params.idBicicletario
+  const [saldo, setSaldo] = useState(0);
   const [qntdVagaTotal, setqntdVagaTotal] = useState();
   const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
   const [idVaga, setIdVaga] = useState(0);
@@ -39,6 +40,25 @@ export default function Vaga({ navigation, route }) {
       setqntdVagaDisponivel(arr)
     } catch (error) {
       //console.warn(error);
+    }
+  };
+
+  const buscarInfoPerfil = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const resposta = await api.get('/Usuario', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (resposta.status === 200) {
+        const dadosDaApi = resposta.data;
+        setSaldo(dadosDaApi.saldo)
+        //console.log(dadosDaApi)
+      }
+    } catch (error) {
+      //console.warn(resposta)
+      console.warn(error);
     }
   };
 
@@ -95,8 +115,8 @@ export default function Vaga({ navigation, route }) {
               <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.modalTextInfo}>Saldo: R$0,00</Text>
-          <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas : horas }) }}>
+          <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
+          <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo : saldo }) }}>
             <Text style={styles.modalTextTitle}>Confirmar</Text>
           </TouchableOpacity>
         </View>
@@ -106,6 +126,7 @@ export default function Vaga({ navigation, route }) {
 
   useEffect(() => {
     buscarVagasPonto();
+    buscarInfoPerfil();
   }, []);
 
   return (
@@ -134,7 +155,7 @@ export default function Vaga({ navigation, route }) {
           {qntdVagaDisponivel.map((item) => {
             return (
               <View key={item.idVaga}>
-                <TouchableOpacity style={styles.vagaCard} onPress={() => {setIdVaga(item.idVaga), setVisible(true)}}>
+                <TouchableOpacity style={styles.vagaCard} onPress={() => { setIdVaga(item.idVaga), setVisible(true) }}>
                   <Text style={styles.vagaCardText}>{item.idVaga}</Text>
                 </TouchableOpacity>
               </View>

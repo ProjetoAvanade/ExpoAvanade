@@ -18,17 +18,17 @@ import api from '../services/api';
 
 export default function Cartao({ navigation, route }) {
     const idReserva = route.params.idReserva
+    const saldo = route.params.saldo
     const idVaga = route.params.idVaga
     const [preco, setPreco] = useState(0);
     const [visible, setVisible] = useState(false);
     const [cartao, setCartao] = useState('4024.0071.5376.3191');
-    const [quantidade, setQuantidade] = useState(10);
     const [validade, setValidade] = useState('12/2021');
     const [codigoSeguranca, setCodigoSeguranca] = useState('123');
     const [marca, setMarca] = useState('Visa');
     const [sucess, setSucess] = useState();
     //const [tempoReserva, setTempoReserva] = useState(0);
-    
+
     const atualizarPagamento = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -51,35 +51,35 @@ export default function Cartao({ navigation, route }) {
 
     const atualizarVaga = async () => {
         try {
-          const token = await AsyncStorage.getItem('userToken');
-          const resposta = await api.put(`/Vagas/${idVaga}`, {
-            statusVaga: false
-          },
-            {
-              headers: {
-                Authorization: 'Bearer ' + token,
-              },
-            })
-          if (resposta.status === 204) {
-            console.warn('Vaga Atualizada')
-          }
-        } catch (error) {
-          console.warn(resposta)
-          console.warn(error);
-        }
-      };
-
-      
-      const atualizarReserva = async () => {
-          try {
             const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put(`/Reserva/${idReserva}`, {},
-            {
-                headers: {
-                    Authorization: 'Bearer ' + token,
+            const resposta = await api.put(`/Vagas/${idVaga}`, {
+                statusVaga: false
+            },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
                     },
                 })
-                if (resposta.status === 204) {
+            if (resposta.status === 204) {
+                console.warn('Vaga Atualizada')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+
+    const atualizarReserva = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put(`/Reserva/${idReserva}`, {},
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                })
+            if (resposta.status === 204) {
                 console.warn('Reserva finalizada')
                 listarReserva()
             }
@@ -88,7 +88,7 @@ export default function Cartao({ navigation, route }) {
             console.warn(error);
         }
     };
-    
+
     const listarReserva = async () => {
         const token = await AsyncStorage.getItem('userToken');
         const resposta = await api.get('/Reserva', {
@@ -97,12 +97,12 @@ export default function Cartao({ navigation, route }) {
             },
         })
         const dadosDaApi = resposta.data;
-        
+
         //setar preço certo dps e tempo de duração da reserva
-        setPreco(dadosDaApi.reverse()[0].idReserva)
-        console.warn(dadosDaApi.reverse()[0])
+        setPreco(dadosDaApi.reverse()[0].preco)
+        console.warn(dadosDaApi.reverse()[0].preco)
     }
-    
+
     const ModalPoup = ({ visible, children }) => {
         const [showModal, setShowModal] = React.useState(visible);
         const scaleValue = React.useRef(new Animated.Value(0)).current;
@@ -137,44 +137,58 @@ export default function Cartao({ navigation, route }) {
             </Modal>
         );
     };
-    
+
     const ModalInfoReserva = () => {
         return (
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
-                    <View style={styles.modalPointInfo}>
-                        <Text style={styles.modalText}>Preço:</Text>
-                        <Text style={styles.modalTextInfo}>{preco}</Text>
-                        <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
-                    </View>
-
-                    {/* <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Vaga', { idBicicletario: idBicicletario }) }}>
-                        <Text style={styles.modalTextTitle}>Prosseguir</Text>
-                    </TouchableOpacity> */}
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => {setVisible(false), Pagar()}}>
+                    {saldo >= preco &&
+                        <View style={styles.modalPointInfo}>
+                            <Text style={styles.modalText}>Preço:</Text>
+                            <Text style={styles.modalTextInfo}>{preco}</Text>
+                            <Text style={styles.modalText}>Saldo:</Text>
+                            <Text style={styles.modalTextInfo}>{saldo}</Text>
+                            <Text style={styles.modalText}>Total:</Text>
+                            <Text style={styles.modalTextInfo}>0</Text>
+                            <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
+                        </View>
+                    }
+                    
+                    {saldo < preco &&
+                        < View style={styles.modalPointInfo}>
+                            <Text style={styles.modalText}>Preço:</Text>
+                            <Text style={styles.modalTextInfo}>{preco}</Text>
+                            <Text style={styles.modalText}>Saldo:</Text>
+                            <Text style={styles.modalTextInfo}>{saldo}</Text>
+                            <Text style={styles.modalText}>Total:</Text>
+                            <Text style={styles.modalTextInfo}>{preco - saldo}</Text>
+                            <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
+                        </View>
+                    }
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), Pagar() }}>
                         <Text style={styles.modalTextTitle}>Prosseguir</Text>
                     </TouchableOpacity>
                 </View>
-            </ModalPoup>
+            </ModalPoup >
         );
     }
-    
+
     useEffect(() => {
-        //atualizarReserva();
-        listarReserva();
+        atualizarReserva();
+        //listarReserva();
     }, []);
-    
+
     const Pagar = async () => {
         var myHeaders = new Headers();
         myHeaders.append("MerchantId", "33976ff8-42cf-49dc-bc03-2d9583410eb1");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("MerchantKey", "STFUVFSECYOELJWCGZXXQGXXDCCMMNUPXUIHMZUZ");
-        
+
         var raw = JSON.stringify({
             "MerchantOrderId": "2014111710",
             "Payment": {
                 "Type": "CreditCard",
-                "Amount": quantidade,
+                "Amount": preco,
                 "Installments": 1,
                 "SoftDescriptor": "123456789ABCD",
                 "CreditCard": {
@@ -186,25 +200,25 @@ export default function Cartao({ navigation, route }) {
                 }
             }
         });
-        
+
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
-        
+
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
         setSucess(true)
-        atualizarPagamento();
-        atualizarVaga();
+        //atualizarPagamento();
+        //atualizarVaga();
         //atualizarPontos();
     }
-    
-    /* const atualizarPontos = async () => {
+
+    const atualizarPontos = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
             const resposta = await api.put('/Reserva', {
@@ -220,14 +234,14 @@ export default function Cartao({ navigation, route }) {
             console.warn(resposta)
             console.warn(error);
         }
-    }; */
+    };
     return (
         <View style={styles.main}>
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'
                 hidden={false}
-                />
+            />
             <View style={styles.mainGap}></View>
             <View style={styles.mainHeader}>
                 <View style={styles.mainHeaderSpace}>
