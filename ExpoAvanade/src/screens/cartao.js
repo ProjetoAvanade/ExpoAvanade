@@ -26,7 +26,7 @@ export default function Cartao({ navigation, route }) {
     const [validade, setValidade] = useState('12/2021');
     const [codigoSeguranca, setCodigoSeguranca] = useState('123');
     const [marca, setMarca] = useState('Visa');
-    const [sucess, setSucess] = useState('');
+    const [sucess, setSucess] = useState();
     //const [tempoReserva, setTempoReserva] = useState(0);
 
     const atualizarSaldo = async () => {
@@ -226,12 +226,12 @@ export default function Cartao({ navigation, route }) {
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result),
-                setSucess(true),
-                atualizarPagamento(),
-                atualizarVaga(),
-                atualizarPontos())
+                setSucess(true))
+                //atualizarPagamento(),
+                //atualizarVaga(),
+                //atualizarPontos())
             .catch(error => console.log('error', error));
-            navigation.navigate('ModalLocalizacao', {sucess : sucess})
+            navigation.navigate('ModalPagamento')
     }
 
     const atualizarPontos = async () => {
@@ -253,9 +253,8 @@ export default function Cartao({ navigation, route }) {
     };
 
     useEffect(() => {
-        atualizarReserva();
+        //atualizarReserva();
         //atualizarSaldo();
-        atualizarPontos()
     }, []);
 
     return (

@@ -89,14 +89,15 @@ export default function Cadastro({ navigation }) {
     formData.append('arquivo', {
       uri: arquivo, name: filename, type: type
     })
-    fetch('https://api-avanade.azurewebsites.net/api/Usuario', {
+    fetch('http://192.168.3.50:5000/api/Usuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'
       },
       body: formData,
     }).then(response => {
-      console.log('Usuario Cadastrado');
+      //console.log('Usuario Cadastrado');
+      console.log(formData)
       setSucess(true);
       setIsLoading(false);
     }).catch(erro => {
@@ -112,7 +113,6 @@ export default function Cadastro({ navigation }) {
         backgroundColor='#F3BC2C'
         hidden={false}
       />
-
       <View style={styles.mainGap}></View>
       <View style={styles.mainHeader}>
         <View style={styles.mainHeaderSpace}>

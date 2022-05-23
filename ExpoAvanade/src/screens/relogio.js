@@ -16,7 +16,7 @@ export default class Relogio extends Component {
   state = {
     idVaga: this.props.route.params.idVaga,
     saldo: this.props.route.params.saldo,
-    eventDate: moment.duration().add({ hours: this.props.route.params.horas, minutes: 0, seconds: 0 }), // add 9 full days
+    eventDate: moment.duration().add({ hours: 0, minutes: 0, seconds: 10 }), // add 9 full days
     hours: 0,
     mins: 0,
     secs: 0,
@@ -33,7 +33,7 @@ export default class Relogio extends Component {
       if (eventDate <= 0) {
         clearInterval(
           this.setState(moment.duration().add({ hours: 0, minutes: 0, seconds: 0 })),
-          this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga })
+          //this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga })
         )
       } else {
         eventDate = eventDate.subtract(1, "s")
@@ -73,7 +73,7 @@ export default class Relogio extends Component {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const resposta = await api.put(`/Vagas/${this.state.idVaga}`, {
-        statusVaga: true
+        statusVagas: true
       },
         {
           headers: { Authorization: 'Bearer ' + token },
@@ -139,7 +139,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    this.criarReserva()
+    //this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -161,9 +161,29 @@ export default class Relogio extends Component {
           <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
           <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
 
-          <TouchableOpacity style={styles.mainContentButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo: this.state.saldo }) }}>
+          {/* <TouchableOpacity style={styles.mainContentButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo: this.state.saldo }) }}>
             <Text style={styles.buttonText}>Finalizar reserva</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          {this.state.eventDate <= 0 &&
+            <View>
+              <Text style={styles.buttonText}>Agora você poderá finalizar a reserva</Text>
+              <TouchableOpacity style={styles.mainContentButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo: this.state.saldo }) }}>
+                <Text style={styles.buttonText}>Finalizar reserva</Text>
+              </TouchableOpacity>
+            </View>
+          }
+
+          {
+            this.state.eventDate != 0 &&
+            <View>
+              <Text style={styles.buttonText}>
+                Você poderá finalizar a reserva apenas quando acabar o tempo
+              </Text>
+              <TouchableOpacity style={styles.mainButtonDisabled} disabled>
+                <Text style={styles.buttonText}>Finalizar reserva</Text>
+              </TouchableOpacity>
+            </View>
+          }
 
           <Text style={styles.buttonText}>Adicionar horas</Text>
 
@@ -241,6 +261,15 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     backgroundColor: '#F3BC2C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '20%'
+  },
+  mainButtonDisabled: {
+    width: 157,
+    height: 60,
+    borderRadius: 5,
+    backgroundColor: '#F5D617',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '20%'

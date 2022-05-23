@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -10,10 +10,14 @@ import {
     Animated,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import api from '../services/api';
+
 const ModalPoup = ({ visible, children }) => {
-    const [showModal, setShowModal] = React.useState(visible);
+    const [showModal, setShowModal] = useState(visible);
     const scaleValue = React.useRef(new Animated.Value(0)).current;
-    React.useEffect(() => {
+    useEffect(() => {
         toggleModal();
     }, [visible]);
     const toggleModal = () => {
@@ -46,7 +50,51 @@ const ModalPoup = ({ visible, children }) => {
 };
 
 const ModalPagamento = () => {
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = useState(true);
+    const [pontos, setPontos] = useState(0);
+
+    const buscarInfoPerfil = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.get('/Usuario', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            if (resposta.status === 200) {
+                const dadosDaApi = resposta.data;
+                setPontos(dadosDaApi.pontos)
+            }
+        } catch (error) {
+            //console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+    const atualizarPontos = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put('/Reserva', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            console.warn(resposta)
+            if (resposta.status === 200) {
+                console.warn('Pontos atualizados')
+                buscarInfoPerfil();
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
+
+    useEffect(() => {
+        //buscarInfoPerfil();
+        atualizarPontos();
+    }, []);
+
     return (
         <ModalPoup visible={visible}>
             <View style={{ alignItems: 'center' }}>
@@ -67,8 +115,12 @@ const ModalPagamento = () => {
             </View>
 
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 20, }}>
-                <Text style={{ fontSize: 14, textAlign: 'center' }}>
+                <Text style={{ fontSize: 14, textAlign: 'center', paddingHorizontal: 20 }}>
                     O Avanade utilizará sua localização
+                </Text>
+
+                <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingHorizontal: 20 }}>
+                    Você possui {pontos} rodas
                 </Text>
 
                 <TouchableOpacity style={styles.btn} onPress={() => setVisible(false)}>
