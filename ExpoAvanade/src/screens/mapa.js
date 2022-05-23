@@ -29,12 +29,9 @@ export default function Mapa({ navigation }) {
     const [horarioAberto, setHorarioAberto] = useState('');
     const [horarioFechado, setHorarioFechado] = useState('');
     const [nomePonto, setNomePonto] = useState('');
-    const [infosPonto, setInfosPonto] = useState([])
     const [visible, setVisible] = useState(false);
-    //const [listaVagas, setListaVagas] = useState([]);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
-    const [position, setPosition] = useState([{ "timestamp": 1651720499602, "mocked": false, }]);
 
     const buscarBicicletarios = async () => {
         try {

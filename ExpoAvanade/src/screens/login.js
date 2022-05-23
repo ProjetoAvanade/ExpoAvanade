@@ -22,11 +22,11 @@ export default function Login({ navigation }) {
   const [senha, setSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [accessToken, setAccessToken] = useState();
+  /* const [accessToken, setAccessToken] = useState();
   const [userInfo, setUserInfo] = useState();
   const [message, setMessage] = useState();
 
-  /* const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "694235095257-fkbf1u81sm5ii76om74j5b7h8u4v2m7a.apps.googleusercontent.com",
     iosClientId: "694235095257-qnub27n3o6s0e3lo1sneio03o6ka5k9m.apps.googleusercontent.com",
     expoClientId: "273107586669-e5gouu3ks6fqroo352ba6nh9jefept70.apps.googleusercontent.com"

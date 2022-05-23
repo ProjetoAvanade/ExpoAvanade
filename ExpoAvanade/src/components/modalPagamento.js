@@ -45,7 +45,7 @@ const ModalPoup = ({ visible, children }) => {
     );
 };
 
-const ModalLocalizacao = () => {
+const ModalPagamento = () => {
     const [visible, setVisible] = React.useState(true);
     return (
         <ModalPoup visible={visible}>
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ModalLocalizacao;
+export default ModalPagamento;

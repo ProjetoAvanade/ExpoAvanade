@@ -26,8 +26,28 @@ export default function Cartao({ navigation, route }) {
     const [validade, setValidade] = useState('12/2021');
     const [codigoSeguranca, setCodigoSeguranca] = useState('123');
     const [marca, setMarca] = useState('Visa');
-    const [sucess, setSucess] = useState();
+    const [sucess, setSucess] = useState('');
     //const [tempoReserva, setTempoReserva] = useState(0);
+
+    const atualizarSaldo = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            const resposta = await api.put(`/Usuario`, {
+                saldo: preco - saldo
+            },
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                })
+            if (resposta.status === 200) {
+                console.warn('saldo alterado')
+            }
+        } catch (error) {
+            console.warn(resposta)
+            console.warn(error);
+        }
+    };
 
     const atualizarPagamento = async () => {
         try {
@@ -98,9 +118,8 @@ export default function Cartao({ navigation, route }) {
         })
         const dadosDaApi = resposta.data;
 
-        //setar preço certo dps e tempo de duração da reserva
+        //setar preço certo depois e tempo de duração da reserva
         setPreco(dadosDaApi.reverse()[0].preco)
-        console.warn(dadosDaApi.reverse()[0].preco)
     }
 
     const ModalPoup = ({ visible, children }) => {
@@ -153,7 +172,7 @@ export default function Cartao({ navigation, route }) {
                             <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
                         </View>
                     }
-                    
+
                     {saldo < preco &&
                         < View style={styles.modalPointInfo}>
                             <Text style={styles.modalText}>Preço:</Text>
@@ -173,10 +192,6 @@ export default function Cartao({ navigation, route }) {
         );
     }
 
-    useEffect(() => {
-        atualizarReserva();
-        //listarReserva();
-    }, []);
 
     const Pagar = async () => {
         var myHeaders = new Headers();
@@ -210,12 +225,13 @@ export default function Cartao({ navigation, route }) {
 
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => console.log(result),
+                setSucess(true),
+                atualizarPagamento(),
+                atualizarVaga(),
+                atualizarPontos())
             .catch(error => console.log('error', error));
-        setSucess(true)
-        //atualizarPagamento();
-        //atualizarVaga();
-        //atualizarPontos();
+            navigation.navigate('ModalLocalizacao', {sucess : sucess})
     }
 
     const atualizarPontos = async () => {
@@ -235,6 +251,13 @@ export default function Cartao({ navigation, route }) {
             console.warn(error);
         }
     };
+
+    useEffect(() => {
+        atualizarReserva();
+        //atualizarSaldo();
+        atualizarPontos()
+    }, []);
+
     return (
         <View style={styles.main}>
             <StatusBar
