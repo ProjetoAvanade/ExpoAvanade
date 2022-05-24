@@ -29,26 +29,6 @@ export default function Cartao({ navigation, route }) {
     const [sucess, setSucess] = useState();
     //const [tempoReserva, setTempoReserva] = useState(0);
 
-    const atualizarSaldo = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put(`/Usuario`, {
-                saldo: preco - saldo
-            },
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                })
-            if (resposta.status === 200) {
-                console.warn('saldo alterado')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
     const atualizarPagamento = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -61,10 +41,10 @@ export default function Cartao({ navigation, route }) {
                     },
                 })
             if (resposta.status === 204) {
-                console.warn('Pagamento finalizado')
+                //console.warn('Pagamento finalizado')
             }
         } catch (error) {
-            console.warn(resposta)
+            // console.warn(resposta)
             console.warn(error);
         }
     };
@@ -81,11 +61,11 @@ export default function Cartao({ navigation, route }) {
                     },
                 })
             if (resposta.status === 204) {
-                console.warn('Vaga Atualizada')
+                //console.warn('Vaga Atualizada')
             }
         } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
+            //console.warn(resposta)
+            //console.warn(error);
         }
     };
 
@@ -100,12 +80,12 @@ export default function Cartao({ navigation, route }) {
                     },
                 })
             if (resposta.status === 204) {
-                console.warn('Reserva finalizada')
+                //console.warn('Reserva finalizada')
                 listarReserva()
             }
         } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
+            //console.warn(resposta)
+            //console.warn(error);
         }
     };
 
@@ -192,7 +172,7 @@ export default function Cartao({ navigation, route }) {
         );
     }
 
-
+    //Preciso alterar a validação da função ainda
     const Pagar = async () => {
         var myHeaders = new Headers();
         myHeaders.append("MerchantId", "33976ff8-42cf-49dc-bc03-2d9583410eb1");
@@ -226,35 +206,16 @@ export default function Cartao({ navigation, route }) {
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result),
-                setSucess(true))
-                //atualizarPagamento(),
-                //atualizarVaga(),
-                //atualizarPontos())
+                setSucess(true),
+                atualizarPagamento(),
+                atualizarVaga())
+            //atualizarPontos())
             .catch(error => console.log('error', error));
-            navigation.navigate('ModalPagamento')
+        navigation.navigate('ModalPagamento')
     }
 
-    const atualizarPontos = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put('/Reserva', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            console.warn(resposta)
-            if (resposta.status === 200) {
-                console.warn('Troca finalizada')
-            }
-        } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
-        }
-    };
-
     useEffect(() => {
-        //atualizarReserva();
-        //atualizarSaldo();
+        atualizarReserva();
     }, []);
 
     return (

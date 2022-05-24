@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, LogBox } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -161,6 +161,10 @@ export default class Perfil extends Component {
     );
   }
 }
+
+/* Quando é passado uma uri dinânica na imagem dá esse erro de string vazia, 
+não espera a requisição trazendo a imagem termina */
+LogBox.ignoreLogs(['source.uri should not be an empty string']);
 
 const styles = StyleSheet.create({
   main: {

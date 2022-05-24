@@ -8,7 +8,8 @@ import {
     Platform,
     StatusBar,
     Modal,
-    Animated
+    Animated, 
+    LogBox
 } from 'react-native';
 
 import MapView, { Callout, Marker } from 'react-native-maps';
@@ -32,7 +33,7 @@ export default function Mapa({ navigation }) {
     const [visible, setVisible] = useState(false);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
-
+    
     const buscarBicicletarios = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -48,7 +49,7 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-
+    
     const buscarLocalizacao = async () => {
         if (Platform.OS === 'android' && !Constants.isDevice) {
             setErroMensagem('Permissão para acessar a localização negada!')
@@ -59,13 +60,12 @@ export default function Mapa({ navigation }) {
             setErroMensagem('Permissão para acessar a localização negada!')
             return;
         };
-
+        
         const location = await Location.getCurrentPositionAsync({});
         setLongitude(parseFloat(location.coords.longitude))
         setLatitude(parseFloat(location.coords.latitude))
-        setPosition(location)
     };
-
+    
     const buscarInfoPerfil = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -89,7 +89,7 @@ export default function Mapa({ navigation }) {
             console.warn(error);
         }
     };
-
+    
     const buscarInfoPonto = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -109,7 +109,7 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-
+    
     const ModalPoup = ({ visible, children }) => {
         const [showModal, setShowModal] = React.useState(visible);
         const scaleValue = React.useRef(new Animated.Value(0)).current;
@@ -175,7 +175,7 @@ export default function Mapa({ navigation }) {
             </ModalPoup>
         );
     }
-
+    
     const buscarVagasPonto = async () => {
         try {
             var arr = [];
@@ -187,7 +187,7 @@ export default function Mapa({ navigation }) {
             })
             const listaVagas = resposta.data;
             setqntdVagaTotal(listaVagas.length)
-
+            
             if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == false) {
@@ -201,26 +201,26 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-
+    
     const Funcoes = () => {
         setVisible(true);
         buscarInfoPonto();
         buscarVagasPonto();
     }
-
+    
     useEffect(() => {
         buscarLocalizacao();
         buscarBicicletarios();
         buscarInfoPerfil();
     }, []);
-
+    
     return (
         <View style={styles.main}>
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'
                 hidden={false}
-            />
+                />
             <View style={styles.mainGap}></View>
             <View style={styles.mainHeader}>
                 <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
@@ -228,15 +228,15 @@ export default function Mapa({ navigation }) {
                         {
                             imagem != '' &&
                             <Image
-                                source={{ uri: imagem }}
-                                style={styles.mainHeaderProfile} />
+                            source={{ uri: imagem }}
+                            style={styles.mainHeaderProfile} />
                         }
 
                         {
                             imagem == '' &&
                             <Image
-                                source={require('../../assets/img/icon_mold.png')}
-                                style={styles.mainHeaderProfile} />
+                            source={require('../../assets/img/icon_mold.png')}
+                            style={styles.mainHeaderProfile} />
                         }
                         <View>
                             <Text style={styles.mainHeaderText}>Olá,</Text>
@@ -257,7 +257,7 @@ export default function Mapa({ navigation }) {
                 {listaBicicletarios.map((item) => {
                     return (
                         <Marker
-                            onPress={() => setIdBicicletario(item.idBicicletario)}
+                        onPress={() => setIdBicicletario(item.idBicicletario)}
                             key={item.idBicicletario}
                             coordinate={{
                                 latitude: parseFloat(item.latitude),
@@ -265,8 +265,7 @@ export default function Mapa({ navigation }) {
                             }}
                             title={item.nomeBicicletario}
                             description={item.rua}
-                        >
-                            {/* <Callout onPress={() => navigation.navigate('Cadastro', { id: item })}> */}
+                            >
                             <Callout onPress={() => Funcoes()}>
                                 <Text style={styles.calloutText}>{item.nome}</Text>
                                 <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
@@ -288,6 +287,9 @@ export default function Mapa({ navigation }) {
         </View >
     );
 }
+
+//Não está sendo possível setar uma posição inicial antes da requisição ser concluída
+LogBox.ignoreLogs(['Warning: Failed prop type: The prop `initialRegion.latitude` is marked as required in `MapView`, but its value is `null`.']);
 
 const styles = StyleSheet.create({
     main: {

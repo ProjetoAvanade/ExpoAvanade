@@ -91,7 +91,7 @@ const ModalPagamento = () => {
     };
 
     useEffect(() => {
-        //buscarInfoPerfil();
+        buscarInfoPerfil();
         atualizarPontos();
     }, []);
 
@@ -116,11 +116,11 @@ const ModalPagamento = () => {
 
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 20, }}>
                 <Text style={{ fontSize: 14, textAlign: 'center', paddingHorizontal: 20 }}>
-                    O Avanade utilizará sua localização
+                    Pagamento concluído
                 </Text>
 
                 <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingHorizontal: 20 }}>
-                    Você possui {pontos} rodas
+                    Você possui agora {pontos} rodas
                 </Text>
 
                 <TouchableOpacity style={styles.btn} onPress={() => setVisible(false)}>

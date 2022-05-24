@@ -19,11 +19,11 @@ export default function Cadastro({ navigation }) {
   const [nomeUsuario, setNomeUsuario] = useState('algm');
   const [email, setEmail] = useState('aglm@gmail.com');
   const [senha, setSenha] = useState('algu7171');
+  const [senhaConfirmar, setSenhaConfirmar] = useState('algu7171');
   const [dataNascimento, setNascimento] = useState('11/11/2011');
   const [cpf, setCpf] = useState('111192928');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
-  //const [result, setResult] = useState('');
   const [sucess, setSucess] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +36,7 @@ export default function Cadastro({ navigation }) {
       alert("Você recusou a permissão de acesso a galeria!");
       return;
     }
-    
+
     // Abre a galeria, o usuário poderá escolher a foto
     const result = await ImagePicker.launchImageLibraryAsync();
     console.log(result);
@@ -49,7 +49,7 @@ export default function Cadastro({ navigation }) {
     }
   }
 
-  // Função feita com a biblioteca ImagePicker para acessar a câmera
+  /* // Função feita com a biblioteca ImagePicker para acessar a câmera
   const openCamera = async () => {
     // Pede ao usuário o acesso a galeria
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -70,14 +70,14 @@ export default function Cadastro({ navigation }) {
       //console.log(result.uri);
     }
   }
-
+ */
   const Cadastrar = async () => {
     setIsLoading(true);
-    
+
     const filename = arquivo.split('/').pop();
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `image/${match[1]}` : `image`;
-    
+
     let formData = new FormData();
     formData.append('idTipoUsuario', idTipoUsuario);
     formData.append('nomeUsuario', nomeUsuario);
@@ -89,7 +89,7 @@ export default function Cadastro({ navigation }) {
     formData.append('arquivo', {
       uri: arquivo, name: filename, type: type
     })
-    fetch('http://192.168.3.50:5000/api/Usuario', {
+    fetch('https://api-avanade.azurewebsites.net/api', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -158,6 +158,27 @@ export default function Cadastro({ navigation }) {
           />
           <TextInput
             style={styles.mainContentFormInput}
+            placeholder='Confirmar Senha'
+            placeholderTextColor='#000000'
+            keyboardType="default"
+            secureTextEntry={true}
+            passwordRules
+            value={senhaConfirmar}
+            onChangeText={(senhaConfirmar) => setSenhaConfirmar(senhaConfirmar)}
+          />
+
+          {senha != senhaConfirmar &&
+            //Com o input de confirmação de senha é possui o usuário perceber senha digitadas diferentes
+            <Text style={styles.mainTextError}>Senha diferente!</Text>
+          }
+
+          {senha == senhaConfirmar &&
+            //Com o input de confirmação de senha é possui o usuário perceber senha digitadas iguais
+            <Text style={styles.mainTextSucess}>Senha iguais!</Text>
+          }
+
+          <TextInput
+            style={styles.mainContentFormInput}
             placeholder='AAAA/MM/DD'
             placeholderTextColor='#000000'
             value={dataNascimento}
@@ -167,18 +188,7 @@ export default function Cadastro({ navigation }) {
             <Text>Foto</Text>
             <Image source={require('../../assets/img/icon_photo.png')} style={styles.mainHeaderImage} />
           </TouchableOpacity>
-          {/* {
-            this.state.isLoading === false &&
-            <TouchableOpacity style={styles.mainBtnRegister}>
-              <Text style={styles.mainBtnText}>Cadastrar</Text>
-            </TouchableOpacity>
-          }
-          {
-            this.state.isLoading === true &&
-            <TouchableOpacity style={styles.mainBtnRegister} disabled>
-              <Text style={styles.mainBtnText}>Carregando</Text>
-            </TouchableOpacity>
-          } */}
+
           <View style={styles.imageContainer}>
             {
               arquivo !== '' && <Image
@@ -189,28 +199,30 @@ export default function Cadastro({ navigation }) {
           </View>
 
           {sucess == false &&
+            //Mensagem de cadastro invélido
             <Text style={styles.mainTextError}>Não foi possível realizar o cadastro!</Text>
           }
 
           {sucess == true &&
+            //Mensagem de cadastro concluído
             <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
           }
 
-{
-              // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
-              isLoading === false &&
-          <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar} disabled={
-            nomeUsuario == '' || senha == '' || email == '' || dataNascimento == null || cpf == '' || arquivo == '' ? 'none' : ''}>
-            <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
-          </TouchableOpacity>
-}
+          {
+            // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
+            isLoading === false &&
+            <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar} disabled={
+              nomeUsuario == '' || senha == '' || email == '' || dataNascimento == null || cpf == '' || arquivo == '' ? 'none' : ''}>
+              <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+            </TouchableOpacity>
+          }
 
-{
-  // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
-  isLoading === true && <TouchableOpacity style={styles.mainContentFormButton} disabled>
-            <Text style={styles.mainContentFormButtonText}>Carregando...</Text>
-          </TouchableOpacity>
-}
+          {
+            // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+            isLoading === true && <TouchableOpacity style={styles.mainContentFormButton} disabled>
+              <Text style={styles.mainContentFormButtonText}>Carregando...</Text>
+            </TouchableOpacity>
+          }
 
           <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
         </View>

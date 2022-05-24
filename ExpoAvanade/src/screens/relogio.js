@@ -16,8 +16,8 @@ export default class Relogio extends Component {
   state = {
     idVaga: this.props.route.params.idVaga,
     saldo: this.props.route.params.saldo,
-    eventDate: moment.duration().add({ hours: 0, minutes: 0, seconds: 10 }), // add 9 full days
-    hours: 0,
+    eventDate: moment.duration().add({ hours: this.props.route.params.horas, minutes: 0, seconds: 0 }), // add 9 full days
+    hours: this.props.route.params.horas,
     mins: 0,
     secs: 0,
     horaAdicionada: 0,
@@ -139,7 +139,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    //this.criarReserva()
+    this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -161,9 +161,6 @@ export default class Relogio extends Component {
           <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
           <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
 
-          {/* <TouchableOpacity style={styles.mainContentButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo: this.state.saldo }) }}>
-            <Text style={styles.buttonText}>Finalizar reserva</Text>
-          </TouchableOpacity> */}
           {this.state.eventDate <= 0 &&
             <View>
               <Text style={styles.buttonText}>Agora você poderá finalizar a reserva</Text>
@@ -280,8 +277,12 @@ const styles = StyleSheet.create({
     color: '#000000'
   },
   mainContentHours: {
+    width: 80,
+    height: 35,
+    backgroundColor: '#F3BC2C',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   mainTextSucess: {
     fontSize: 20,
