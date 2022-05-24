@@ -205,12 +205,12 @@ export default function Cartao({ navigation, route }) {
 
         fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result),
-                setSucess(true),
-                atualizarPagamento(),
-                atualizarVaga())
-            //atualizarPontos())
-            .catch(error => console.log('error', error));
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))
+            setSucess(true),
+            atualizarPagamento(),
+            atualizarVaga()
+        //atualizarPontos())
         navigation.navigate('ModalPagamento')
     }
 
