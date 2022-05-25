@@ -125,6 +125,23 @@ export default function Vaga({ navigation, route }) {
   }
 
   useEffect(() => {
+    function addHours(numOfHours, date = new Date()) {
+      const dateCopy = new Date(date.getTime());
+
+      dateCopy.setTime(dateCopy.getTime() + numOfHours * 60 * 60 * 1000);
+
+      return dateCopy;
+    }
+
+    // 👇️ Add 2 hours to another date
+    const date = new Date();
+
+    const result = addHours(2, date);
+
+    console.warn(result); // 👉️ Mon Mar 14 2022 11:25:30
+
+    console.warn(date)
+    
     buscarVagasPonto();
     buscarInfoPerfil();
   }, []);
