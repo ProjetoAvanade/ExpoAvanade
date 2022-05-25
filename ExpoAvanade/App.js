@@ -12,7 +12,6 @@ import Main from './src/screens/main';
 import TrocaRodas from './src/screens/trocaRodas';
 import Perfil from './src/screens/perfil';
 import Cartao from './src/screens/cartao';
-import CadastrarReserva from './src/screens/cadastrarReserva';
 import Vaga from './src/screens/vaga';
 import Relogio from './src/screens/relogio';
 import ModalPagamento from './src/components/modalPagamento';
@@ -55,7 +54,6 @@ export default function App() {
         <AuthStack.Screen name="TrocaRodas" component={TrocaRodas} />
         <AuthStack.Screen name="Perfil" component={Perfil} />
         <AuthStack.Screen name="Cartao" component={Cartao} />
-        <AuthStack.Screen name="CadastrarReserva" component={CadastrarReserva} />
         <AuthStack.Screen name="Vaga" component={Vaga} />
         <AuthStack.Screen name="Relogio" component={Relogio} />
         <AuthStack.Screen name="ModalPagamento" component={ModalPagamento} />

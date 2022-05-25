@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, LogBox } fr
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from '../services/api';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR'
 
 export default class Perfil extends Component {
   constructor(props) {
@@ -118,7 +120,9 @@ export default class Perfil extends Component {
             }).format(new Date(Cpf))},
             {dataNascimento}
           </Text> */}
-            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {this.state.dataNascimento}</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {Intl.DateTimeFormat("pt-BR", {
+              year: 'numeric', month: 'short', day: 'numeric',
+            }).format(new Date(this.state.dataNascimento))}</Text>
           </View>
         </View>
 
