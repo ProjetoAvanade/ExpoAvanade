@@ -43,8 +43,8 @@ GO;
 set dateformat ymd;
 GO
 
-INSERT INTO reservas(idUsuario,idVaga,abreTrava)
-VALUES(2, 4, '2022-03-28 09:43:00.000');
+INSERT INTO reservas(idUsuario,idVaga,abreTrava, fechaTrava, preco, statusPagamento)
+VALUES(2, 4, '2022-05-25 22:09:00.000', '2022-05-25 23:09:00.000', 5.00, 1);
 GO
 
 SELECT * FROM reservas

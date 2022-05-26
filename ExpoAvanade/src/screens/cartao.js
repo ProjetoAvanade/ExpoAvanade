@@ -202,16 +202,16 @@ export default function Cartao({ navigation, route }) {
             body: raw,
             redirect: 'follow'
         };
-
-        fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error))
+        
+        const resposta = await fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
+        if (resposta.status == 201) {
             setSucess(true),
             atualizarPagamento(),
             atualizarVaga()
-        //atualizarPontos())
-        navigation.navigate('ModalPagamento')
+            navigation.navigate('ModalPagamento')
+        } else {
+            setSucess(false)
+        }
     }
 
     useEffect(() => {

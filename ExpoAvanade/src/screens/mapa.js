@@ -159,8 +159,8 @@ export default function Mapa({ navigation }) {
                     <View style={styles.modalPointInfo}>
                         <Image source={require('../../assets/img/icon_clock.png')}></Image>
                         <Text style={styles.modalText}>Horário:</Text>
-                        <Text style={styles.modalTextInfo}>{horarioAberto} - {horarioFechado}</Text>
                     </View>
+                        <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
 
                     <View style={styles.modalPointInfo}>
                         <Image source={require('../../assets/img/icon_spaces.png')}></Image>

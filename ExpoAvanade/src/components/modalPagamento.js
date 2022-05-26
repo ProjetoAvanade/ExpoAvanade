@@ -12,7 +12,7 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import api from '../services/api';
+import api from '../services/api'
 
 const ModalPoup = ({ visible, children }) => {
     const [showModal, setShowModal] = useState(visible);
@@ -49,7 +49,7 @@ const ModalPoup = ({ visible, children }) => {
     );
 };
 
-const ModalPagamento = () => {
+const ModalPagamento = ({ navigation }) => {
     const [visible, setVisible] = useState(true);
     const [pontos, setPontos] = useState(0);
 
@@ -61,37 +61,35 @@ const ModalPagamento = () => {
                     Authorization: 'Bearer ' + token,
                 },
             })
-            if (resposta.status === 200) {
+            if (resposta.status == 200) {
                 const dadosDaApi = resposta.data;
                 setPontos(dadosDaApi.pontos)
             }
         } catch (error) {
             //console.warn(resposta)
-            console.warn(error);
+            //console.warn(error);
         }
     };
 
     const atualizarPontos = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
-            const resposta = await api.put('/Reserva', {
+            const resposta = await api.put('/Reserva', {}, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },
             })
-            console.warn(resposta)
             if (resposta.status === 200) {
                 console.warn('Pontos atualizados')
                 buscarInfoPerfil();
             }
         } catch (error) {
-            console.warn(resposta)
-            console.warn(error);
+            //console.warn(resposta)
+            //console.warn(error);
         }
     };
 
     useEffect(() => {
-        buscarInfoPerfil();
         atualizarPontos();
     }, []);
 
@@ -99,7 +97,7 @@ const ModalPagamento = () => {
         <ModalPoup visible={visible}>
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={() => setVisible(false)}>
+                    <TouchableOpacity onPress={() => {setVisible(false), navigation.navigate('Mapa')}}>
                         <Image
                             source={require('../../assets/icon.png')}
                             style={{ height: 30, width: 30 }}
@@ -123,7 +121,7 @@ const ModalPagamento = () => {
                     Você possui agora {pontos} rodas
                 </Text>
 
-                <TouchableOpacity style={styles.btn} onPress={() => setVisible(false)}>
+                <TouchableOpacity style={styles.btn} onPress={() => {setVisible(false), navigation.navigate('Mapa')}}>
                     <Text style={styles.btnLogoutText}>OK</Text>
                 </TouchableOpacity>
             </View>

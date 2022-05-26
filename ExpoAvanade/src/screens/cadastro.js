@@ -89,21 +89,20 @@ export default function Cadastro({ navigation }) {
     formData.append('arquivo', {
       uri: arquivo, name: filename, type: type
     })
-    fetch('https://api-avanade.azurewebsites.net/api', {
+    const resposta = await fetch('https://api-avanade.azurewebsites.net/api/usuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data'
       },
       body: formData,
-    }).then(response => {
-      //console.log('Usuario Cadastrado');
-      console.log(formData)
+    })
+    if (resposta.status == 201) {
       setSucess(true);
       setIsLoading(false);
-    }).catch(erro => {
-      console.log(erro);
+    } else {
+      setSucess(false);
       setIsLoading(false);
-    })
+    }
   }
 
   return (
@@ -279,7 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '70%',
     // height: 60,
-    height: '8.5%',
+    height: '4.5%',
     marginTop: '8%',
     borderColor: '#F3BC2C',
     borderWidth: 2,

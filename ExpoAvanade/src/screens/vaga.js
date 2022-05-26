@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, Select, Image, TouchableOpacity, Modal, Animated
+  StyleSheet, Text, View, Image, TouchableOpacity, Modal, Animated
 } from 'react-native';
 
 import api from '../services/api';
@@ -15,6 +15,9 @@ export default function Vaga({ navigation, route }) {
   const [idVaga, setIdVaga] = useState(0);
   const [visible, setVisible] = useState(false);
   const [horas, setHoras] = useState(0);
+  const data = new Date();
+  const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0,4);
+  const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0,4);
 
   const buscarVagasPonto = async () => {
     try {
@@ -61,6 +64,14 @@ export default function Vaga({ navigation, route }) {
       console.warn(error);
     }
   };
+  
+  function adicionarHora(numeroHora, data = new Date()) {
+    const dataCopiada = new Date(data.getTime());
+
+    dataCopiada.setTime(dataCopiada.getTime() + numeroHora * 60 * 60 * 1000);
+
+    return dataCopiada;
+  }
 
   const ModalPoup = ({ visible, children }) => {
     const [showModal, setShowModal] = React.useState(visible);
@@ -107,16 +118,16 @@ export default function Vaga({ navigation, route }) {
             <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
               <Text style={styles.modalTextTitle}>R$3,75</Text>
               <Text style={styles.modalText}>1 Hora</Text>
-              <Text style={styles.modalTextInfo}>Válido até 10:30</Text>
+              <Text style={styles.modalTextInfo}>Válido até {previsaoHora1}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalBackGroundYellow} onPress={() => setHoras(2)}>
               <Text style={styles.modalTextTitle}>R$ 6,50</Text>
               <Text style={styles.modalText}>2 Hora</Text>
-              <Text style={styles.modalTextInfo}>Válido até 11:30</Text>
+              <Text style={styles.modalTextInfo}>Válido até {previsaoHora2}</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
-          <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo : saldo }) }}>
+          <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo: saldo }) }}>
             <Text style={styles.modalTextTitle}>Confirmar</Text>
           </TouchableOpacity>
         </View>
@@ -125,23 +136,6 @@ export default function Vaga({ navigation, route }) {
   }
 
   useEffect(() => {
-    function addHours(numOfHours, date = new Date()) {
-      const dateCopy = new Date(date.getTime());
-
-      dateCopy.setTime(dateCopy.getTime() + numOfHours * 60 * 60 * 1000);
-
-      return dateCopy;
-    }
-
-    // 👇️ Add 2 hours to another date
-    const date = new Date();
-
-    const result = addHours(2, date);
-
-    console.warn(result); // 👉️ Mon Mar 14 2022 11:25:30
-
-    console.warn(date)
-    
     buscarVagasPonto();
     buscarInfoPerfil();
   }, []);
