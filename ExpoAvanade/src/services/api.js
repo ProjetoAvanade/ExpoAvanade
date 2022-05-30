@@ -7,7 +7,7 @@ const api = axios.create({
   //baseURL: 'https://623afa8d2e056d1037eac65b.mockapi.io',
   //baseURL: 'http://192.168.3.50:5000/api',
   //baseURL: 'http://192.168.0.9:5000/api',
-  //baseURL: 'http://192.168.4.187:5000/api',
+  //baseURL: 'http://192.168.4.102:5000/api',
   baseURL: 'https://api-avanade.azurewebsites.net/api',
 });
 

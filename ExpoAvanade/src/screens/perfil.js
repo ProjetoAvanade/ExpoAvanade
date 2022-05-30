@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainGap: {
-    height: '4.3%',
+    height: '2.8%',
   },
   mainHeader: {
     width: '100%',
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   },
   mainCard: {
     width: '100%',
-    height: '11%',
+    height: '11.3%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

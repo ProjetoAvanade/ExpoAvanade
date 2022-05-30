@@ -155,22 +155,28 @@ export default function Mapa({ navigation }) {
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
                     <View style={styles.modalPointInfo}>
-                        <Image source={require('../../assets/img/icon_location.png')}></Image>
-                        <Text style={styles.modalText}>Nome do ponto:</Text>
-                        <Text style={styles.modalTextInfo}>{nomePonto}</Text>
+                        <Image style={styles.modalImagePoint} source={require('../../assets/img/icon_location.png')}></Image>
+                        <View>
+                            <Text style={styles.modalText}>Nome do ponto:</Text>
+                            <Text style={styles.modalTextInfo}>{nomePonto}</Text>
+                        </View>
                         <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
                     </View>
 
                     <View style={styles.modalPointInfo}>
-                        <Image source={require('../../assets/img/icon_clock.png')}></Image>
-                        <Text style={styles.modalText}>Horário:</Text>
+                        <Image style={styles.modalImage} source={require('../../assets/img/icon_clock.png')}></Image>
+                        <View>
+                            <Text style={styles.modalText}>Horário:</Text>
+                            <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
+                        </View>
                     </View>
-                    <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
 
                     <View style={styles.modalPointInfo}>
-                        <Image source={require('../../assets/img/icon_spaces.png')}></Image>
-                        <Text style={styles.modalText}>Vagas:</Text>
-                        <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel.length}   |   Totais = {qntdVagaTotal}</Text>
+                        <Image style={styles.modalImage} source={require('../../assets/img/icon_spaces.png')}></Image>
+                        <View>
+                            <Text style={styles.modalText}>Vagas:</Text>
+                            <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel.length}   |   Totais = {qntdVagaTotal}</Text>
+                        </View>
                     </View>
 
                     <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Vaga', { idBicicletario: idBicicletario }) }}>
@@ -229,6 +235,7 @@ export default function Mapa({ navigation }) {
                 hidden={false}
             />
             <View style={styles.mainGap}></View>
+
             <View style={styles.mainHeader}>
                 <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
                     <View style={styles.mainHeaderSpace}>
@@ -286,7 +293,7 @@ export default function Mapa({ navigation }) {
             </MapView>
 
             <ModalPonto />
-            
+
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>
@@ -308,7 +315,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     mainGap: {
-        height: '4.3%',
+        height: '3%',
+        backgroundColor: '#F3BC2C'
     },
     mainHeader: {
         width: '100%',
@@ -379,10 +387,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 0.3,
         flexDirection: 'row',
-        maxWidth: 200
+        maxWidth: 250
     },
     modalBtn: {
-        width: 373,
+        width: '80%',
+        borderRadius: 5,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
@@ -402,6 +411,14 @@ const styles = StyleSheet.create({
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 14,
         color: '#342C2C'
+    },
+    modalImage: {
+        height: 30,
+        width: 30
+    },
+    modalImagePoint: {
+        height: 36,
+        width: 30
     },
     modalClose: {
         fontFamily: 'ABeeZee_400Regular',

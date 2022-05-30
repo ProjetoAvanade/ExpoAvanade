@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   mainGap: {
     // height: 37,
-    height: '4.3%',
+    height: '2.8%',
     
   },
   mainHeader: {

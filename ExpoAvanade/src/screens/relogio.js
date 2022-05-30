@@ -115,12 +115,12 @@ export default class Relogio extends Component {
           },
         })
       if (resposta.status == 201) {
-        console.warn('Cadastrado com sucesso!')
+        //console.warn('Cadastrado com sucesso!')
         this.atualizarVaga();
         this.listarReserva();
       }
     } catch (error) {
-      console.warn(error);
+      //console.warn(error);
     }
   };
 
@@ -128,14 +128,14 @@ export default class Relogio extends Component {
     if (this.state.horaAdicionada < 5) {
       this.setState({ horaAdicionada: this.state.horaAdicionada + 1 });
     }
-    console.log(this.state.horaAdicionada);
+    //console.log(this.state.horaAdicionada);
   };
 
   diminuirHoras = () => {
     if (this.state.horaAdicionada > 0) {
       this.setState({ horaAdicionada: this.state.horaAdicionada - 1 });
     }
-    console.log(this.state.horaAdicionada);
+    //console.log(this.state.horaAdicionada);
   };
 
   componentDidMount() {

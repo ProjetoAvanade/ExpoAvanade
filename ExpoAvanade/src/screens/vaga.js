@@ -16,8 +16,8 @@ export default function Vaga({ navigation, route }) {
   const [visible, setVisible] = useState(false);
   const [horas, setHoras] = useState(0);
   const data = new Date();
-  const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0,4);
-  const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0,4);
+  const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0, 4);
+  const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0, 4);
 
   const buscarVagasPonto = async () => {
     try {
@@ -64,7 +64,7 @@ export default function Vaga({ navigation, route }) {
       console.warn(error);
     }
   };
-  
+
   function adicionarHora(numeroHora, data = new Date()) {
     const dataCopiada = new Date(data.getTime());
 
@@ -144,11 +144,11 @@ export default function Vaga({ navigation, route }) {
     <View style={styles.main}>
       <View style={styles.mainHeader}>
         <View style={styles.mainTitleSpace}>
-          <TouchableOpacity style={styles.btnBackSpace} onPress={() => navigation.goBack()}>
-            <Image style={styles.mainBtnBack} source={require('../../assets/img/Icone_voltar.png')} />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
           </TouchableOpacity>
 
-          <Image style={styles.mainLogo} source={require('../../assets/img/icon.png')} />
+          <Image style={styles.mainLogo} source={require('../../assets/img/logo_black.png')} />
         </View>
       </View>
 
@@ -156,20 +156,18 @@ export default function Vaga({ navigation, route }) {
 
       <View style={styles.mainBody}>
 
-        <View>
+        {/* <View>
           <Text style={styles.btnConfirmText}>Vagas:</Text>
           <Text style={styles.btnConfirmText}>Disponiveis = {qntdVagaDisponivel.length}</Text>
           <Text style={styles.btnConfirmText}>Totais = {qntdVagaTotal}</Text>
-        </View>
+        </View> */}
 
         <View style={styles.mainBodyVaga}>
           {qntdVagaDisponivel.map((item) => {
             return (
-              <View key={item.idVaga}>
-                <TouchableOpacity style={styles.vagaCard} onPress={() => { setIdVaga(item.idVaga), setVisible(true) }}>
+                <TouchableOpacity key={item.idVaga} style={styles.vagaCard} onPress={() => { setIdVaga(item.idVaga), setVisible(true) }}>
                   <Text style={styles.vagaCardText}>{item.idVaga}</Text>
                 </TouchableOpacity>
-              </View>
             );
           })}
         </View>
@@ -197,13 +195,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  mainHeaderImage: {
+    width: 25,
+    height: 21.56,
+    marginBottom: '400%'
+  },
   mainTitleSpace: {
-    width: 260,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginRight: 40,
+    alignItems: 'center',  
   },
   mainBtnBack: {
     width: 20,
@@ -214,9 +214,10 @@ const styles = StyleSheet.create({
     marginRight: 60,
   },
   mainLogo: {
-    width: 140,
-    marginRight: 30,
-    marginTop: 20,
+    width: 300,
+    height: 78,
+    marginTop: '10%',
+    marginRight: '4%'
   },
   mainBody: {
     flex: 3,
@@ -274,12 +275,12 @@ const styles = StyleSheet.create({
   },
   mainBodyVaga: {
     flexDirection: 'row',
-
+    justifyContent: 'space-evenly'
   },
   vagaCard: {
-    backgroundColor: 'green',
-    width: 40,
-    height: 60,
+    backgroundColor: '#06D106',
+    width: 60,
+    height: 64,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',

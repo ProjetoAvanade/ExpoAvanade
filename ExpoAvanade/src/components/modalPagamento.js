@@ -99,17 +99,14 @@ const ModalPagamento = ({ navigation }) => {
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => {setVisible(false), navigation.navigate('Mapa')}}>
                         <Image
-                            source={require('../../assets/icon.png')}
-                            style={{ height: 30, width: 30 }}
+                            source={require('../../assets/img/close_modal.png')}
+                            style={{ height: 25, width: 25, marginRight: 18, marginTop: 8 }}
                         />
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={{ alignItems: 'center' }}>
-                <Image
-                    source={require('../../assets/icon.png')}
-                    style={{ height: 100, width: 150, marginVertical: 10 }}
-                />
+                <Image source={require('../../assets/img/payment_ok.png')} style={{ height: 80, width: 100, marginVertical: 10 }} />
             </View>
 
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 20, }}>

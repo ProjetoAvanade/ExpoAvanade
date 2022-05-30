@@ -85,6 +85,10 @@ export default function Login({ navigation }) {
             placeholder='Endereço de E-mail'
             placeholderTextColor='#000000'
             keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="done"
+            autoCorrect={false}
+            maxLength={28}
             onChangeText={Email => setEmail(Email)}
           />
           <TextInput
@@ -94,6 +98,10 @@ export default function Login({ navigation }) {
             keyboardType="default"
             secureTextEntry={true}
             passwordRules
+            autoCorrect={false}
+            autoCapitalize="none"
+            returnKeyType="done"
+            maxLength={20}
             onChangeText={Senha => setSenha(Senha)}
           />
 
