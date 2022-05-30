@@ -23,6 +23,7 @@ export default class Perfil extends Component {
     };
   }
 
+  // Função para realizar o logout, removendo o token do AsyncStorage
   realizarLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
@@ -32,6 +33,7 @@ export default class Perfil extends Component {
     }
   }
 
+  // Função para conseguir as informações do usuário logado
   buscarInfoPerfil = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
@@ -54,7 +56,7 @@ export default class Perfil extends Component {
         });
         let apiImg = 'https://api-avanade.azurewebsites.net'
         //let apiImg = 'http://192.168.4.187:5000'
-        this.setState({uri: `${apiImg}/StaticFiles/imagem/${this.state.imagem}`})
+        this.setState({ uri: `${apiImg}/StaticFiles/imagem/${this.state.imagem}` })
         //console.warn(this.state.uri)
       }
     } catch (error) {
@@ -89,14 +91,14 @@ export default class Perfil extends Component {
 
         <View style={styles.mainContent}>
           <TouchableOpacity>
-            {
+            { // Renderizar a imagem escolhida pelo usuário
               this.state.imagem != '' &&
               <Image
                 source={{ uri: this.state.uri }}
                 style={styles.mainContentImage} />
             }
 
-            {
+            { // Renderizar imagem de perfil padrão
               this.state.imagem == '' &&
               <Image
                 source={require('../../assets/img/icon_mold.png')}
@@ -114,15 +116,10 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
-            {/* <Text style={styles.mainCardsTextEmail}>{nomeUsuario},
-            {Intl.DateTimeFormat("pt-BR", {
-              year: 'numeric', month: 'short', day: 'numeric',
-            }).format(new Date(Cpf))},
-            {dataNascimento}
-          </Text> */}
-            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {Intl.DateTimeFormat("pt-BR", {
-              year: 'numeric', month: 'short', day: 'numeric',
-            }).format(new Date(this.state.dataNascimento))}</Text>
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf},
+              {Intl.DateTimeFormat("pt-BR", {
+                year: 'numeric', month: 'short', day: 'numeric',
+              }).format(new Date(this.state.dataNascimento))}</Text>
           </View>
         </View>
 
@@ -140,8 +137,8 @@ export default class Perfil extends Component {
             <Text style={styles.mainCardsTextName}>Saldo</Text>
             <Text style={styles.mainCardsTextEmail}>R${this.state.saldo}</Text>
           </View>
-          <Text style={styles.mainCardsTextTrade2}>Adicionar</Text>
-          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+          {/* <Text style={styles.mainCardsTextTrade2}>Adicionar</Text>
+          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} /> */}
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.mainCard} onPress={() => this.props.navigation.navigate('TrocaRodas', { pontos: this.state.pontos })}>
@@ -150,8 +147,11 @@ export default class Perfil extends Component {
             <Text style={styles.mainCardsTextName}>Minhas rodas</Text>
             <Text style={styles.mainCardsTextEmail}>{this.state.pontos}</Text>
           </View>
-          <Text style={styles.mainCardsTextTrade}>Trocar</Text>
-          <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+
+          <View style={styles.mainCardsTrade}>
+            <Text style={styles.mainCardsTextTrade}>Trocar</Text>
+            <Image source={require('../../assets/img/icon_next.png')} style={styles.mainCardNext} />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.mainCard} onPress={() => this.realizarLogout()}>
@@ -166,8 +166,8 @@ export default class Perfil extends Component {
   }
 }
 
-/* Quando é passado uma uri dinânica na imagem dá esse erro de string vazia, 
-não espera a requisição trazendo a imagem termina */
+/* Quando é passado uma uri dinânica para listar a imagem do usuário dá esse erro de string vazia, 
+não aguarda a requisição trazendo a imagem */
 LogBox.ignoreLogs(['source.uri should not be an empty string']);
 
 const styles = StyleSheet.create({
@@ -177,13 +177,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainGap: {
-    // height: 37,
     height: '4.3%',
-
   },
   mainHeader: {
     width: '100%',
-    // height: 65,
     height: '7.6%',
     backgroundColor: '#F3BC2C',
     justifyContent: 'center',
@@ -193,7 +190,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    // marginLeft: 18,
     marginLeft: '4.7%',
   },
   mainHeaderImage: {
@@ -206,7 +202,6 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     width: '100%',
-    // height: 261,
     height: '33.5%',
     backgroundColor: '#F5F5F5',
     alignItems: 'center',
@@ -215,31 +210,29 @@ const styles = StyleSheet.create({
   mainContentImage: {
     width: 103,
     height: 102,
+    borderRadius: 67,
   },
   mainContentTexts: {
     alignItems: 'center'
   },
   mainContentTextName: {
     fontSize: 25,
-    color: '#000000',
-    fontFamily: 'ABeeZee_400Regular',
-
+    color: '#000',
+    fontFamily: 'Poppins_700Bold',
   },
   mainContentTextEmail: {
     fontSize: 20,
     color: '#797979',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainContentTextAccount: {
     color: '#F3BC2C',
-    marginRight: '75%',
+    marginRight: '70%',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainCard: {
     width: '100%',
-    height: 80,
+    height: '11%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -255,31 +248,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000000',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainCardsTextEmail: {
     marginLeft: 15,
     fontSize: 14,
     color: '#797979',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainCardNext: {
     marginLeft: 5,
     width: 20
   },
+  mainCardsTrade: {
+    flexDirection: 'row',
+    paddingLeft: '35%',
+  },
   mainCardsTextTrade: {
-    marginLeft: 180,
     fontSize: 14,
     color: '#000000',
     fontFamily: 'ABeeZee_400Regular',
-
   },
   mainCardsTextTrade2: {
     marginLeft: 210,
     fontSize: 14,
     color: '#000000',
     fontFamily: 'ABeeZee_400Regular',
-
   },
 });

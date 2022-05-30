@@ -12,16 +12,17 @@ import {
 } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
-import api from '../services/api';
+import { MaskedTextInput } from 'react-native-mask-text';
+import DatePicker from 'react-native-datepicker';
 
 export default function Cadastro({ navigation }) {
   const [idTipoUsuario] = useState(2);
-  const [nomeUsuario, setNomeUsuario] = useState('algm');
-  const [email, setEmail] = useState('aglm@gmail.com');
-  const [senha, setSenha] = useState('algu7171');
-  const [senhaConfirmar, setSenhaConfirmar] = useState('algu7171');
-  const [dataNascimento, setNascimento] = useState('11/11/2011');
-  const [cpf, setCpf] = useState('111192928');
+  const [nomeUsuario, setNomeUsuario] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [senhaConfirmar, setSenhaConfirmar] = useState('');
+  const [dataNascimento, setNascimento] = useState();
+  const [cpf, setCpf] = useState('');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
   const [sucess, setSucess] = useState();
@@ -69,8 +70,8 @@ export default function Cadastro({ navigation }) {
       //setResult(result);
       //console.log(result.uri);
     }
-  }
- */
+  } */
+
   const Cadastrar = async () => {
     setIsLoading(true);
 
@@ -131,6 +132,16 @@ export default function Cadastro({ navigation }) {
             value={nomeUsuario}
             onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
           />
+          {/* <MaskedTextInput
+            mask="999.999.999-99"
+            style={styles.mainContentFormInput}
+            placeholder='CPF'
+            placeholderTextColor='#000000'
+            keyboardType="numeric"
+            onChangeText={(text, rawText) => {
+              setCpf(rawText)
+            }}
+          /> */}
           <TextInput
             style={styles.mainContentFormInput}
             placeholder='CPF'
@@ -145,6 +156,43 @@ export default function Cadastro({ navigation }) {
             value={email}
             onChangeText={(email) => setEmail(email)}
           />
+          <DatePicker
+            date={dataNascimento}
+            mode="date"
+            format="DD/MM/YYYY"
+            minDate="01-01-1900"
+            maxDate="29-05-2004"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            style={styles.mainContentFormInput}
+            placeholder='DD/MM/AAAA'
+            placeholderTextColor='#000000'
+            customStyles={{
+              dateInput: {
+                borderWidth: 0,
+                borderBottomWidth: 0,
+              },
+              dateIcon: {
+                position: 'absolute',
+                right: 10,
+                marginLeft: 0,
+              },
+              placeholderText: {
+                fontSize: 14,
+                color: "#000",
+                marginRight: '62%'
+              },
+              dateText: {
+                fontSize: 14,
+                color: "#000",
+                marginRight: '68%',
+              }
+            }}
+            onDateChange={(date) => {
+              setNascimento(date);
+            }}
+          />
+
           <TextInput
             style={styles.mainContentFormInput}
             placeholder='Senha'
@@ -155,78 +203,65 @@ export default function Cadastro({ navigation }) {
             value={senha}
             onChangeText={(senha) => setSenha(senha)}
           />
-          <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='Confirmar Senha'
-            placeholderTextColor='#000000'
-            keyboardType="default"
-            secureTextEntry={true}
-            passwordRules
-            value={senhaConfirmar}
-            onChangeText={(senhaConfirmar) => setSenhaConfirmar(senhaConfirmar)}
-          />
 
-          {senha != senhaConfirmar &&
-            //Com o input de confirmação de senha é possui o usuário perceber senha digitadas diferentes
-            <Text style={styles.mainTextError}>Senha diferente!</Text>
-          }
+          <View style={styles.mainContentPasswordConfirm}>
+            <TextInput
+              style={styles.mainContentFormInput}
+              placeholder='Confirmar Senha'
+              placeholderTextColor='#000000'
+              keyboardType="default"
+              secureTextEntry={true}
+              passwordRules
+              value={senhaConfirmar}
+              onChangeText={(senhaConfirmar) => setSenhaConfirmar(senhaConfirmar)}
+            />
+            {senha != senhaConfirmar &&
+              //Com o input de confirmação de senha é possui o usuário perceber senha digitadas diferentes
+              <Image source={require('../../assets/img/error_password.png')} style={styles.mainImagePassword} />
+            }
 
-          {senha == senhaConfirmar &&
-            //Com o input de confirmação de senha é possui o usuário perceber senha digitadas iguais
-            <Text style={styles.mainTextSucess}>Senha iguais!</Text>
-          }
-
-          <TextInput
-            style={styles.mainContentFormInput}
-            placeholder='AAAA/MM/DD'
-            placeholderTextColor='#000000'
-            value={dataNascimento}
-            onChangeText={(dataNascimento) => setNascimento(dataNascimento)}
-          />
-          <TouchableOpacity style={styles.mainContentFormInputImage} onPress={showImagePicker}>
-            <Text>Foto</Text>
-            <Image source={require('../../assets/img/icon_photo.png')} style={styles.mainHeaderImage} />
-          </TouchableOpacity>
-
-          <View style={styles.imageContainer}>
-            {
-              arquivo !== '' && <Image
-                source={{ uri: arquivo }}
-                style={styles.image}
-              />
+            {senha == senhaConfirmar &&
+              //Com o input de confirmação de senha é possui o usuário perceber senha digitadas iguais
+              <Image source={require('../../assets/img/confirm_password.png')} style={styles.mainImagePassword} />
             }
           </View>
 
-          {sucess == false &&
-            //Mensagem de cadastro invélido
-            <Text style={styles.mainTextError}>Não foi possível realizar o cadastro!</Text>
-          }
+          <TouchableOpacity style={styles.mainContentFormInputImage} onPress={showImagePicker}>
+            <Text>Foto</Text>
+            { // Renderizar a imagem escolhida pelo usuário
+              arquivo !== '' && <Image source={{ uri: arquivo }} style={styles.image} />
+            }
 
-          {sucess == true &&
-            //Mensagem de cadastro concluído
-            <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
-          }
+            { // Caso o usuário ainda não tenha escolhido a imagem, renderizar ícone de câmera 
+              arquivo == '' && <Image source={require('../../assets/img/icon_photo.png')} style={styles.mainHeaderImage} />
+            }
+          </TouchableOpacity>
 
-          {
-            // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
+          { // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
             isLoading === false &&
-            <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar} disabled={
-              nomeUsuario == '' || senha == '' || email == '' || dataNascimento == null || cpf == '' || arquivo == '' ? 'none' : ''}>
+            <TouchableOpacity style={styles.mainContentFormButton} onPress={Cadastrar}
+              disabled={nomeUsuario == '' || senha == '' || senhaConfirmar == '' || email == '' || dataNascimento == null || cpf == '' || arquivo == '' ? 'none' : ''}>
               <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
             </TouchableOpacity>
           }
 
-          {
-            // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
-            isLoading === true && <TouchableOpacity style={styles.mainContentFormButton} disabled>
+          { // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+            isLoading === true && <TouchableOpacity style={styles.buttonDisabled} disabled>
               <Text style={styles.mainContentFormButtonText}>Carregando...</Text>
             </TouchableOpacity>
           }
 
-          <Text style={styles.mainContentFormText}>Você será reenchaminhado para a tela de login</Text>
+          { //Mensagem de cadastro inválido
+            sucess == false &&
+            <Text style={styles.mainTextError}>Não foi possível realizar o cadastro, por favor revise as informações!</Text>
+          }
+
+          { //Mensagem de cadastro concluído e redirecionando para tela de login
+            sucess == true && setTimeout(() => navigation.navigate('Login'), 1500) &&
+            <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
+          }
         </View>
       </View>
-
     </View >
   );
 }
@@ -238,13 +273,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainGap: {
-    // height: 37,
-    height: '4.3%',
-
+    height: '4%',
   },
   mainHeader: {
     width: '100%',
-    // height: 65,
     height: '7.6%',
     backgroundColor: '#F3BC2C',
     justifyContent: 'center',
@@ -254,7 +286,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    // marginLeft: 18,
     marginLeft: '4.7%',
   },
   mainHeaderImage: {
@@ -269,7 +300,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '100%',
     height: '100%',
-    // marginTop: '10%'
   },
   mainContentForm: {
     alignItems: 'center'
@@ -277,8 +307,7 @@ const styles = StyleSheet.create({
   mainContentFormInput: {
     backgroundColor: '#FFFFFF',
     width: '70%',
-    // height: 60,
-    height: '4.5%',
+    height: 50,
     marginTop: '8%',
     borderColor: '#F3BC2C',
     borderWidth: 2,
@@ -286,16 +315,22 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   mainContentFormButton: {
-    // width: 157,
-    width: '40%',
-    // height: 60,
+    width: '50%',
     height: '8%',
     borderRadius: 5,
     backgroundColor: '#F3BC2C',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '8%',
-
+  },
+  buttonDisabled: {
+    width: '55%',
+    height: '8%',
+    borderRadius: 5,
+    backgroundColor: '#FFC327',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '8%',
   },
   mainContentFormButtonText: {
     fontSize: 25,
@@ -314,7 +349,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#F3BC2C',
     width: '70%',
-    // height: 60,
     height: '8.5%',
     marginTop: '8%',
     borderRadius: 5,
@@ -325,17 +359,35 @@ const styles = StyleSheet.create({
     padding: 10
   },
   image: {
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 5,
   },
   mainTextError: {
     fontSize: 14,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#ff0000'
+    color: '#ff0000',
+    marginTop: '3%',
+    textAlign: 'center',
+    maxWidth: '70%'
   },
   mainTextSucess: {
     fontSize: 14,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#00ff00'
-  }
+    color: '#00ff00',
+    marginTop: '3%'
+  },
+  mainContentPasswordConfirm: {
+    width: '110%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 35
+  },
+  mainImagePassword: {
+    height: 30,
+    width: 30,
+    marginTop: '7%',
+    marginLeft: '2%'
+  },
 });

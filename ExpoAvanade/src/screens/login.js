@@ -97,37 +97,32 @@ export default function Login({ navigation }) {
             onChangeText={Senha => setSenha(Senha)}
           />
 
-          {
-            // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+          { // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
             isLoading === true &&
-            <TouchableOpacity style={styles.BtnLoginDisabled} disabled>
+            <TouchableOpacity style={styles.btnLoginDisabled} disabled>
               <Text style={styles.mainBtnText}>Carregando...</Text>
             </TouchableOpacity>
           }
 
-          {
-            // Caso seja false, renderiza o botão habilitado com o texto 'Login'
+          { // Caso seja false, renderiza o botão habilitado com o texto 'Login'
             isLoading === false &&
             <TouchableOpacity style={styles.mainBtnLogin} onPress={realizarLogin} disabled={email === '' || senha === '' ? 'none' : ''}>
               <Text style={styles.mainBtnText}>Logar</Text>
             </TouchableOpacity>
           }
-
-          {/* <Text style={styles.mainTextError}>{MensagemErro}</Text> */}
         </View>
 
-        {mensagemErro != '' &&
+        { // Mostrar erro de login caso a requisição não tenha sucesso
+          mensagemErro != '' &&
           <Text style={styles.mainTextError}>{mensagemErro}</Text>
         }
         <View style={styles.mainTextSpace}>
-          <View>
-            <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
-          </View>
           <TouchableOpacity style={styles.mainBtnCadastro} onPress={() => navigation.navigate('Cadastro')}>
             <Text style={styles.mainText}>Não tem uma conta? Cadastre-se</Text>
           </TouchableOpacity>
-        </View>
 
+          <Text style={styles.mainTextForget}>Esqueceu sua senha?</Text>
+        </View>
       </View>
     </View >
   );
@@ -180,11 +175,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: '8%',
   },
-  BtnLoginDisabled: {
-    width: 200,
+  btnLoginDisabled: {
+    width: 230,
     height: 60,
     borderRadius: 5,
-    backgroundColor: '#F5D617',
+    backgroundColor: '#FFC327',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '8%',
@@ -198,12 +193,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'ABeeZee_400Regular',
     color: '#ff0000',
-    marginTop: '5%',
+    marginTop: '6%',
   },
   mainTextSpace: {
-    height: 91,
+    marginTop: '8%',
+    height: '10%',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   mainText: {
     fontSize: 14,
@@ -217,78 +213,3 @@ const styles = StyleSheet.create({
     marginTop: '5%'
   },
 });
-/* // expo install expo-web-browser expo-auth-session expo-random
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
-import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
-
-WebBrowser.maybeCompleteAuthSession();
-
-export default function Login() {
-  const [accessToken, setAccessToken] = React.useState();
-  const [userInfo, setUserInfo] = React.useState();
-  const [message, setMessage] = React.useState();
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "273107586669-e5gouu3ks6fqroo352ba6nh9jefept70.apps.googleusercontent.com"
-  });
-
-  React.useEffect(() => {
-    setMessage(JSON.stringify(response));
-    if (response?.type === "success") {
-      setAccessToken(response.authentication.accessToken);
-    }
-  }, [response]);
-
-  async function getUserData() {
-    let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: { Authorization: `Bearer ${accessToken}`}
-    });
-
-    userInfoResponse.json().then(data => {
-      setUserInfo(data);
-    });
-  }
-
-  function showUserInfo() {
-    if (userInfo) {
-      return (
-        <View style={styles.userInfo}>
-          <Image source={{uri: userInfo.picture}} style={styles.profilePic} />
-          <Text>Welcome {userInfo.name}</Text>
-          <Text>{userInfo.email}</Text>
-        </View>
-      );
-    }
-  }
-
-  return (
-    <View style={styles.container}>
-      {showUserInfo()}
-      <Button 
-        title={accessToken ? "Get User Data" : "Login"}
-        onPress={accessToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true}) }}
-      />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userInfo: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profilePic: {
-    width: 50,
-    height: 50
-  }
-}); */

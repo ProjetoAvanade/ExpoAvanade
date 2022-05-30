@@ -8,7 +8,7 @@ import {
     Platform,
     StatusBar,
     Modal,
-    Animated, 
+    Animated,
     LogBox
 } from 'react-native';
 
@@ -22,7 +22,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Mapa({ navigation }) {
     const [listaBicicletarios, setListaBikes] = useState([]);
     const [idBicicletario, setIdBicicletario] = useState('');
-    const [erroMensagem, setErroMensagem] = useState('');
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [nomeUsuario, setNomeUsuario] = useState('');
@@ -33,7 +32,8 @@ export default function Mapa({ navigation }) {
     const [visible, setVisible] = useState(false);
     const [qntdVagaTotal, setqntdVagaTotal] = useState(0);
     const [qntdVagaDisponivel, setqntdVagaDisponivel] = useState([]);
-    
+
+    // Função para buscar os bicicletários cadastrados, transformando eles em marcadores
     const buscarBicicletarios = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -49,23 +49,25 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-    
+
+    // Função para conseguir a localização do usuário logado
     const buscarLocalizacao = async () => {
         if (Platform.OS === 'android' && !Constants.isDevice) {
-            setErroMensagem('Permissão para acessar a localização negada!')
+            alert('Permissão para acessar a localização negada!')
             return;
         }
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
-            setErroMensagem('Permissão para acessar a localização negada!')
+            alert('Permissão para acessar a localização negada!')
             return;
         };
-        
+
         const location = await Location.getCurrentPositionAsync({});
         setLongitude(parseFloat(location.coords.longitude))
         setLatitude(parseFloat(location.coords.latitude))
     };
-    
+
+    // Função para conseguir as informações do usuário logado
     const buscarInfoPerfil = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -89,7 +91,8 @@ export default function Mapa({ navigation }) {
             console.warn(error);
         }
     };
-    
+
+    // Função buscando as informações de um ponto específico
     const buscarInfoPonto = async () => {
         try {
             const token = await AsyncStorage.getItem('userToken');
@@ -109,7 +112,8 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-    
+
+    // Função para mostrar o modal do ponto escolhido
     const ModalPoup = ({ visible, children }) => {
         const [showModal, setShowModal] = React.useState(visible);
         const scaleValue = React.useRef(new Animated.Value(0)).current;
@@ -145,7 +149,8 @@ export default function Mapa({ navigation }) {
         );
     };
 
-    const ModalLocalizacao = () => {
+    // Modal do ponto com elementos e estilização
+    const ModalPonto = () => {
         return (
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
@@ -160,7 +165,7 @@ export default function Mapa({ navigation }) {
                         <Image source={require('../../assets/img/icon_clock.png')}></Image>
                         <Text style={styles.modalText}>Horário:</Text>
                     </View>
-                        <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
+                    <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
 
                     <View style={styles.modalPointInfo}>
                         <Image source={require('../../assets/img/icon_spaces.png')}></Image>
@@ -175,7 +180,8 @@ export default function Mapa({ navigation }) {
             </ModalPoup>
         );
     }
-    
+
+    // Função para buscar as vagas livres e ocupadas de um ponto específico
     const buscarVagasPonto = async () => {
         try {
             var arr = [];
@@ -187,7 +193,7 @@ export default function Mapa({ navigation }) {
             })
             const listaVagas = resposta.data;
             setqntdVagaTotal(listaVagas.length)
-            
+
             if (listaVagas != []) {
                 listaVagas.forEach(function (b) {
                     if (b.statusVaga == false) {
@@ -201,26 +207,27 @@ export default function Mapa({ navigation }) {
             //console.warn(error);
         }
     };
-    
-    const Funcoes = () => {
+
+    // Funções realizadas ao clicar em um marcador
+    const funcoesPonto = () => {
         setVisible(true);
         buscarInfoPonto();
         buscarVagasPonto();
     }
-    
+
     useEffect(() => {
         buscarLocalizacao();
         buscarBicicletarios();
         buscarInfoPerfil();
     }, []);
-    
+
     return (
         <View style={styles.main}>
             <StatusBar
                 barStyle='dark-content'
                 backgroundColor='#F3BC2C'
                 hidden={false}
-                />
+            />
             <View style={styles.mainGap}></View>
             <View style={styles.mainHeader}>
                 <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
@@ -228,21 +235,24 @@ export default function Mapa({ navigation }) {
                         {
                             imagem != '' &&
                             <Image
-                            source={{ uri: imagem }}
-                            style={styles.mainHeaderProfile} />
+                                source={{ uri: imagem }}
+                                style={styles.mainHeaderProfile} />
                         }
 
                         {
                             imagem == '' &&
                             <Image
-                            source={require('../../assets/img/icon_mold.png')}
-                            style={styles.mainHeaderProfile} />
+                                source={require('../../assets/img/icon_mold.png')}
+                                style={styles.mainHeaderProfile} />
                         }
-                        <View>
-                            <Text style={styles.mainHeaderText}>Olá,</Text>
-                            <Text style={styles.mainHeaderText}>{nomeUsuario}</Text>
+
+                        <View style={styles.mainHeaderContent}>
+                            <View>
+                                <Text style={styles.mainHeaderText}>Olá,</Text>
+                                <Text style={styles.mainHeaderText}>{nomeUsuario}</Text>
+                            </View>
+                            <Image source={require('../../assets/img/icon_next.png')} style={styles.mainHeaderNext} />
                         </View>
-                        <Image source={require('../../assets/img/icon_next.png')} style={styles.mainHeaderNext} />
                     </View>
                 </TouchableOpacity>
             </View>
@@ -257,7 +267,7 @@ export default function Mapa({ navigation }) {
                 {listaBicicletarios.map((item) => {
                     return (
                         <Marker
-                        onPress={() => setIdBicicletario(item.idBicicletario)}
+                            onPress={() => setIdBicicletario(item.idBicicletario)}
                             key={item.idBicicletario}
                             coordinate={{
                                 latitude: parseFloat(item.latitude),
@@ -265,8 +275,8 @@ export default function Mapa({ navigation }) {
                             }}
                             title={item.nomeBicicletario}
                             description={item.rua}
-                            >
-                            <Callout onPress={() => Funcoes()}>
+                        >
+                            <Callout onPress={() => funcoesPonto()}>
                                 <Text style={styles.calloutText}>{item.nome}</Text>
                                 <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                             </Callout>
@@ -275,8 +285,8 @@ export default function Mapa({ navigation }) {
                 })}
             </MapView>
 
-            <ModalLocalizacao />
-            {/* <ConfirmacaoTempo /> */}
+            <ModalPonto />
+            
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
                     <TouchableOpacity>
@@ -288,7 +298,7 @@ export default function Mapa({ navigation }) {
     );
 }
 
-//Não está sendo possível setar uma posição inicial antes da requisição ser concluída
+//Não está sendo possível setar uma posição inicial antes da requisição de buscar a localização do usuário ser concluída
 LogBox.ignoreLogs(['Warning: Failed prop type: The prop `initialRegion.latitude` is marked as required in `MapView`, but its value is `null`.']);
 
 const styles = StyleSheet.create({
@@ -298,39 +308,42 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     mainGap: {
-        // height: 37,
         height: '4.3%',
-
     },
     mainHeader: {
         width: '100%',
-        // height: 65,
-        height: '7.6%',
+        height: '8.5%',
         backgroundColor: '#F3BC2C',
         justifyContent: 'center',
     },
     mainHeaderSpace: {
         width: 350,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
-        // marginLeft: 18,
-        marginLeft: '7%',
+        marginLeft: '8%',
     },
     mainHeaderProfile: {
         width: 50,
         height: 50,
+        borderRadius: 67
+    },
+    mainHeaderContent: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingLeft: '8%'
     },
     mainHeaderText: {
-        fontFamily: 'Poppins_700Bold',
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 14,
         // marginRight: 30,
     },
     mainHeaderNext: {
         width: 20,
         height: 20,
-        marginRight: 30,
-        marginTop: 20,
+        marginTop: '23%',
+        marginLeft: '8%'
     },
     mainMap: {
         width: '100%',
@@ -338,28 +351,22 @@ const styles = StyleSheet.create({
     },
     mainSearch: {
         width: '100%',
-        // height: 70,
         height: '9%',
         backgroundColor: '#F3BC2C',
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomColor: '#000000',
         borderBottomWidth: 1
-
     },
     mainSearchInput: {
         width: '80%',
-        // height: 45,
         height: '60%',
         backgroundColor: '#FFFFFF',
         borderRadius: 5,
-        // alignItems: 'center',
         justifyContent: 'center'
     },
     mainSearchInputText: {
         paddingLeft: 20,
-        // alignItems: 'center',
-        // justifyContent: 'center'
     },
     modalPoint: {
         backgroundColor: '#F5F5F5',
@@ -382,7 +389,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     modalTextTitle: {
-        //fontFamily: ,
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000'
