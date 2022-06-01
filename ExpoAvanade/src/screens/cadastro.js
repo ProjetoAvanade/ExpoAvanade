@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
+  LogBox
 } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -265,6 +266,8 @@ export default function Cadastro({ navigation }) {
     </View >
   );
 }
+
+LogBox.ignoreLogs(['Warning: componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.']);
 
 const styles = StyleSheet.create({
   main: {

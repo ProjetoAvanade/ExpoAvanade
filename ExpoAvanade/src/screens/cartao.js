@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import api from '../services/api';
+import { TextInputMask } from 'react-native-masked-text'
 
 export default function Cartao({ navigation, route }) {
     const idReserva = route.params.idReserva
@@ -22,7 +22,7 @@ export default function Cartao({ navigation, route }) {
     const idVaga = route.params.idVaga
     const [preco, setPreco] = useState(0);
     const [visible, setVisible] = useState(false);
-    const [cartao, setCartao] = useState('4024.0071.5376.3191');
+    const [cartao, setCartao] = useState('');
     const [validade, setValidade] = useState('12/2021');
     const [codigoSeguranca, setCodigoSeguranca] = useState('123');
     const [marca, setMarca] = useState('Visa');
@@ -202,12 +202,12 @@ export default function Cartao({ navigation, route }) {
             body: raw,
             redirect: 'follow'
         };
-        
+
         const resposta = await fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
         if (resposta.status == 201) {
             setSucess(true),
-            atualizarPagamento(),
-            atualizarVaga()
+                atualizarPagamento(),
+                atualizarVaga()
             navigation.navigate('ModalPagamento')
         } else {
             setSucess(false)
@@ -239,13 +239,25 @@ export default function Cartao({ navigation, route }) {
 
             <View style={styles.mainContentInputSpace}>
                 <Text style={styles.mainContentText}>Numero do cartão</Text>
-                <TextInput
+                {/* <TextInput
                     style={styles.mainContentInput}
                     placeholder='XXXX.XXXX.XXXX.XXXX'
                     placeholderTextColor='#000000'
                     value={cartao}
                     onChangeText={(cartao) => setCartao(cartao)}>
-                </TextInput>
+                </TextInput> */}
+                <TextInputMask
+                    style={styles.mainContentInput}
+                    type={'credit-card'}
+                    options={{
+                        obfuscated: false,
+                        issuer: 'visa-or-mastercard'
+                    }}
+                    value={cartao}
+                    onChangeText={text => {
+                        setCartao(text)
+                    }}
+                />
             </View>
 
             <View style={styles.mainContentInputSpace}>

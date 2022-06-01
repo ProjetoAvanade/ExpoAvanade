@@ -170,8 +170,7 @@ export default class Relogio extends Component {
             </View>
           }
 
-          {
-            this.state.eventDate != 0 &&
+          {this.state.eventDate != 0 &&
             <View>
               <Text style={styles.buttonText}>
                 Você poderá finalizar a reserva apenas quando acabar o tempo

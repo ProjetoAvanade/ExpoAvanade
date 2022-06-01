@@ -114,19 +114,23 @@ export default function Vaga({ navigation, route }) {
         <View style={styles.modalPoint}>
           <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
           <Text style={styles.modalTextTitle} onPress={() => setVisible(false)}>X</Text>
+
           <View style={styles.modalBackGrounds}>
             <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
               <Text style={styles.modalTextTitle}>R$3,75</Text>
               <Text style={styles.modalText}>1 Hora</Text>
               <Text style={styles.modalTextInfo}>Válido até {previsaoHora1}</Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.modalBackGroundYellow} onPress={() => setHoras(2)}>
               <Text style={styles.modalTextTitle}>R$ 6,50</Text>
               <Text style={styles.modalText}>2 Hora</Text>
               <Text style={styles.modalTextInfo}>Válido até {previsaoHora2}</Text>
             </TouchableOpacity>
           </View>
+
           <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
+
           <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo: saldo }) }}>
             <Text style={styles.modalTextTitle}>Confirmar</Text>
           </TouchableOpacity>
@@ -156,29 +160,30 @@ export default function Vaga({ navigation, route }) {
 
       <View style={styles.mainBody}>
 
-        {/* <View>
-          <Text style={styles.btnConfirmText}>Vagas:</Text>
-          <Text style={styles.btnConfirmText}>Disponiveis = {qntdVagaDisponivel.length}</Text>
-          <Text style={styles.btnConfirmText}>Totais = {qntdVagaTotal}</Text>
-        </View> */}
-
         <View style={styles.mainBodyVaga}>
           {qntdVagaDisponivel.map((item) => {
             return (
-                <TouchableOpacity key={item.idVaga} style={styles.vagaCard} onPress={() => { setIdVaga(item.idVaga), setVisible(true) }}>
+              <View key={item.idVaga} style={styles.vagaCardAlign}>
+                <TouchableOpacity key={item.idVaga} style={styles.vagaCard} onPress={() => setIdVaga(item.idVaga)}>
                   <Text style={styles.vagaCardText}>{item.idVaga}</Text>
                 </TouchableOpacity>
+              </View>
             );
           })}
         </View>
 
-        <TouchableOpacity style={styles.btnConfirm} onPress={() => setVisible(true)}>
-          <Text style={styles.btnConfirmText}>Confirmar</Text>
-        </TouchableOpacity>
+        <View style={styles.mainBtn}>
+          <TouchableOpacity style={styles.btnConfirm} onPress={() => setVisible(true)}>
+            <Text style={styles.btnConfirmText}>Confirmar</Text>
+          </TouchableOpacity>
 
+          {idVaga != 0 &&
+            <View style={styles.mainConfirm}>
+              <Text style={styles.mainConfirmText}>Vaga {idVaga} selecionada</Text>
+            </View>
+          }
+        </View>
         <ConfirmacaoTempo />
-
-        <Text style={styles.mainConfirmText}>Vaga {idVaga} selecionada</Text>
       </View>
     </View >
   );
@@ -203,7 +208,7 @@ const styles = StyleSheet.create({
   mainTitleSpace: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',  
+    alignItems: 'center',
   },
   mainBtnBack: {
     width: 20,
@@ -226,7 +231,7 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   title: {
-    fontSize: 34,
+    fontSize: 25,
     fontFamily: 'Poppins_700Bold',
     color: '#000',
     lineHeight: 39,
@@ -234,20 +239,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
   },
-  // selectVaga: {
-  //   backgroundColor: '#fff',
-  //   borderColor: '#F3BC2C',
-  //   borderWidth: 3,
-  //   borderRadius: 16,
-  //   width: 242,
-  //   height: 122,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
   numberVaga: {
     fontSize: 36,
     color: '#000',
-    //fontFamily: 'Open Sans',
   },
   mainInput: {
     borderWidth: 3,
@@ -259,6 +253,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderColor: '#F3BC2C',
     marginTop: '8%',
+  },
+  mainBtn: {
+    flex: 0.39,
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   btnConfirm: {
     backgroundColor: '#F3BC2C',
@@ -274,8 +273,13 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   mainBodyVaga: {
+    flex: 0.53,
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+  },
+  vagaCardAlign: {
+    flex: 0.2,
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   vagaCard: {
     backgroundColor: '#06D106',
@@ -311,10 +315,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   modalTextTitle: {
-    //fontFamily: ,
+    fontFamily: 'Poppins_700Bold',
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000'
   },
   modalText: {
     fontFamily: 'ABeeZee_400Regular',
@@ -340,21 +342,38 @@ const styles = StyleSheet.create({
     marginTop: 375
   },
   modalBackGrounds: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
   },
   modalBackGroundGray: {
     backgroundColor: '#DBDBDB',
-    width: 175,
-    height: 75
+    borderRadius: 5,
+    paddingLeft: '3%',
+    justifyContent: 'center',
+    //width: 175,
+    width: '46%',
+    height: '68.5%'
   },
   modalBackGroundYellow: {
     backgroundColor: '#F3BC2C',
-    width: 175,
-    height: 75
+    borderRadius: 5,
+    paddingLeft: '3%',
+    justifyContent: 'center',
+    //width: 175,
+    width: '46%',
+    height: '68.5%'
+  },
+  mainConfirm: {
+    backgroundColor: '#DAF9DA',
+    width: 217,
+    height: 37,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   mainConfirmText: {
     fontFamily: 'ABeeZee_400Regular',
     fontSize: 16,
-    color: 'green'
+    color: '#06D106',
   }
 });

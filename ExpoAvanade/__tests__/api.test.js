@@ -1,4 +1,4 @@
-import { testApi } from '../src/services/testApi';
+import { testApi } from './testApi';
 
 beforeEach(() => {
     fetch.resetMocks();

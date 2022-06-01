@@ -154,34 +154,41 @@ export default function Mapa({ navigation }) {
         return (
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
-                    <View style={styles.modalPointInfo}>
-                        <Image style={styles.modalImagePoint} source={require('../../assets/img/icon_location.png')}></Image>
-                        <View>
-                            <Text style={styles.modalText}>Nome do ponto:</Text>
-                            <Text style={styles.modalTextInfo}>{nomePonto}</Text>
-                        </View>
-                        <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
+                    <View style={styles.modalRetangleAlignment}>
+                        <View style={styles.modalRetangle} />
                     </View>
+                    <View style={styles.modalPadding}>
+                        <View style={styles.modalPointInfo}>
+                            <Image style={styles.modalImagePoint} source={require('../../assets/img/icon_location.png')}></Image>
+                            <View style={styles.modalTexts}>
+                                <Text style={styles.modalText}>Nome do ponto:</Text>
+                                <Text style={styles.modalTextInfo}>{nomePonto}</Text>
+                            </View>
+                            <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
+                        </View>
 
-                    <View style={styles.modalPointInfo}>
-                        <Image style={styles.modalImage} source={require('../../assets/img/icon_clock.png')}></Image>
-                        <View>
-                            <Text style={styles.modalText}>Horário:</Text>
-                            <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
+                        <View style={styles.modalPointInfo}>
+                            <Image style={styles.modalImage} source={require('../../assets/img/icon_clock.png')}></Image>
+                            <View style={styles.modalTexts}>
+                                <Text style={styles.modalText}>Horário:</Text>
+                                <Text style={styles.modalTextInfo}>{horarioAberto.slice(0, 5)} - {horarioFechado.slice(0, 5)}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.modalPointInfo}>
+                            <Image style={styles.modalImage} source={require('../../assets/img/icon_spaces.png')}></Image>
+                            <View style={styles.modalTexts}>
+                                <Text style={styles.modalText}>Vagas:</Text>
+                                <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel.length}   |   Totais = {qntdVagaTotal}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.modalBtnView}>
+                            <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Vaga', { idBicicletario: idBicicletario }) }}>
+                                <Text style={styles.modalTextTitle}>Prosseguir</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-
-                    <View style={styles.modalPointInfo}>
-                        <Image style={styles.modalImage} source={require('../../assets/img/icon_spaces.png')}></Image>
-                        <View>
-                            <Text style={styles.modalText}>Vagas:</Text>
-                            <Text style={styles.modalTextInfo}>Disponiveis = {qntdVagaDisponivel.length}   |   Totais = {qntdVagaTotal}</Text>
-                        </View>
-                    </View>
-
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Vaga', { idBicicletario: idBicicletario }) }}>
-                        <Text style={styles.modalTextTitle}>Prosseguir</Text>
-                    </TouchableOpacity>
                 </View>
             </ModalPoup>
         );
@@ -345,7 +352,6 @@ const styles = StyleSheet.create({
     mainHeaderText: {
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 14,
-        // marginRight: 30,
     },
     mainHeaderNext: {
         width: 20,
@@ -378,19 +384,29 @@ const styles = StyleSheet.create({
     },
     modalPoint: {
         backgroundColor: '#F5F5F5',
-        width: '100%',
-        height: 232,
+        height: '33%',
         borderRadius: 5,
-        marginTop: 462
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1,
+        //marginTop: 462
+        marginTop: '123%'
+    },
+    modalPadding: {
+        flex: 1,
+        paddingBottom: '3%',
+        paddingTop: '3%',
     },
     modalPointInfo: {
         alignItems: 'center',
-        flex: 0.3,
+        flex: 1,
         flexDirection: 'row',
-        maxWidth: 250
+        paddingLeft: '5%'
+    },
+    modalBtnView: {
+        alignItems: 'center'
     },
     modalBtn: {
-        width: '80%',
+        width: '90%',
         borderRadius: 5,
         height: 50,
         justifyContent: 'center',
@@ -398,9 +414,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     modalTextTitle: {
+        fontFamily: 'Poppins_700Bold',
         fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000'
+    },
+    modalTexts: {
+        paddingLeft: '5%'
     },
     modalText: {
         fontFamily: 'ABeeZee_400Regular',
@@ -424,26 +442,14 @@ const styles = StyleSheet.create({
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 30,
         color: '#000',
-        marginLeft: '25%'
+        marginLeft: '35%'
     },
-    modalPointTime: {
-        backgroundColor: '#F5F5F5',
-        width: '100%',
-        height: 253,
-        borderRadius: 5,
-        marginTop: 375
+    modalRetangle: {
+        width: '14%',
+        height: 5,
+        backgroundColor: '#C4C4C4',
     },
-    modalBackGrounds: {
-        flexDirection: 'row'
-    },
-    modalBackGroundGray: {
-        backgroundColor: '#DBDBDB',
-        width: 175,
-        height: 75
-    },
-    modalBackGroundYellow: {
-        backgroundColor: '#F3BC2C',
-        width: 175,
-        height: 75
+    modalRetangleAlignment: {
+        alignItems: 'center',
     },
 });
