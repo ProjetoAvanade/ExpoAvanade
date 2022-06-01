@@ -13,17 +13,16 @@ import {
 } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
-import { MaskedTextInput } from 'react-native-mask-text';
+import MaskInput, { Masks } from 'react-native-mask-input'
 import DatePicker from 'react-native-datepicker';
 
 export default function Cadastro({ navigation }) {
-  const [idTipoUsuario] = useState(2);
-  const [nomeUsuario, setNomeUsuario] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [senhaConfirmar, setSenhaConfirmar] = useState('');
-  const [dataNascimento, setNascimento] = useState();
-  const [cpf, setCpf] = useState('');
+  const [nomeUsuario, setNomeUsuario] = useState('algmmmm');
+  const [email, setEmail] = useState('aglm@gmail.commm');
+  const [senha, setSenha] = useState('algu7171');
+  const [senhaConfirmar, setSenhaConfirmar] = useState('algu7171');
+  const [dataNascimento, setNascimento] = useState('11/11/2011');
+  const [cpf, setCpf] = useState('99999999999');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
   const [sucess, setSucess] = useState();
@@ -98,12 +97,14 @@ export default function Cadastro({ navigation }) {
       },
       body: formData,
     })
-    if (resposta.status == 201) {
+    if (resposta.status = 201) {
       setSucess(true);
       setIsLoading(false);
+      console.warn(resposta)
     } else {
       setSucess(false);
       setIsLoading(false);
+      console.warn(resposta.body)
     }
   }
 
@@ -131,6 +132,7 @@ export default function Cadastro({ navigation }) {
             placeholder='Nome Completo'
             placeholderTextColor='#000000'
             value={nomeUsuario}
+            maxLength={20}
             onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
           />
           {/* <MaskedTextInput
@@ -143,18 +145,23 @@ export default function Cadastro({ navigation }) {
               setCpf(rawText)
             }}
           /> */}
-          <TextInput
+          <MaskInput
             style={styles.mainContentFormInput}
             placeholder='CPF'
             placeholderTextColor='#000000'
+            keyboardType="numeric"
             value={cpf}
-            onChangeText={(cpf) => setCpf(cpf)}
+            keyboardType="numeric"
+            onChangeText={(masked, unmasked, obfuscated) => setCpf(unmasked)}
+            mask={Masks.BRL_CPF}
           />
+          {console.warn(dataNascimento)}
           <TextInput
             style={styles.mainContentFormInput}
             placeholder='Endereço de e-mail'
             placeholderTextColor='#000000'
             value={email}
+            maxLength={40}
             onChangeText={(email) => setEmail(email)}
           />
           <DatePicker
@@ -202,6 +209,7 @@ export default function Cadastro({ navigation }) {
             secureTextEntry={true}
             passwordRules
             value={senha}
+            maxLength={15}
             onChangeText={(senha) => setSenha(senha)}
           />
 
@@ -214,6 +222,7 @@ export default function Cadastro({ navigation }) {
               secureTextEntry={true}
               passwordRules
               value={senhaConfirmar}
+              maxLength={15}
               onChangeText={(senhaConfirmar) => setSenhaConfirmar(senhaConfirmar)}
             />
             {senha != senhaConfirmar &&

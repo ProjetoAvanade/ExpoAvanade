@@ -14,6 +14,7 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
+import MaskInput, { Masks } from 'react-native-mask-input'
 import { TextInputMask } from 'react-native-masked-text'
 
 export default function Cartao({ navigation, route }) {
@@ -23,9 +24,9 @@ export default function Cartao({ navigation, route }) {
     const [preco, setPreco] = useState(0);
     const [visible, setVisible] = useState(false);
     const [cartao, setCartao] = useState('');
-    const [validade, setValidade] = useState('12/2021');
-    const [codigoSeguranca, setCodigoSeguranca] = useState('123');
-    const [marca, setMarca] = useState('Visa');
+    const [validade, setValidade] = useState('');
+    const [codigoSeguranca, setCodigoSeguranca] = useState('');
+    const [marca, setMarca] = useState('');
     const [sucess, setSucess] = useState();
     //const [tempoReserva, setTempoReserva] = useState(0);
 
@@ -206,8 +207,8 @@ export default function Cartao({ navigation, route }) {
         const resposta = await fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
         if (resposta.status == 201) {
             setSucess(true),
-                atualizarPagamento(),
-                atualizarVaga()
+            atualizarPagamento(),
+            atualizarVaga()
             navigation.navigate('ModalPagamento')
         } else {
             setSucess(false)
@@ -239,24 +240,16 @@ export default function Cartao({ navigation, route }) {
 
             <View style={styles.mainContentInputSpace}>
                 <Text style={styles.mainContentText}>Numero do cartão</Text>
-                {/* <TextInput
+                <MaskInput
                     style={styles.mainContentInput}
-                    placeholder='XXXX.XXXX.XXXX.XXXX'
+                    placeholder='XXXX XXXX XXXX XXXX'
                     placeholderTextColor='#000000'
+                    showObfuscatedValue
+                    obfuscationCharacter="#"
+                    keyboardType="numeric"
                     value={cartao}
-                    onChangeText={(cartao) => setCartao(cartao)}>
-                </TextInput> */}
-                <TextInputMask
-                    style={styles.mainContentInput}
-                    type={'credit-card'}
-                    options={{
-                        obfuscated: false,
-                        issuer: 'visa-or-mastercard'
-                    }}
-                    value={cartao}
-                    onChangeText={text => {
-                        setCartao(text)
-                    }}
+                    onChangeText={(masked, unmasked, obfuscated) => setCartao(unmasked)}
+                    mask={Masks.CREDIT_CARD}
                 />
             </View>
 
@@ -264,10 +257,11 @@ export default function Cartao({ navigation, route }) {
                 <Text style={styles.mainContentText}>Nome da marca do cartão</Text>
                 <TextInput
                     style={styles.mainContentInput}
-                    placeholder='Nome do cartão'
+                    placeholder='Visa ou MasterCard'
                     placeholderTextColor='#000000'
                     keyboardType="email-address"
                     value={marca}
+                    maxLength={10}
                     onChangeText={(marca) => setMarca(marca)}>
                 </TextInput>
             </View>
@@ -275,14 +269,19 @@ export default function Cartao({ navigation, route }) {
             <View style={styles.mainContentSpace}>
                 <View style={styles.mainContentInputSpace}>
                     <Text style={styles.mainContentText}>Validade</Text>
-                    <TextInput
+                    <TextInputMask
                         style={styles.mainContentInputValidate}
                         placeholder='MM/AA'
                         placeholderTextColor='#000000'
-                        keyboardType="email-address"
+                        keyboardType="numeric"
+                        type={'datetime'}
+                        options={{
+                            format: 'MM/YYYY'
+                        }}
+                        maxLength={7}
                         value={validade}
-                        onChangeText={(validade) => setValidade(validade)}>
-                    </TextInput>
+                        onChangeText={(validade) => setValidade(validade)}
+                    />
                 </View>
                 <View style={styles.mainContentInputSpace}>
                     <Text style={styles.mainContentText}>Código de segurança</Text>
@@ -290,22 +289,13 @@ export default function Cartao({ navigation, route }) {
                         style={styles.mainContentInputSecurity}
                         placeholder='XXX'
                         placeholderTextColor='#000000'
-                        keyboardType="email-address"
+                        keyboardType="numeric"
+                        maxLength={3}
                         value={codigoSeguranca}
                         onChangeText={(codigoSeguranca) => setCodigoSeguranca(codigoSeguranca)}>
                     </TextInput>
                 </View>
             </View>
-
-            {/* <View style={styles.mainContentInputSpace}>
-                <Text style={styles.mainContentText}>CPF do titular do cartão</Text>
-                <TextInput
-                    style={styles.mainContentInput}
-                    placeholder='XXX.XXX.XXX-XX'
-                    placeholderTextColor='#000000'
-                    keyboardType="email-address">
-                </TextInput>
-            </View> */}
 
             <ModalInfoReserva />
 
@@ -331,7 +321,7 @@ const styles = StyleSheet.create({
     },
     mainGap: {
         // height: 37,
-        height: '4.3%',
+        height: '2.5%',
     },
     mainHeader: {
         width: '100%',

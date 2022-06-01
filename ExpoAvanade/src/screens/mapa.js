@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     mainGap: {
-        height: '3%',
+        height: '3.1%',
         backgroundColor: '#F3BC2C'
     },
     mainHeader: {

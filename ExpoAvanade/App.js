@@ -23,6 +23,7 @@ import {
 } from '@expo-google-fonts/abeezee';
 import { 
   Poppins_700Bold,
+  Poppins_400Regular
 } from '@expo-google-fonts/poppins';
 
 import { useFonts } from 'expo-font';
@@ -33,6 +34,7 @@ export default function App() {
     ABeeZee_400Regular,
     ABeeZee_400Regular_Italic,
     Poppins_700Bold,
+    Poppins_400Regular
   });
 
   if (!fontsLoaded) {
@@ -53,9 +55,9 @@ export default function App() {
         <AuthStack.Screen name="Cadastro" component={Cadastro} />
         <AuthStack.Screen name="TrocaRodas" component={TrocaRodas} />
         <AuthStack.Screen name="Perfil" component={Perfil} />
-        <AuthStack.Screen name="Cartao" component={Cartao} />
         <AuthStack.Screen name="Vaga" component={Vaga} />
         <AuthStack.Screen name="Relogio" component={Relogio} />
+        <AuthStack.Screen name="Cartao" component={Cartao} />
         <AuthStack.Screen name="ModalPagamento" component={ModalPagamento} />
       </AuthStack.Navigator>
     </NavigationContainer>

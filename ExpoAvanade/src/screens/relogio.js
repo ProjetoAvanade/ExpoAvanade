@@ -5,7 +5,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from 'react-native';
 
 import api from '../services/api';
@@ -139,7 +140,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    this.criarReserva()
+    //this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -158,52 +159,55 @@ export default class Relogio extends Component {
           </View>
         </View>
         <View style={styles.mainContent}>
-          <Text style={{ fontWeight: "bold", fontSize: 20, color: "#50010C" }}>Em breve</Text>
-          <Text style={{ fontWeight: "bold", fontSize: 50, marginBottom: 50 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
-
+          <View style={styles.mainClock}>
+            <Text style={{ fontWeight: "bold", fontSize: 30 }}>{`${this.state.hours} : ${this.state.mins} : ${this.state.secs}`}</Text>
+          </View>
           {this.state.eventDate <= 0 &&
-            <View>
-              <Text style={styles.buttonText}>Agora você poderá finalizar a reserva</Text>
+            <View style={styles.mainClockAlign}>
+              <Text style={styles.contentText}>
+                Você poderá finalizar a reserva apenas quando acabar o tempo
+              </Text>
               <TouchableOpacity style={styles.mainContentButton} onPress={() => { this.props.navigation.navigate('Cartao', { idReserva: this.state.idReserva, idVaga: this.state.idVaga, saldo: this.state.saldo }) }}>
-                <Text style={styles.buttonText}>Finalizar reserva</Text>
+                <Text style={styles.buttonTextFinish}>Finalizar reserva</Text>
               </TouchableOpacity>
             </View>
           }
 
           {this.state.eventDate != 0 &&
             <View>
-              <Text style={styles.buttonText}>
+              <Text style={styles.contentText}>
                 Você poderá finalizar a reserva apenas quando acabar o tempo
               </Text>
               <TouchableOpacity style={styles.mainButtonDisabled} disabled>
-                <Text style={styles.buttonText}>Finalizar reserva</Text>
+                <Text style={styles.buttonTextFinish}>Finalizar reserva</Text>
               </TouchableOpacity>
             </View>
           }
 
-          <Text style={styles.buttonText}>Adicionar horas</Text>
+          <View style={styles.mainContentBox}>
+            <Text style={styles.mainContentText}>Adicionar horas</Text>
+            <View style={styles.mainContentHours}>
+              <TouchableOpacity onPress={this.diminuirHoras}>
+                <Text style={styles.buttonText}>-</Text>
+              </TouchableOpacity>
 
-          <View style={styles.mainContentHours}>
-            <TouchableOpacity onPress={this.diminuirHoras}>
-              <Text style={styles.buttonText}>-</Text>
+              <Text style={styles.buttonTextHours}>
+                {this.state.horaAdicionada}
+              </Text>
+
+              <TouchableOpacity onPress={this.aumentarHoras}>
+                <Text style={styles.buttonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.buttonConfirm} onPress={() => { this.setState({ mensagemTempo: true }), this.adicionarTempo() }}>
+              <Text style={styles.buttonConfirmText}>Confirmar</Text>
             </TouchableOpacity>
 
-            <Text style={styles.buttonText}>
-              {this.state.horaAdicionada}
-            </Text>
-
-            <TouchableOpacity onPress={this.aumentarHoras}>
-              <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
+            {this.state.mensagemTempo == true &&
+              <Text style={styles.mainTextSucess}>{this.state.horaAdicionada} horas adicionada</Text>
+            }
           </View>
-
-          <TouchableOpacity onPress={() => { this.setState({ mensagemTempo: true }), this.adicionarTempo() }}>
-            <Text style={styles.buttonText}>Confirmar</Text>
-          </TouchableOpacity>
-
-          {this.state.mensagemTempo == true &&
-            <Text style={styles.mainTextSucess}>{this.state.horaAdicionada} horas adicionada</Text>
-          }
         </View>
       </View>
     );
@@ -217,7 +221,7 @@ const styles = StyleSheet.create({
   },
   mainGap: {
     // height: 37,
-    height: '4.3%',
+    height: '2.5%',
   },
   mainHeader: {
     width: '100%',
@@ -250,10 +254,31 @@ const styles = StyleSheet.create({
   mainContent: {
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    marginTop: '30%',
+    marginTop: '15%',
+  },
+  contentText: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    maxWidth: '70%',
+    textAlign: 'center',
+    marginTop: '4%'
+  },
+  mainClock: {
+   /*  width: 172,
+    height: 175, */
+    backgroundColor: '#F3BC2C',
+    borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
+        width: Dimensions.get('window').width * 0.48,
+        height: Dimensions.get('window').width * 0.48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainClockAlign: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   mainContentButton: {
-    width: 157,
+    width: 220,
     height: 60,
     borderRadius: 5,
     backgroundColor: '#F3BC2C',
@@ -262,7 +287,7 @@ const styles = StyleSheet.create({
     marginTop: '20%'
   },
   mainButtonDisabled: {
-    width: 157,
+    width: 220,
     height: 60,
     borderRadius: 5,
     backgroundColor: '#F5D617',
@@ -270,17 +295,49 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: '20%'
   },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: 'ABeeZee_400Regular',
-    color: '#000000'
+  buttonTextFinish: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 20,
+    textAlign: 'center'
   },
-  mainContentHours: {
-    width: 80,
+  buttonText: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 20,
+  },
+  buttonTextHours: {
+    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 20,
+  },
+  buttonConfirm: {
+    width: 150,
     height: 35,
     backgroundColor: '#F3BC2C',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonConfirmText: {
+    fontFamily: 'Poppins_700Bold',
+    fontSize: 14
+  },
+  mainContentText: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  mainContentBox: {
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flex: 0.7,
+    marginTop: '20%'
+  },
+  mainContentHours: {
+    width: 118,
+    height: 36,
+    backgroundColor: '#F3BC2C',
+    borderRadius: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   mainTextSucess: {
@@ -288,5 +345,5 @@ const styles = StyleSheet.create({
     fontFamily: 'ABeeZee_400Regular',
     color: '#00ff00',
     marginTop: 40
-  }
+  },
 });

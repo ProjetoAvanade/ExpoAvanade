@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainGap: {
-    height: '2.8%',
+    height: '2.5%',
   },
   mainHeader: {
     width: '100%',
