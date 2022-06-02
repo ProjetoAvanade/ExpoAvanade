@@ -80,7 +80,7 @@ const ModalPagamento = ({ navigation }) => {
                 },
             })
             if (resposta.status === 200) {
-                console.warn('Pontos atualizados')
+                //console.warn('Pontos atualizados')
                 buscarInfoPerfil();
             }
         } catch (error) {
@@ -110,11 +110,11 @@ const ModalPagamento = ({ navigation }) => {
             </View>
 
             <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 20, }}>
-                <Text style={{ fontSize: 14, textAlign: 'center', paddingHorizontal: 20 }}>
-                    Pagamento concluído
+                <Text style={{ fontFamily: 'ABeeZee_400Regular', fontSize: 14, textAlign: 'center', paddingHorizontal: 20 }}>
+                    Pagamento concluído, agradecemos a preferência e a sua confiança!!
                 </Text>
 
-                <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingHorizontal: 20 }}>
+                <Text style={{ fontFamily: 'ABeeZee_400Regular', fontSize: 14, color: 'green', textAlign: 'center', paddingHorizontal: 20, marginTop: '3%' }}>
                     Você possui agora {pontos} rodas
                 </Text>
 
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     btnLogoutText: {
+        fontFamily: 'Poppins_700Bold',
         fontSize: 14,
         color: '#000',
     },

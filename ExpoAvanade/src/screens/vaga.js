@@ -16,8 +16,8 @@ export default function Vaga({ navigation, route }) {
   const [visible, setVisible] = useState(false);
   const [horas, setHoras] = useState(0);
   const data = new Date();
-  const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0, 4);
-  const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0, 4);
+  const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0);
+  const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0);
 
   const buscarVagasPonto = async () => {
     try {
@@ -112,8 +112,10 @@ export default function Vaga({ navigation, route }) {
     return (
       <ModalPoup visible={visible}>
         <View style={styles.modalPoint}>
-          <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
+          <View style={styles.modalTitleAlign}>
+            <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
           <Text style={styles.modalTextTitle} onPress={() => setVisible(false)}>X</Text>
+          </View>
 
           <View style={styles.modalBackGrounds}>
             <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
@@ -129,7 +131,9 @@ export default function Vaga({ navigation, route }) {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
+          <View style={styles.modalAlignSaldo}>
+            <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
+          </View>
 
           <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo: saldo }) }}>
             <Text style={styles.modalTextTitle}>Confirmar</Text>
@@ -297,9 +301,9 @@ const styles = StyleSheet.create({
   modalPoint: {
     backgroundColor: '#F5F5F5',
     width: '100%',
-    height: 232,
+    height: 270,
     borderRadius: 5,
-    marginTop: 462
+    marginTop: 530
   },
   modalPointInfo: {
     alignItems: 'center',
@@ -318,6 +322,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold',
     fontSize: 20,
   },
+  modalTitleAlign: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginLeft: '14%'
+  },
   modalText: {
     fontFamily: 'ABeeZee_400Regular',
     fontSize: 14,
@@ -327,6 +337,9 @@ const styles = StyleSheet.create({
     fontFamily: 'ABeeZee_400Regular',
     fontSize: 14,
     color: '#342C2C'
+  },
+  modalAlignSaldo: {
+    marginLeft: '3.5%'
   },
   modalClose: {
     fontFamily: 'ABeeZee_400Regular',

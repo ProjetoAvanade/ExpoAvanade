@@ -17,12 +17,13 @@ import MaskInput, { Masks } from 'react-native-mask-input'
 import DatePicker from 'react-native-datepicker';
 
 export default function Cadastro({ navigation }) {
-  const [nomeUsuario, setNomeUsuario] = useState('algmmmm');
-  const [email, setEmail] = useState('aglm@gmail.commm');
-  const [senha, setSenha] = useState('algu7171');
-  const [senhaConfirmar, setSenhaConfirmar] = useState('algu7171');
-  const [dataNascimento, setNascimento] = useState('11/11/2011');
-  const [cpf, setCpf] = useState('99999999999');
+  const [idTipoUsuario] = useState(2);
+  const [nomeUsuario, setNomeUsuario] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [senhaConfirmar, setSenhaConfirmar] = useState('');
+  const [dataNascimento, setNascimento] = useState('');
+  const [cpf, setCpf] = useState('');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
   const [sucess, setSucess] = useState();
@@ -100,11 +101,9 @@ export default function Cadastro({ navigation }) {
     if (resposta.status = 201) {
       setSucess(true);
       setIsLoading(false);
-      console.warn(resposta)
     } else {
       setSucess(false);
       setIsLoading(false);
-      console.warn(resposta.body)
     }
   }
 
@@ -135,27 +134,16 @@ export default function Cadastro({ navigation }) {
             maxLength={20}
             onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
           />
-          {/* <MaskedTextInput
-            mask="999.999.999-99"
-            style={styles.mainContentFormInput}
-            placeholder='CPF'
-            placeholderTextColor='#000000'
-            keyboardType="numeric"
-            onChangeText={(text, rawText) => {
-              setCpf(rawText)
-            }}
-          /> */}
           <MaskInput
             style={styles.mainContentFormInput}
             placeholder='CPF'
             placeholderTextColor='#000000'
             keyboardType="numeric"
             value={cpf}
-            keyboardType="numeric"
             onChangeText={(masked, unmasked, obfuscated) => setCpf(unmasked)}
             mask={Masks.BRL_CPF}
           />
-          {console.warn(dataNascimento)}
+
           <TextInput
             style={styles.mainContentFormInput}
             placeholder='Endereço de e-mail'

@@ -142,32 +142,56 @@ export default function Cartao({ navigation, route }) {
         return (
             <ModalPoup visible={visible}>
                 <View style={styles.modalPoint}>
-                    {saldo >= preco &&
+                    <View style={styles.modalRetangleAlignment}>
+                        <View style={styles.modalRetangle} />
+                    </View>
+                    <View style={styles.modalPadding}>
                         <View style={styles.modalPointInfo}>
-                            <Text style={styles.modalText}>Preço:</Text>
-                            <Text style={styles.modalTextInfo}>{preco}</Text>
-                            <Text style={styles.modalText}>Saldo:</Text>
-                            <Text style={styles.modalTextInfo}>{saldo}</Text>
-                            <Text style={styles.modalText}>Total:</Text>
-                            <Text style={styles.modalTextInfo}>0</Text>
-                            <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
-                        </View>
-                    }
+                            <Image style={styles.modalImage} source={require('../../assets/img/coins-solid.png')}></Image>
+                            <View style={styles.modalTexts}>
+                                {saldo >= preco &&
+                                    <View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Valor da reserva:</Text>
+                                            <Text style={styles.modalTextInfo}>R${preco}</Text>
+                                        </View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Saldo:</Text>
+                                            <Text style={styles.modalTextSaldo}>-R${saldo}</Text>
+                                        </View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Total a ser pago:</Text>
+                                            <Text style={styles.modalTextInfo}>R$0</Text>
+                                        </View>
+                                    </View>
+                                }
 
-                    {saldo < preco &&
-                        < View style={styles.modalPointInfo}>
-                            <Text style={styles.modalText}>Preço:</Text>
-                            <Text style={styles.modalTextInfo}>{preco}</Text>
-                            <Text style={styles.modalText}>Saldo:</Text>
-                            <Text style={styles.modalTextInfo}>{saldo}</Text>
-                            <Text style={styles.modalText}>Total:</Text>
-                            <Text style={styles.modalTextInfo}>{preco - saldo}</Text>
+                                {saldo < preco &&
+                                    <View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Valor da reserva:</Text>
+                                            <Text style={styles.modalTextInfo}>R${preco}</Text>
+                                        </View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Saldo:</Text>
+                                            <Text style={styles.modalTextSaldo}>-R${saldo}</Text>
+                                        </View>
+                                        <View style={styles.modalInfos}>
+                                            <Text style={styles.modalText}>Total a ser pago:</Text>
+                                            <Text style={styles.modalTextInfo}>R${preco - saldo}</Text>
+                                        </View>
+                                    </View>
+                                }
+                            </View>
                             <Text style={styles.modalClose} onPress={() => setVisible(false)}>X</Text>
                         </View>
-                    }
-                    <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), Pagar() }}>
-                        <Text style={styles.modalTextTitle}>Prosseguir</Text>
-                    </TouchableOpacity>
+
+                        <View style={styles.modalBtnView}>
+                            <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), Pagar() }}>
+                                <Text style={styles.modalTextTitle}>Pagar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </ModalPoup >
         );
@@ -207,8 +231,8 @@ export default function Cartao({ navigation, route }) {
         const resposta = await fetch("https://apisandbox.cieloecommerce.cielo.com.br/1/sales", requestOptions)
         if (resposta.status == 201) {
             setSucess(true),
-            atualizarPagamento(),
-            atualizarVaga()
+                atualizarPagamento(),
+                atualizarVaga()
             navigation.navigate('ModalPagamento')
         } else {
             setSucess(false)
@@ -236,7 +260,7 @@ export default function Cartao({ navigation, route }) {
                 </View>
             </View>
 
-            <Text style={styles.mainContentText}>Por favor insira os dados do seu cartão para realizar o pagamento</Text>
+            <Text style={styles.textInstruction}>Por favor insira os dados do seu cartão para efetuar o pagamento</Text>
 
             <View style={styles.mainContentInputSpace}>
                 <Text style={styles.mainContentText}>Numero do cartão</Text>
@@ -300,11 +324,11 @@ export default function Cartao({ navigation, route }) {
             <ModalInfoReserva />
 
             {sucess == false &&
-                <Text style={styles.mainContentTextError}>Não foi possível realizar o pagamento!</Text>
+                <Text style={styles.mainContentTextError}>Não foi possível efetuar o pagamento!</Text>
             }
 
             {sucess == true &&
-                <Text style={styles.mainContentTextSucess}>Pagamento realizado com sucesso!</Text>
+                <Text style={styles.mainContentTextSucess}>Pagamento efetuado com sucesso!</Text>
             }
             <TouchableOpacity style={styles.mainContentModalBottomConfirmation} onPress={() => setVisible(true)}>
                 <Text style={styles.mainContentModalBottomConfirmationText}>Prosseguir</Text>
@@ -346,19 +370,29 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_700Bold',
         fontSize: 25,
     },
+    textInstruction: {
+        fontFamily: 'ABeeZee_400Regular',
+        fontSize: 16,
+        paddingTop: '6%',
+        marginLeft: '4%',
+        marginRight: '4%'
+    },
     mainContentText: {
-        fontSize: 12
+        fontFamily: 'ABeeZee_400Regular',
+        fontSize: 14
     },
     mainContentTextSucess: {
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 16,
         color: 'green'
     },
     mainContentTextError: {
+        fontFamily: 'ABeeZee_400Regular',
         fontSize: 16,
         color: '#ff0000'
     },
     mainContentInput: {
-        width: 360,
+        width: 345,
         height: 60,
         borderWidth: 2,
         borderColor: '#F3BC2C',
@@ -366,7 +400,7 @@ const styles = StyleSheet.create({
         paddingLeft: 23,
     },
     mainContentInputValidate: {
-        width: 180,
+        width: 182,
         height: 60,
         borderWidth: 2,
         borderColor: '#F3BC2C',
@@ -374,7 +408,7 @@ const styles = StyleSheet.create({
         paddingLeft: 23
     },
     mainContentInputSecurity: {
-        width: 160,
+        width: 145,
         height: 60,
         borderWidth: 2,
         borderColor: '#F3BC2C',
@@ -384,84 +418,96 @@ const styles = StyleSheet.create({
     mainContentSpace: {
         width: 360,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around'
     },
     mainContentInputSpace: {
         marginTop: 20
     },
     mainContentModalBottomConfirmation: {
-        width: 360,
+        width: '87%',
         height: 50,
         backgroundColor: '#F3BC2C',
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 300,
+        marginTop: '70%',
     },
     mainContentModalBottomConfirmationText: {
+        fontFamily: 'Poppins_700Bold',
         fontSize: 20
     },
-
     modalPoint: {
         backgroundColor: '#F5F5F5',
-        width: '100%',
         height: 232,
         borderRadius: 5,
-        marginTop: 462
+        //marginTop: 462
+        marginTop: '146%'
+    },
+    modalPadding: {
+        flex: 1,
     },
     modalPointInfo: {
         alignItems: 'center',
-        flex: 0.3,
+        flex: 1,
         flexDirection: 'row',
-        maxWidth: 200
+        paddingLeft: '5%'
+    },
+    modalBtnView: {
+        alignItems: 'center'
     },
     modalBtn: {
-        width: 373,
+        width: '90%',
+        marginBottom: '4%',
+        borderRadius: 5,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF'
     },
     modalTextTitle: {
-        //fontFamily: ,
+        fontFamily: 'Poppins_700Bold',
         fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000'
+    },
+    modalTexts: {
+        paddingLeft: '5%',
+        justifyContent: 'space-around'
+    },
+    modalInfos: {
+        paddingTop: '5%',
+        paddingBottom: '5%'
     },
     modalText: {
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 14,
         color: '#000'
     },
+    modalTextSaldo: {
+        fontFamily: 'ABeeZee_400Regular',
+        fontSize: 14,
+        color: '#DD3434'
+    },
     modalTextInfo: {
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 14,
         color: '#342C2C'
     },
+    modalImage: {
+        height: 30,
+        width: 30
+    },
     modalClose: {
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 30,
         color: '#000',
-        marginLeft: '25%'
+        marginLeft: '40%',
+        marginBottom: '30%'
     },
-    modalPointTime: {
-        backgroundColor: '#F5F5F5',
-        width: '100%',
-        height: 253,
-        borderRadius: 5,
-        marginTop: 375
+    modalRetangle: {
+        width: '14%',
+        height: 5,
+        backgroundColor: '#C4C4C4',
     },
-    modalBackGrounds: {
-        flexDirection: 'row'
-    },
-    modalBackGroundGray: {
-        backgroundColor: '#DBDBDB',
-        width: 175,
-        height: 75
-    },
-    modalBackGroundYellow: {
-        backgroundColor: '#F3BC2C',
-        width: 175,
-        height: 75
+    modalRetangleAlignment: {
+        alignItems: 'center',
     },
 });

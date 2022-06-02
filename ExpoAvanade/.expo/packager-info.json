@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
+  "expoServerPort": null,
   "packagerPort": 19000,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://cr-pq5.anonymous.expoavanade.exp.direct",
-  "packagerNgrokUrl": "https://cr-pq5.anonymous.expoavanade.exp.direct",
-  "ngrokPid": 11968,
+  "expoServerNgrokUrl": "https://cr-pq5.ghzin.expoavanade.exp.direct",
+  "packagerNgrokUrl": "https://cr-pq5.ghzin.expoavanade.exp.direct",
+  "ngrokPid": 4804,
   "webpackServerPort": null
 }

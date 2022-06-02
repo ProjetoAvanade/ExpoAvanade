@@ -58,12 +58,17 @@ export default class Perfil extends Component {
         //let apiImg = 'http://192.168.4.187:5000'
         this.setState({ uri: `${apiImg}/StaticFiles/imagem/${this.state.imagem}` })
         //console.warn(this.state.uri)
+        this.formartarCpf()
       }
     } catch (error) {
       //console.warn(resposta)
       //console.warn(error);
     }
   };
+
+  formartarCpf = () => {
+    return this.setState({ cpf: this.state.cpf.slice(0, 3) + "." + this.state.cpf.slice(3, 6) + "." + this.state.cpf.slice(6, 9) + "-" + this.state.cpf.slice(9, 11) })
+  }
 
   componentDidMount() {
     this.buscarInfoPerfil();

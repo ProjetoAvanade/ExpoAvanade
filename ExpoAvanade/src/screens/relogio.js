@@ -81,11 +81,11 @@ export default class Relogio extends Component {
         })
 
       if (resposta.status == 204) {
-        console.warn('Vaga Atualizada');
+        //console.warn('Vaga Atualizada');
       }
     } catch (error) {
-      console.warn(resposta)
-      console.warn(error);
+      //console.warn(resposta)
+      //console.warn(error);
     }
   };
 
@@ -140,7 +140,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    //this.criarReserva()
+    this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -174,7 +174,7 @@ export default class Relogio extends Component {
           }
 
           {this.state.eventDate != 0 &&
-            <View>
+            <View style={styles.mainClockAlign}>
               <Text style={styles.contentText}>
                 Você poderá finalizar a reserva apenas quando acabar o tempo
               </Text>
@@ -187,7 +187,7 @@ export default class Relogio extends Component {
           <View style={styles.mainContentBox}>
             <Text style={styles.mainContentText}>Adicionar horas</Text>
             <View style={styles.mainContentHours}>
-              <TouchableOpacity onPress={this.diminuirHoras}>
+              <TouchableOpacity onPress={() => { this.setState({ mensagemTempo: false }), this.diminuirHoras() }}>
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
 
@@ -195,7 +195,7 @@ export default class Relogio extends Component {
                 {this.state.horaAdicionada}
               </Text>
 
-              <TouchableOpacity onPress={this.aumentarHoras}>
+              <TouchableOpacity onPress={() => { this.setState({ mensagemTempo: false }), this.aumentarHoras() }}>
                 <Text style={styles.buttonText}>+</Text>
               </TouchableOpacity>
             </View>
@@ -204,8 +204,16 @@ export default class Relogio extends Component {
               <Text style={styles.buttonConfirmText}>Confirmar</Text>
             </TouchableOpacity>
 
-            {this.state.mensagemTempo == true &&
-              <Text style={styles.mainTextSucess}>{this.state.horaAdicionada} horas adicionada</Text>
+            {this.state.mensagemTempo == true && this.state.horaAdicionada > 1 &&
+              <View style={styles.mainConfirm}>
+                <Text style={styles.mainConfirmText}>{this.state.horaAdicionada} horas adicionadas</Text>
+              </View>
+            }
+
+            {this.state.mensagemTempo == true && this.state.horaAdicionada == 1 &&
+              <View style={styles.mainConfirm}>
+                <Text style={styles.mainConfirmText}>{this.state.horaAdicionada} hora adicionada</Text>
+              </View>
             }
           </View>
         </View>
@@ -264,12 +272,12 @@ const styles = StyleSheet.create({
     marginTop: '4%'
   },
   mainClock: {
-   /*  width: 172,
-    height: 175, */
+    /*  width: 172,
+     height: 175, */
     backgroundColor: '#F3BC2C',
     borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-        width: Dimensions.get('window').width * 0.48,
-        height: Dimensions.get('window').width * 0.48,
+    width: Dimensions.get('window').width * 0.48,
+    height: Dimensions.get('window').width * 0.48,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -290,7 +298,7 @@ const styles = StyleSheet.create({
     width: 220,
     height: 60,
     borderRadius: 5,
-    backgroundColor: '#F5D617',
+    backgroundColor: '#FFC327',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '20%'
@@ -322,8 +330,7 @@ const styles = StyleSheet.create({
   },
   mainContentText: {
     fontFamily: 'Poppins_400Regular',
-    fontSize: 14,
-    textAlign: 'center',
+    fontSize: 12,
   },
   mainContentBox: {
     alignItems: 'center',
@@ -338,12 +345,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: '5%'
   },
-  mainTextSucess: {
-    fontSize: 20,
+  mainConfirm: {
+    backgroundColor: '#DAF9DA',
+    width: 200,
+    height: 37,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '5%'
+  },
+  mainConfirmText: {
     fontFamily: 'ABeeZee_400Regular',
-    color: '#00ff00',
-    marginTop: 40
-  },
+    fontSize: 16,
+    color: '#06D106',
+  }
 });
