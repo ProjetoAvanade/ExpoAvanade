@@ -191,15 +191,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mainHeaderSpace: {
-    width: '63%',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    marginLeft: '4.7%',
+    marginRight: '27%',
   },
   mainHeaderImage: {
     width: 25,
     height: 21.56,
+    marginRight: '10%'
   },
   mainHeaderText: {
     fontFamily: 'Poppins_700Bold',

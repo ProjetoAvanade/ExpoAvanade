@@ -105,27 +105,25 @@ const styles = StyleSheet.create({
     },
     mainHeader: {
         width: '100%',
-        // height: 65,
         height: '7.6%',
         backgroundColor: '#F3BC2C',
         justifyContent: 'center',
-    },
-    mainHeaderSpace: {
-        width: '100%',
+      },
+      mainHeaderSpace: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         flexDirection: 'row',
-        // marginLeft: 18,
-        // marginLeft: '4.7%',
-    },
-    mainHeaderImage: {
+        marginRight: '27%',
+      },
+      mainHeaderImage: {
         width: 25,
         height: 21.56,
-    },
-    mainHeaderText: {
+        marginRight: '10%'
+      },
+      mainHeaderText: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 25,
-    },
+      },
     mainScroll: {
         width: '100%',
     },

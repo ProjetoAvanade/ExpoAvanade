@@ -140,7 +140,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    this.criarReserva()
+    //this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -331,6 +331,7 @@ const styles = StyleSheet.create({
   mainContentText: {
     fontFamily: 'Poppins_400Regular',
     fontSize: 12,
+    marginBottom: '0.5%'
   },
   mainContentBox: {
     alignItems: 'center',

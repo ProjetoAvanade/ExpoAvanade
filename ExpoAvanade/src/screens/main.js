@@ -38,7 +38,7 @@ export default function Main(){
             tabBarActiveBackgroundColor: '#FFFFFF',
             tabBarInactiveBackgroundColor: '#FFFFFF',
             tabBarStyle: {
-              height: 78,
+              height: '9%',
               borderTopWidth: 0,
             }
           })}
@@ -55,30 +55,11 @@ export default function Main(){
                     tintColor: focused ? '#F3BC2C' : '#000000'
                   }}
                 />
-                <Text style={{
-                  color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular'
-                }}>Mapa</Text>
+                <Text style={{ color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 5, fontFamily: 'ABeeZee_400Regular', width: 100, textAlign: 'center' }}>Mapa</Text>
               </View>
             )
           }} />
-          {/* <bottomTab.Screen name="Carteira" component={Carteira} options={{
-            tabBarIcon: ({ focused }) => (
-              <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-                <Image
-                  source={require('../../assets/img/icon_wallet.png')}
-                  resizeMode='contain'
-                  style={{
-                    width: 30,
-                    height: 26,
-                    tintColor: focused ? '#F3BC2C' : '#000000'
-                  }}
-                />
-                <Text style={{
-                  color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular'
-                }}>Carteira digital</Text>
-              </View>
-            )
-          }} /> */}
+
           <bottomTab.Screen name="PontoProximo" component={PontoProximo} options={{
             tabBarIcon: ({ focused }) => (
               <View style={{ alignItems: 'center', justifyContent: 'center', }}>
@@ -91,7 +72,7 @@ export default function Main(){
                     tintColor: focused ? '#F3BC2C' : '#000000'
                   }}
                 />
-                <Text style={{ color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 10, fontFamily: 'ABeeZee_400Regular' }}>Pontos próximos</Text>
+                <Text style={{ color: focused ? '#F3BC2C' : '#000000', fontSize: 12, top: 5, fontFamily: 'ABeeZee_400Regular', width: 100, textAlign: 'center' }}>Pontos próximos</Text>
               </View>
             )
           }} />
@@ -106,28 +87,4 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-  // iconNav: {
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  // },
-  // textNav: {
-  //   fontSize: 12,
-  //   color: '#000',
-  //   fontFamily: 'IBMPlexMono_700Bold',
-  // },
-  // tabBarIcon: {
-  //   height: 30,
-  //   width: 25.14,
-  //   marginBottom: 5
-  // },
-  // tabBarIcon2: {
-  //   height: 26.25,
-  //   width: 30,
-  //   marginBottom: 7
-  // },
-  // tabBarIcon3: {
-  //   height: 30,
-  //   width: 30,
-  //   marginBottom: 5
-  // }
 });

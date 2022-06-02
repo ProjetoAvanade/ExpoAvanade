@@ -9,7 +9,8 @@ import {
     StatusBar,
     Modal,
     Animated,
-    LogBox
+    LogBox,
+    Dimensions
 } from 'react-native';
 
 import MapView, { Callout, Marker } from 'react-native-maps';
@@ -139,12 +140,10 @@ export default function Mapa({ navigation }) {
         };
         return (
             <Modal transparent visible={showModal}>
-                <View style={styles.modalBackGround}>
                     <Animated.View
                         style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
                         {children}
                     </Animated.View>
-                </View>
             </Modal>
         );
     };
@@ -152,8 +151,8 @@ export default function Mapa({ navigation }) {
     // Modal do ponto com elementos e estilização
     const ModalPonto = () => {
         return (
-            <ModalPoup visible={visible}>
-                <View style={styles.modalPoint}>
+            <ModalPoup visible={visible} >
+                <View style={styles.modalPoint} >
                     <View style={styles.modalRetangleAlignment}>
                         <View style={styles.modalRetangle} />
                     </View>
@@ -388,8 +387,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderBottomColor: '#000000',
         borderBottomWidth: 1,
+        //height: Dimensions.get('screen').height / 3.0,
+        marginTop: Dimensions.get('screen').height / 1.8,
         //marginTop: 462
-        marginTop: '123%'
+        //marginTop: '123%'
     },
     modalPadding: {
         flex: 1,

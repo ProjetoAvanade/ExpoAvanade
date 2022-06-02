@@ -197,18 +197,15 @@ const styles = StyleSheet.create({
   },
   mainHeader: {
     width: '100%',
-    // height: 65,
     height: '7.6%',
     backgroundColor: '#F3BC2C',
     justifyContent: 'center',
   },
   mainHeaderSpace: {
-    width: '68%',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    // marginLeft: 18,
-    marginLeft: '4.7%',
+    marginRight: '18%',
   },
   mainHeaderImage: {
     width: 25,
@@ -217,6 +214,7 @@ const styles = StyleSheet.create({
   mainHeaderText: {
     fontFamily: 'Poppins_700Bold',
     fontSize: 25,
+    marginRight: '3%'
   },
   mainBody: {
     flex: 4,

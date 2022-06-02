@@ -203,7 +203,7 @@ export default function Cadastro({ navigation }) {
 
           <View style={styles.mainContentPasswordConfirm}>
             <TextInput
-              style={styles.mainContentFormInput}
+              style={styles.mainInputConfirm}
               placeholder='Confirmar Senha'
               placeholderTextColor='#000000'
               keyboardType="default"
@@ -282,15 +282,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mainHeaderSpace: {
-    width: '59%',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    marginLeft: '4.7%',
+    marginRight: '27%',
   },
   mainHeaderImage: {
     width: 25,
     height: 21.56,
+    marginRight: '10%'
   },
   mainHeaderText: {
     fontFamily: 'Poppins_700Bold',
@@ -313,6 +313,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     paddingLeft: 20
+  },
+  mainInputConfirm: {
+    backgroundColor: '#FFFFFF',
+    width: '70%',
+    height: 50,
+    marginTop: '8%',
+    borderColor: '#F3BC2C',
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingLeft: 20, 
   },
   mainContentFormButton: {
     width: '50%',
