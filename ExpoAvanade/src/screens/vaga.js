@@ -114,7 +114,7 @@ export default function Vaga({ navigation, route }) {
         <View style={styles.modalPoint}>
           <View style={styles.modalTitleAlign}>
             <Text style={styles.modalTextTitle}>Confirme o tempo</Text>
-          <Text style={styles.modalTextTitle} onPress={() => setVisible(false)}>X</Text>
+            <Text style={styles.modalTextTitle} onPress={() => setVisible(false)}>X</Text>
           </View>
 
           <View style={styles.modalBackGrounds}>
@@ -135,9 +135,11 @@ export default function Vaga({ navigation, route }) {
             <Text style={styles.modalTextInfo}>Saldo: R${parseFloat(saldo)}</Text>
           </View>
 
-          <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo: saldo }) }}>
-            <Text style={styles.modalTextTitle}>Confirmar</Text>
-          </TouchableOpacity>
+          <View style={styles.modalBtnView}>
+            <TouchableOpacity style={styles.modalBtn} onPress={() => { setVisible(false), navigation.navigate('Relogio', { idVaga: idVaga, horas: horas, saldo: saldo }) }}>
+              <Text style={styles.modalTextTitle}>Confirmar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ModalPoup>
     );
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
   },
   btnConfirm: {
     backgroundColor: '#F3BC2C',
-    width: 157,
+    width: 180,
     height: 60,
     borderRadius: 5,
     alignItems: 'center',
@@ -311,8 +313,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     maxWidth: 200
   },
+  modalBtnView: {
+    alignItems: 'center'
+  },
   modalBtn: {
-    width: 373,
+    width: '94%',
+    borderRadius: 5,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -345,7 +351,6 @@ const styles = StyleSheet.create({
     fontFamily: 'ABeeZee_400Regular',
     fontSize: 30,
     color: '#000',
-    marginLeft: '25%'
   },
   modalPointTime: {
     backgroundColor: '#F5F5F5',

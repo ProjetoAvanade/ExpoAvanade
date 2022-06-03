@@ -9,7 +9,8 @@ import {
     Platform,
     StatusBar,
     Modal,
-    Animated
+    Animated, 
+    Dimensions
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +47,7 @@ export default function Cartao({ navigation, route }) {
             }
         } catch (error) {
             // console.warn(resposta)
-            console.warn(error);
+            //console.warn(error);
         }
     };
 
@@ -439,7 +440,7 @@ const styles = StyleSheet.create({
         height: 232,
         borderRadius: 5,
         //marginTop: 462
-        marginTop: '146%'
+        marginTop: Dimensions.get('screen').height / 1.5,
     },
     modalPadding: {
         flex: 1,
@@ -497,8 +498,8 @@ const styles = StyleSheet.create({
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 30,
         color: '#000',
-        marginLeft: '40%',
-        marginBottom: '30%'
+        marginLeft: Dimensions.get('screen').height / 6,
+        marginBottom: Dimensions.get('screen').height / 22,
     },
     modalRetangle: {
         width: '14%',

@@ -66,7 +66,6 @@ export default class PontoProximo extends Component {
                 <View style={styles.mainGap}></View>
                 <View style={styles.mainHeader}>
                     <View style={styles.mainHeaderSpace}>
-
                         <Text style={styles.mainHeaderText}>Lista de pontos</Text>
                     </View>
                 </View>
@@ -111,9 +110,7 @@ const styles = StyleSheet.create({
       },
       mainHeaderSpace: {
         alignItems: 'center',
-        justifyContent: 'space-around',
-        flexDirection: 'row',
-        marginRight: '27%',
+        justifyContent: 'center',
       },
       mainHeaderImage: {
         width: 25,
@@ -138,7 +135,7 @@ const styles = StyleSheet.create({
     },
     mainCardImage: {
         width: 25,
-        marginLeft: 30,
+        marginLeft: '5%',
     },
     mainCardsTextName: {
         marginLeft: 15,
@@ -157,7 +154,6 @@ const styles = StyleSheet.create({
         width: 20
     },
     mainCardsTextTrade: {
-        marginLeft: 115,
         fontSize: 14,
         color: '#000000',
         fontFamily: 'ABeeZee_400Regular',

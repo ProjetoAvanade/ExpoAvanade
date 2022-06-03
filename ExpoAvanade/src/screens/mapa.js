@@ -313,6 +313,7 @@ export default function Mapa({ navigation }) {
 
 //Não está sendo possível setar uma posição inicial antes da requisição de buscar a localização do usuário ser concluída
 LogBox.ignoreLogs(['Warning: Failed prop type: The prop `initialRegion.latitude` is marked as required in `MapView`, but its value is `null`.']);
+LogBox.ignoreLogs(["Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method."]);
 
 const styles = StyleSheet.create({
     main: {
@@ -443,7 +444,7 @@ const styles = StyleSheet.create({
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 30,
         color: '#000',
-        marginLeft: '35%'
+        marginLeft: Dimensions.get('screen').height / 7,
     },
     modalRetangle: {
         width: '14%',
