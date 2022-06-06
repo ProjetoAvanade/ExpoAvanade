@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet, Text, View, Image, TouchableOpacity, Modal, Animated, Dimensions
+  StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, Modal, Animated, Dimensions
 } from 'react-native';
 
 import api from '../services/api';
@@ -18,6 +18,7 @@ export default function Vaga({ navigation, route }) {
   const data = new Date();
   const previsaoHora1 = adicionarHora(1, data).toLocaleTimeString().slice(0);
   const previsaoHora2 = adicionarHora(2, data).toLocaleTimeString().slice(0);
+  const [btnSelecionado, setBtnSelecionado] = useState(0)
 
   const buscarVagasPonto = async () => {
     try {
@@ -118,13 +119,13 @@ export default function Vaga({ navigation, route }) {
           </View>
 
           <View style={styles.modalBackGrounds}>
-            <TouchableOpacity style={styles.modalBackGroundGray} onPress={() => setHoras(1)}>
-              <Text style={styles.modalTextTitle}>R$3,75</Text>
+            <TouchableOpacity style={btnSelecionado == 1 ? styles.modalBackGroundYellow : styles.modalBackGroundGray} onPress={() => { setHoras(1), setBtnSelecionado(1) }}>
+              <Text style={styles.modalTextTitle}>R$ 3,75</Text>
               <Text style={styles.modalText}>1 Hora</Text>
               <Text style={styles.modalTextInfo}>Válido até {previsaoHora1}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.modalBackGroundYellow} onPress={() => setHoras(2)}>
+            <TouchableOpacity style={btnSelecionado == 2 ? styles.modalBackGroundYellow : styles.modalBackGroundGray} onPress={() => { setHoras(2), setBtnSelecionado(2) }}>
               <Text style={styles.modalTextTitle}>R$ 6,50</Text>
               <Text style={styles.modalText}>2 Hora</Text>
               <Text style={styles.modalTextInfo}>Válido até {previsaoHora2}</Text>

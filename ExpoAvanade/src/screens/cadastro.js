@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
-  LogBox
+  LogBox,
+  Dimensions
 } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -22,7 +23,7 @@ export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaConfirmar, setSenhaConfirmar] = useState('');
-  const [dataNascimento, setNascimento] = useState('');
+  const [dataNascimento, setNascimento] = useState();
   const [cpf, setCpf] = useState('');
   const [imagem] = useState(true);
   const [arquivo, setArquivo] = useState('');
@@ -41,7 +42,7 @@ export default function Cadastro({ navigation }) {
 
     // Abre a galeria, o usuário poderá escolher a foto
     const result = await ImagePicker.launchImageLibraryAsync();
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       // Conseguir a uri da imagem no celular
@@ -98,12 +99,16 @@ export default function Cadastro({ navigation }) {
       },
       body: formData,
     })
-    if (resposta.status = 201) {
+    if (resposta.status == 201) {
       setSucess(true);
       setIsLoading(false);
+      /* console.log(formData)
+      console.log(resposta) */
     } else {
       setSucess(false);
       setIsLoading(false);
+      /* console.warn(formData)
+      console.warn(resposta) */
     }
   }
 
@@ -128,12 +133,13 @@ export default function Cadastro({ navigation }) {
         <View style={styles.mainContentForm}>
           <TextInput
             style={styles.mainContentFormInput}
-            placeholder='Nome Completo'
+            placeholder='Nome'
             placeholderTextColor='#000000'
             value={nomeUsuario}
             maxLength={20}
             onChangeText={(nomeUsuario) => setNomeUsuario(nomeUsuario)}
           />
+
           <MaskInput
             style={styles.mainContentFormInput}
             placeholder='CPF'
@@ -146,12 +152,13 @@ export default function Cadastro({ navigation }) {
 
           <TextInput
             style={styles.mainContentFormInput}
-            placeholder='Endereço de e-mail'
+            placeholder='E-mail'
             placeholderTextColor='#000000'
             value={email}
             maxLength={40}
             onChangeText={(email) => setEmail(email)}
           />
+          
           <DatePicker
             date={dataNascimento}
             mode="date"
@@ -184,9 +191,7 @@ export default function Cadastro({ navigation }) {
                 marginRight: '68%',
               }
             }}
-            onDateChange={(date) => {
-              setNascimento(date);
-            }}
+            onDateChange={(date) => setNascimento(date)}
           />
 
           <TextInput
@@ -255,7 +260,7 @@ export default function Cadastro({ navigation }) {
           }
 
           { //Mensagem de cadastro concluído e redirecionando para tela de login
-            sucess == true && setTimeout(() => navigation.navigate('Login'), 1500) &&
+            sucess == true && setTimeout(() => navigation.navigate('Login'), 3000) &&
             <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
           }
         </View>
@@ -265,6 +270,8 @@ export default function Cadastro({ navigation }) {
 }
 
 LogBox.ignoreLogs(['Warning: componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.']);
+LogBox.ignoreLogs(["DatePickerAndroid has been merged with DatePickerIOS and will be removed in a future release. It can now be installed and imported from '@react-native-community/datetimepicker' instead of 'react-native'. See https://github.com/react-native-datetimepicker/datetimepicker"]);
+LogBox.ignoreLogs(["Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`"]);
 
 const styles = StyleSheet.create({
   main: {
@@ -322,7 +329,7 @@ const styles = StyleSheet.create({
     borderColor: '#F3BC2C',
     borderWidth: 2,
     borderRadius: 5,
-    paddingLeft: 20, 
+    paddingLeft: 20,
   },
   mainContentFormButton: {
     width: '50%',
@@ -380,6 +387,12 @@ const styles = StyleSheet.create({
     marginTop: '3%',
     textAlign: 'center',
     maxWidth: '70%'
+  },
+  mainInputError: {
+    fontSize: 14,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000',
+    marginTop: '3%',
   },
   mainTextSucess: {
     fontSize: 14,

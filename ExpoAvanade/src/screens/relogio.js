@@ -140,7 +140,7 @@ export default class Relogio extends Component {
   };
 
   componentDidMount() {
-    //this.criarReserva()
+    this.criarReserva()
     this.atualizarRelogio()
   }
 
@@ -178,9 +178,6 @@ export default class Relogio extends Component {
               <Text style={styles.contentText}>
                 Você poderá finalizar a reserva apenas quando acabar o tempo
               </Text>
-              <TouchableOpacity style={styles.mainButtonDisabled} disabled>
-                <Text style={styles.buttonTextFinish}>Finalizar reserva</Text>
-              </TouchableOpacity>
             </View>
           }
 

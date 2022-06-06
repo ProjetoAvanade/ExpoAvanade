@@ -66,7 +66,7 @@ export default class PontoProximo extends Component {
                 <View style={styles.mainGap}></View>
                 <View style={styles.mainHeader}>
                     <View style={styles.mainHeaderSpace}>
-                        <Text style={styles.mainHeaderText}>Lista de pontos</Text>
+                        <Text style={styles.mainHeaderText}>Pontos Próximos</Text>
                     </View>
                 </View>
 
@@ -107,20 +107,20 @@ const styles = StyleSheet.create({
         height: '7.6%',
         backgroundColor: '#F3BC2C',
         justifyContent: 'center',
-      },
-      mainHeaderSpace: {
+    },
+    mainHeaderSpace: {
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      mainHeaderImage: {
+    },
+    mainHeaderImage: {
         width: 25,
         height: 21.56,
         marginRight: '10%'
-      },
-      mainHeaderText: {
+    },
+    mainHeaderText: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 25,
-      },
+    },
     mainScroll: {
         width: '100%',
     },

@@ -302,7 +302,10 @@ export default function Mapa({ navigation }) {
 
             <View style={styles.mainSearch}>
                 <View style={styles.mainSearchInput}>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity onPress={() => navigation.navigate('Pesquisa', { listaBicicletarios: listaBicicletarios })}>
+                        <Text style={styles.mainSearchInputText}>Para onde?</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity onPress={() => navigation.navigate('Teste')}>
                         <Text style={styles.mainSearchInputText}>Para onde?</Text>
                     </TouchableOpacity>
                 </View>
@@ -356,7 +359,7 @@ const styles = StyleSheet.create({
     mainHeaderNext: {
         width: 20,
         height: 20,
-        marginTop: '23%',
+        marginTop: '15%',
         marginLeft: '8%'
     },
     mainMap: {

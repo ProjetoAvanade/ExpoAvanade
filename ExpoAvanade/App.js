@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/screens/login';
 import Cadastro from './src/screens/cadastro';
 import Main from './src/screens/main';
+import Pesquisa from './src/screens/pesquisa';
 import TrocaRodas from './src/screens/trocaRodas';
 import Perfil from './src/screens/perfil';
 import Cartao from './src/screens/cartao';
@@ -52,6 +53,7 @@ export default function App() {
         }}>
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Main" component={Main} />
+        <AuthStack.Screen name="Pesquisa" component={Pesquisa} />
         <AuthStack.Screen name="Cadastro" component={Cadastro} />
         <AuthStack.Screen name="TrocaRodas" component={TrocaRodas} />
         <AuthStack.Screen name="Perfil" component={Perfil} />

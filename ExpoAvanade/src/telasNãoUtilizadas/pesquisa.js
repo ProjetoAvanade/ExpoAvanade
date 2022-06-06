@@ -1,112 +1,131 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    StatusBar,
+    TextInput,
+    Platform,
+    SafeAreaView,
+    ActivityIndicator
+} from "react-native";
 
-export default class Pesquisa extends Component {
-    render() {
-        return (
-            <View style={styles.main}>
+import List from "../components/list";
+import SearchBar from "../components/searchBar";
 
-                <View style={styles.mainNav}>
-                    <View style={styles.mainMenuNav}>
-                        <View style={styles.mainDiv}>
-                            <TouchableOpacity style={styles.mainBtnBack} onPress={() => this.props.navigation.goBack()}>
-                                <Image style={styles.mainImage} source={require('../../assets/img/Icone_voltar.png')} />
-                            </TouchableOpacity>
-                            {/* <TextInput style={styles.mainMenuInput}
-                                placeholder='Para onde?'
-                                placeholderTextColor='#000000'>
-                            </TextInput>
-                            <TouchableOpacity style={styles.mainBtnTest} onPress={this.realizarBusca}>
-                                <Text style={styles.mainBtnText}>OO</Text>
-                            </TouchableOpacity> */}
-                            <TextInput style={styles.mainMenuInput}
-                                placeholder='Para onde?'
-                                placeholderTextColor='#000000'
-                            >
-                            </TextInput>
-                        </View>
-                    </View>
+import api from '../services/api';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-                    <View style={styles.mainRecent}>
-                        <View style={styles.mainRecentCard}>
-                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Preste Maia</Text>
-                            <Text style={styles.mainRecentText}>São Paulo</Text>
-                        </View>
-                        <View style={styles.mainRecentCard}>
-                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Senai de informática</Text>
-                            <Text style={styles.mainRecentText}>São Paulo</Text>
-                        </View>
-                        <View style={styles.mainRecentCard}>
-                            <Text style={styles.mainRecentText} onPress={() => this.props.navigation.navigate('Ponto')}>Bicicletário Sesi Vila Leopoldina</Text>
-                            <Text style={styles.mainRecentText}>São Paulo</Text>
-                        </View>
-                    </View>
+const Pesquisa = () => {
+    const [searchPhrase, setSearchPhrase] = useState("");
+    const [clicked, setClicked] = useState(false);
+    const [listaBicicletarios, setListaBikes] = useState();
+    const navigation = useNavigation();
+    
+    useEffect(() => {
+        const buscarBicicletarios = async () => {
+            try {
+                const token = await AsyncStorage.getItem('userToken');
+                const resposta = await api.get('/Bicicletario', {
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                })
+                const dadosDaApi = resposta.data;
+                setListaBikes(dadosDaApi)
+                //console.warn(dadosDaApi) 
+            } catch (error) {
+                //console.warn(error);
+            }
+        };
+        buscarBicicletarios();
+    }, []);
 
-                </View >
+    return (
+        <View style={styles.main}>
+
+            <StatusBar
+                barStyle='dark-content'
+                backgroundColor='#F3BC2C'
+                hidden={false}
+            />
+            <View style={styles.mainGap}></View>
+            <View style={styles.mainHeader}>
+                <View style={styles.mainHeaderSpace}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Image source={require('../../assets/img/icon_back.png')} style={styles.mainHeaderImage} />
+                    </TouchableOpacity>
+
+                    <Text style={styles.mainHeaderText}>Meu perfil</Text>
+                </View>
             </View>
-        );
-    }
-}
+
+            <SearchBar
+                searchPhrase={searchPhrase}
+                setSearchPhrase={setSearchPhrase}
+                clicked={clicked}
+                setClicked={setClicked}
+            />
+            {!listaBicicletarios ? (
+                <ActivityIndicator size="large" />
+            ) : (
+
+                <List
+                    searchPhrase={searchPhrase}
+                    data={listaBicicletarios}
+                    setClicked={setClicked}
+                />
+
+            )}
+        </View>
+    );
+};
+
 const styles = StyleSheet.create({
+    root: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    title: {
+        width: "100%",
+        marginTop: 20,
+        fontSize: 25,
+        fontWeight: "bold",
+        marginLeft: "10%",
+    },
     main: {
         flex: 1,
-        backgroundColor: '#F7F7F7',
-        alignItems: 'center',
-    },
-    mainNav: {
-        flex: 0.35,
-        backgroundColor: '#F7F7F7',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mainMenuNav: {
-        width: 380,
-        borderRadius: 5,
-        backgroundColor: '#F3BC2C',
-    },
-    mainDiv: {
-        marginLeft: 15,
-        width: 350,
-        height: 70,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
-    mainMenuInput: {
-        width: 320,
-        height: 45,
-        paddingLeft: 23,
-        paddingBottom: 2,
-        fontSize: 12,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#000000',
         backgroundColor: '#ffffff',
+        alignItems: 'center',
     },
-    mainBtnBack: {
-        width: 20,
-        height: 20,
+    mainGap: {
+        // height: 37,
+        height: '2.5%',
     },
-    mainRecent: {
-        flex: 0.65,
-        width: 340,
-        backgroundColor: '#F7F7F7',
-    },
-    mainRecentCard: {
-        width: 340,
-        height: 100,
-        borderBottomColor: '#000000',
-        borderBottomWidth: 2,
-    },
-    mainRecentText: {
-        fontSize: 20,
-        paddingTop: 20,
-        paddingLeft: 15,
-        color: '#000000',
-        fontFamily: 'ABeeZee_400Regular',
-    },
-    mainBtnText: {
-        marginTop: 12,
-    }
+    mainHeader: {
+        width: '100%',
+        height: '7.6%',
+        backgroundColor: '#F3BC2C',
+        justifyContent: 'center',
+      },
+      mainHeaderSpace: {
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        marginRight: '27%',
+      },
+      mainHeaderImage: {
+        width: 25,
+        height: 21.56,
+        marginRight: '10%'
+      },
+      mainHeaderText: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 25,
+      },
 });
+
+export default Pesquisa;
