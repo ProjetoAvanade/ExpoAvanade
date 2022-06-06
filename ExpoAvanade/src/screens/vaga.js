@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   vagaCardText: {
     fontSize: 18,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#fff',
+    color: '#000',
   },
   modalPoint: {
     backgroundColor: '#F5F5F5',

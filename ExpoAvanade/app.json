@@ -4,9 +4,9 @@
     "slug": "Bikecione",
     "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon1.png",
+    "icon": "./assets/icon-Escrito.png",
     "splash": {
-      "image": "./assets/splash1.png",
+      "image": "./assets/splash-Escrito.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon1.png",
+        "foregroundImage": "./assets/adaptive-icon-Escrito.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ghzin.Bikecione"
