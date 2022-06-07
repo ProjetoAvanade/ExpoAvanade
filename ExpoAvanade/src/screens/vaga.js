@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   },
   mainBodyVaga: {
     flex: 0.53,
+    maxWidth: '90%',
     flexDirection: 'row',
   },
   vagaCardAlign: {

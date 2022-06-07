@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": 19000,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://cr-pq5.ghzin.expoavanade.exp.direct",
-  "packagerNgrokUrl": "https://cr-pq5.ghzin.expoavanade.exp.direct",
-  "ngrokPid": 2408,
+  "expoServerNgrokUrl": "https://cr-pq5.anonymous.expoavanade.exp.direct",
+  "packagerNgrokUrl": "https://cr-pq5.anonymous.expoavanade.exp.direct",
+  "ngrokPid": 5812,
   "webpackServerPort": null
 }

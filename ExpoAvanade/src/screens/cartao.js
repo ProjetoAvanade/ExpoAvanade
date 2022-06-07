@@ -386,9 +386,10 @@ const styles = StyleSheet.create({
         color: 'green'
     },
     mainContentTextError: {
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: 'ABeeZee_400Regular',
         color: '#ff0000',
+        marginTop: 10
     },
     mainContentInput: {
         width: 345,

@@ -17,7 +17,6 @@ import MapView, { Callout, Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import api from '../services/api';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Mapa({ navigation }) {
@@ -275,8 +274,8 @@ export default function Mapa({ navigation }) {
                 initialRegion={{
                     latitude: latitude,
                     longitude: longitude,
-                    latitudeDelta: 0.020,
-                    longitudeDelta: 0.020,
+                    latitudeDelta: 0.012,
+                    longitudeDelta: 0.012,
                 }}>
                 {listaBicicletarios.map((item) => {
                     return (
