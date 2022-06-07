@@ -121,8 +121,7 @@ export default class Perfil extends Component {
           <Image source={require('../../assets/img/icon_person.png')} style={styles.mainCardImage} />
           <View>
             <Text style={styles.mainCardsTextName}>Dados pessoais</Text>
-            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf},
-              {Intl.DateTimeFormat("pt-BR", {
+            <Text style={styles.mainCardsTextEmail}>{this.state.nomeUsuario}, {this.state.cpf}, {Intl.DateTimeFormat("pt-BR", {
                 year: 'numeric', month: 'short', day: 'numeric',
               }).format(new Date(this.state.dataNascimento))}</Text>
           </View>
@@ -257,6 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#797979',
     fontFamily: 'ABeeZee_400Regular',
+    maxWidth: '95%'
   },
   mainCardNext: {
     marginLeft: 5,

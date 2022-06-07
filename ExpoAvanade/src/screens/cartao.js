@@ -9,7 +9,7 @@ import {
     Platform,
     StatusBar,
     Modal,
-    Animated, 
+    Animated,
     Dimensions
 } from 'react-native';
 
@@ -353,22 +353,22 @@ const styles = StyleSheet.create({
         height: '7.6%',
         backgroundColor: '#F3BC2C',
         justifyContent: 'center',
-      },
-      mainHeaderSpace: {
+    },
+    mainHeaderSpace: {
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
         marginRight: '27%',
-      },
-      mainHeaderImage: {
+    },
+    mainHeaderImage: {
         width: 25,
         height: 21.56,
         marginRight: '10%'
-      },
-      mainHeaderText: {
+    },
+    mainHeaderText: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 25,
-      },
+    },
     textInstruction: {
         fontFamily: 'ABeeZee_400Regular',
         fontSize: 16,
@@ -386,9 +386,9 @@ const styles = StyleSheet.create({
         color: 'green'
     },
     mainContentTextError: {
+        fontSize: 14,
         fontFamily: 'ABeeZee_400Regular',
-        fontSize: 16,
-        color: '#ff0000'
+        color: '#ff0000',
     },
     mainContentInput: {
         width: 345,

@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#797979',
         fontFamily: 'ABeeZee_400Regular',
+        maxWidth: '96%'
     },
     mainCardNext: {
         marginLeft: 5,

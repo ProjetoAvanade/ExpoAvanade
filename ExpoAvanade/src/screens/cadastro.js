@@ -395,9 +395,9 @@ const styles = StyleSheet.create({
     marginTop: '3%',
   },
   mainTextSucess: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#00ff00',
+    color: '#06D106',
     marginTop: '3%'
   },
   mainContentPasswordConfirm: {

@@ -55,7 +55,7 @@ const Pesquisa = () => {
                     <Image source={require('../../assets/img/icon_locationYellow.png')} style={styles.mainCardImage} />
                     <View>
                         <Text style={styles.mainCardsTextName}>{item.nome}</Text>
-                        <Text style={styles.mainCardsTextEmail}>rua: {item.rua}, {item.numero}, {item.bairro}</Text>
+                        <Text style={styles.mainCardsTextEmail}>Rua: {item.rua}, {item.numero}, {item.bairro}</Text>
                     </View>
                     <View>
                         <Text style={styles.mainCardsTextEmail}>{item.horarioAberto.slice(0, 5)}</Text>

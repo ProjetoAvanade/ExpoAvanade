@@ -297,8 +297,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   vagaCardText: {
-    fontSize: 18,
-    fontFamily: 'ABeeZee_400Regular',
+    fontSize: 20,
+    fontFamily: 'Poppins_700Bold',
     color: '#000',
   },
   modalPoint: {

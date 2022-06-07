@@ -38,7 +38,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
+      this.setState({ mensagemErro: `Troca inválida, você não possui pontos suficientes!` })
     }
   };
 
@@ -59,7 +59,7 @@ class TrocaRodas extends Component {
         }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
+      this.setState({ mensagemErro: `Troca inválida, você não possui pontos suficientes!` })
     }
   };
   
@@ -81,7 +81,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
+      this.setState({ mensagemErro: `Troca inválida, você não possui pontos suficientes!` })
     }
   };
   
@@ -102,7 +102,7 @@ class TrocaRodas extends Component {
       }
     } catch (error) {
       //console.warn(error);
-      this.setState({ mensagemErro: `Troca inválida, você possui apenas ${this.state.pontos} pontos!` })
+      this.setState({ mensagemErro: `Troca inválida, você não possui pontos suficientes!` })
     }
   };
 
@@ -260,14 +260,16 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   mainTextError: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#ff0000'
+    color: '#ff0000',
+    maxWidth: '80%'
   },
   mainTextSucess: {
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: 'ABeeZee_400Regular',
-    color: '#00ff00'
+    color: '#06D106',
+    textAlign: 'center'
   }
 });
 

@@ -140,10 +140,10 @@ export default function Mapa({ navigation }) {
         };
         return (
             <Modal transparent visible={showModal}>
-                    <Animated.View
-                        style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
-                        {children}
-                    </Animated.View>
+                <Animated.View
+                    style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+                    {children}
+                </Animated.View>
             </Modal>
         );
     };
@@ -271,11 +271,12 @@ export default function Mapa({ navigation }) {
             </View>
 
             <MapView style={styles.mainMap}
+                showsUserLocation={true}
                 initialRegion={{
                     latitude: latitude,
                     longitude: longitude,
-                    latitudeDelta: 0.030,
-                    longitudeDelta: 0.050,
+                    latitudeDelta: 0.020,
+                    longitudeDelta: 0.020,
                 }}>
                 {listaBicicletarios.map((item) => {
                     return (
@@ -305,7 +306,7 @@ export default function Mapa({ navigation }) {
                     {/* <TouchableOpacity onPress={() => navigation.navigate('Pesquisa', { listaBicicletarios: listaBicicletarios })}>
                         <Text style={styles.mainSearchInputText}>Para onde?</Text>
                     </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => navigation.navigate('Teste')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Pesquisa')}>
                         <Text style={styles.mainSearchInputText}>Para onde?</Text>
                     </TouchableOpacity>
                 </View>
