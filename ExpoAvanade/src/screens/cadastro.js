@@ -16,6 +16,8 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import MaskInput, { Masks } from 'react-native-mask-input'
 import DatePicker from 'react-native-datepicker';
+import { Formik } from 'formik'
+import * as yup from 'yup'
 
 export default function Cadastro({ navigation }) {
   const [idTipoUsuario] = useState(2);
@@ -112,6 +114,28 @@ export default function Cadastro({ navigation }) {
     }
   }
 
+  const signInValidationSchema = yup.object().shape({
+    nomeUsuario: yup
+      .string()
+      .min(3, ({ min }) => `Nome precisa ter no minímo ${min} caracteres`)
+      .required('Nome é obrigatório'),
+    email: yup
+      .string()
+      .email("Digite um E-mail válido")
+      .required('E-mail é obrigatório'),
+    senha: yup
+      .string()
+      .matches(/\w*[a-z]\w*/, "Senha precisa ter uma letra minúsculas")
+      .matches(/\w*[A-Z]\w*/, "Senha precisa ter uma letra maiúsculas")
+      .matches(/\d/, "Senha precisa ter um número")
+      .matches(/[!@#$%^&*()\-_"=+{}; :,<.>]/, "Senha precisa ter um caractere especial")
+      .min(8, ({ min }) => `Senha precisa ter no minímo ${min} caracteres`)
+      .required('Senha é obrigatória'),
+    senhaConfirmar: yup
+      .string()
+      .required('Confirmar a senha é obrigatório'),
+  })
+
   return (
     <View style={styles.main}>
       <StatusBar
@@ -131,7 +155,176 @@ export default function Cadastro({ navigation }) {
 
       <View style={styles.mainContent}>
         <View style={styles.mainContentForm}>
-          <TextInput
+          <Formik
+            validationSchema={signInValidationSchema}
+            initialValues={{ nomeUsuario: '', email: '', senha: '', senhaConfirmar: '' }}
+            onSubmit={Cadastrar}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors,
+              isValid,
+            }) => (
+              <>
+                <TextInput
+                  style={styles.mainContentFormInput}
+                  placeholder='Nome'
+                  placeholderTextColor='#000000'
+                  maxLength={20}
+                  onChangeText={handleChange('nomeUsuario')}
+                  setFieldValue={setNomeUsuario(values.nomeUsuario)}
+                  onBlur={handleBlur('nomeUsuario')}
+                  value={values.nomeUsuario}
+                />
+                {errors.nomeUsuario &&
+                  <Text style={styles.erroInput}>{errors.nomeUsuario}</Text>
+                }
+
+                <MaskInput
+                  style={styles.mainContentFormInput}
+                  placeholder='CPF'
+                  placeholderTextColor='#000000'
+                  keyboardType="numeric"
+                  value={cpf}
+                  onChangeText={(masked, unmasked, obfuscated) => setCpf(unmasked)}
+                  mask={Masks.BRL_CPF}
+                />
+
+                <TextInput
+                  style={styles.mainContentFormInput}
+                  placeholder='E-mail'
+                  placeholderTextColor='#000000'
+                  maxLength={40}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  setFieldValue={setEmail(values.email)}
+                  keyboardType="email-address"
+                />
+                {errors.email &&
+                  <Text style={styles.erroInput}>{errors.email}</Text>
+                }
+
+                <DatePicker
+                  date={dataNascimento}
+                  mode="date"
+                  format="DD/MM/YYYY"
+                  minDate="01-01-1900"
+                  maxDate="29-05-2004"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  style={styles.mainContentFormInput}
+                  placeholder='DD/MM/AAAA'
+                  placeholderTextColor='#000000'
+                  customStyles={{
+                    dateInput: {
+                      borderWidth: 0,
+                      borderBottomWidth: 0,
+                    },
+                    dateIcon: {
+                      position: 'absolute',
+                      right: 10,
+                      marginLeft: 0,
+                    },
+                    placeholderText: {
+                      fontSize: 14,
+                      color: "#000",
+                      marginRight: '62%'
+                    },
+                    dateText: {
+                      fontSize: 14,
+                      color: "#000",
+                      marginRight: '68%',
+                    }
+                  }}
+                  onDateChange={(date) => setNascimento(date)}
+                />
+
+                <TextInput
+                  style={styles.mainContentFormInput}
+                  placeholder='Senha'
+                  placeholderTextColor='#000000'
+                  keyboardType="default"
+                  secureTextEntry={true}
+                  passwordRules
+                  maxLength={15}
+                  onChangeText={handleChange('senha')}
+                  onBlur={handleBlur('senha')}
+                  setFieldValue={setSenha(values.senha)}
+                  value={values.senha}
+                />
+                {errors.senha &&
+                  <Text style={styles.erroInput}>{errors.senha}</Text>
+                }
+
+                {errors.senhaConfirmar &&
+                  <Text style={styles.erroInput}>{errors.senhaConfirmar}</Text>
+                }
+                
+                <View style={styles.mainContentPasswordConfirm}>
+                  <TextInput
+                    style={styles.mainInputConfirm}
+                    placeholder='Confirmar Senha'
+                    placeholderTextColor='#000000'
+                    keyboardType="default"
+                    secureTextEntry={true}
+                    passwordRules
+                    /* value={senhaConfirmar}
+                    maxLength={15}
+                    onChangeText={(senhaConfirmar) => setSenhaConfirmar(senhaConfirmar)} */
+                    onChangeText={handleChange('senhaConfirmar')}
+                    onBlur={handleBlur('senhaConfirmar')}
+                    value={values.senhaConfirmar}
+                    setFieldValue={setSenhaConfirmar(values.senhaConfirmar)}
+                  />
+
+                  {values.senha != values.senhaConfirmar &&
+                    //Com o input de confirmação de senha é possui o usuário perceber senha digitadas diferentes
+                    <Image source={require('../../assets/img/error_password.png')} style={styles.mainImagePassword} />
+                  }
+
+                  {values.senha == values.senhaConfirmar &&
+                    //Com o input de confirmação de senha é possui o usuário perceber senha digitadas iguais
+                    <Image source={require('../../assets/img/confirm_password.png')} style={styles.mainImagePassword} />
+                  }
+                </View>
+
+                <TouchableOpacity style={styles.mainContentFormInputImage} onPress={showImagePicker}>
+                  <Text>Foto</Text>
+                  { // Renderizar a imagem escolhida pelo usuário
+                    arquivo !== '' && <Image source={{ uri: arquivo }} style={styles.image} />
+                  }
+
+                  { // Caso o usuário ainda não tenha escolhido a imagem, renderizar ícone de câmera 
+                    arquivo == '' && <Image source={require('../../assets/img/icon_photo.png')} style={styles.mainHeaderImage} />
+                  }
+                </TouchableOpacity>
+
+                { // Caso seja false, renderiza o botão habilitado com o texto 'Cadastrar'
+                  isLoading === false &&
+                  <TouchableOpacity style={styles.mainContentFormButton} onPress={handleSubmit} disabled={!isValid}>
+                    <Text style={styles.mainContentFormButtonText}>Cadastrar</Text>
+                  </TouchableOpacity>
+                }
+
+                { // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+                  isLoading === true && <TouchableOpacity style={styles.buttonDisabled} disabled>
+                    <Text style={styles.mainContentFormButtonText}>Carregando...</Text>
+                  </TouchableOpacity>
+                }
+
+                { //Mensagem de cadastro inválido
+                  sucess == false &&
+                  <Text style={styles.mainTextError}>Não foi possível realizar o cadastro, por favor revise as informações!</Text>
+                }
+              </>
+            )}
+          </Formik>
+          {/* <TextInput
             style={styles.mainContentFormInput}
             placeholder='Nome'
             placeholderTextColor='#000000'
@@ -257,10 +450,10 @@ export default function Cadastro({ navigation }) {
           { //Mensagem de cadastro inválido
             sucess == false &&
             <Text style={styles.mainTextError}>Não foi possível realizar o cadastro, por favor revise as informações!</Text>
-          }
+          } */}
 
           { //Mensagem de cadastro concluído e redirecionando para tela de login
-            sucess == true && setTimeout(() => navigation.navigate('Login'), 3000) &&
+            sucess == true && setTimeout(() => navigation.navigate('Login'), 2000) &&
             <Text style={styles.mainTextSucess}>Cadastro realizado com sucesso!</Text>
           }
         </View>
@@ -413,4 +606,10 @@ const styles = StyleSheet.create({
     marginTop: '7%',
     marginLeft: '2%'
   },
+  erroInput: {
+    fontSize: 13,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000',
+    justifyContent: 'center'
+  }
 });

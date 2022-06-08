@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 
 import api from '../services/api';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Formik } from 'formik'
+import * as yup from 'yup'
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -49,6 +50,17 @@ export default function Login({ navigation }) {
     setSenha('')
   };
 
+  const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Digite um E-mail válido")
+      .required('E-mail é obrigatório'),
+    senha: yup
+      .string()
+      .min(8, ({ min }) => `Senha precisa ter no minímo ${min} caracteres`)
+      .required('Senha é obrigatória'),
+  })
+
   useEffect(() => {
     limparCampos();
   }, []);
@@ -67,44 +79,74 @@ export default function Login({ navigation }) {
         </View>
 
         <View style={styles.mainFormAlignment}>
-          <TextInput
-            style={styles.mainInput}
-            placeholder='Endereço de E-mail'
-            placeholderTextColor='#000000'
-            keyboardType="email-address"
-            autoCapitalize="none"
-            returnKeyType="done"
-            autoCorrect={false}
-            maxLength={28}
-            onChangeText={Email => setEmail(Email)}
-          />
-          <TextInput
-            style={styles.mainInput}
-            placeholder='Senha'
-            placeholderTextColor='#000000'
-            keyboardType="default"
-            secureTextEntry={true}
-            passwordRules
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
-            maxLength={20}
-            onChangeText={Senha => setSenha(Senha)}
-          />
+          <Formik
+            validationSchema={loginValidationSchema}
+            initialValues={{ email: '', senha: '' }}
+            onSubmit={realizarLogin}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors,
+              isValid,
+            }) => (
+              <>
+                <TextInput
+                  style={styles.mainInput}
+                  placeholder='Endereço de E-mail'
+                  placeholderTextColor='#000000'
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  returnKeyType="done"
+                  autoCorrect={false}
+                  maxLength={40}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  setFieldValue={setEmail(values.email)}
+                />
+                {errors.email &&
+                  <Text style={styles.erroInput}>{errors.email}</Text>
+                }
+                <TextInput
+                  style={styles.mainInput}
+                  placeholder='Senha'
+                  placeholderTextColor='#000000'
+                  keyboardType="default"
+                  secureTextEntry={true}
+                  passwordRules
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  returnKeyType="done"
+                  maxLength={15}
+                  onChangeText={handleChange('senha')}
+                  onBlur={handleBlur('senha')}
+                  setFieldValue={setSenha(values.senha)}
+                  value={values.senha}
+                />
+                {errors.senha &&
+                  <Text style={styles.erroInput}>{errors.senha}</Text>
+                }
 
-          { // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
-            isLoading === true &&
-            <TouchableOpacity style={styles.btnLoginDisabled} disabled>
-              <Text style={styles.mainBtnText}>Carregando...</Text>
-            </TouchableOpacity>
-          }
+                { // Caso seja true, renderiza o botão desabilitado com o texto 'Carregando...'
+                  isLoading === true &&
+                  <TouchableOpacity style={styles.btnLoginDisabled} disabled>
+                    <Text style={styles.mainBtnText}>Carregando...</Text>
+                  </TouchableOpacity>
+                }
 
-          { // Caso seja false, renderiza o botão habilitado com o texto 'Login'
-            isLoading === false &&
-            <TouchableOpacity style={styles.mainBtnLogin} onPress={realizarLogin} disabled={email === '' || senha === '' ? 'none' : ''}>
-              <Text style={styles.mainBtnText}>Logar</Text>
-            </TouchableOpacity>
-          }
+                { // Caso seja false, renderiza o botão habilitado com o texto 'Login'
+                  isLoading === false &&
+                  <TouchableOpacity style={styles.mainBtnLogin} onPress={handleSubmit} disabled={!isValid}>
+                    <Text style={styles.mainBtnText}>Logar</Text>
+                  </TouchableOpacity>
+                }
+              </>
+            )}
+          </Formik>
         </View>
 
         { // Mostrar erro de login caso a requisição não tenha sucesso
@@ -207,4 +249,10 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginTop: '5%'
   },
+  erroInput: {
+    fontSize: 13,
+    fontFamily: 'ABeeZee_400Regular',
+    color: '#ff0000',
+    justifyContent: 'center'
+  }
 });
