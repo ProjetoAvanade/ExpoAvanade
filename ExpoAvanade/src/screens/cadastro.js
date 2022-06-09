@@ -109,8 +109,8 @@ export default function Cadastro({ navigation }) {
     } else {
       setSucess(false);
       setIsLoading(false);
-      /* console.warn(formData)
-      console.warn(resposta) */
+      console.warn(formData)
+      console.warn(resposta)
     }
   }
 
@@ -164,7 +164,6 @@ export default function Cadastro({ navigation }) {
               handleChange,
               handleBlur,
               handleSubmit,
-              setFieldValue,
               values,
               errors,
               isValid,
@@ -198,11 +197,11 @@ export default function Cadastro({ navigation }) {
                   style={styles.mainContentFormInput}
                   placeholder='E-mail'
                   placeholderTextColor='#000000'
-                  maxLength={40}
+                  maxLength={50}
                   onChangeText={handleChange('email')}
+                  setFieldValue={setEmail(values.email)}
                   onBlur={handleBlur('email')}
                   value={values.email}
-                  setFieldValue={setEmail(values.email)}
                   keyboardType="email-address"
                 />
                 {errors.email &&
@@ -254,6 +253,7 @@ export default function Cadastro({ navigation }) {
                   maxLength={15}
                   onChangeText={handleChange('senha')}
                   onBlur={handleBlur('senha')}
+                  /* setFieldValue={setSenha('Senha', values.senha)} */
                   setFieldValue={setSenha(values.senha)}
                   value={values.senha}
                 />
@@ -462,6 +462,8 @@ export default function Cadastro({ navigation }) {
   );
 }
 
+
+LogBox.ignoreLogs(['Warning: Cannot update a component (`Cadastro`) while rendering a different component (`Formik`). To locate the bad setState() call inside `Formik`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render']);
 LogBox.ignoreLogs(['Warning: componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.']);
 LogBox.ignoreLogs(["DatePickerAndroid has been merged with DatePickerIOS and will be removed in a future release. It can now be installed and imported from '@react-native-community/datetimepicker' instead of 'react-native'. See https://github.com/react-native-datetimepicker/datetimepicker"]);
 LogBox.ignoreLogs(["Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`"]);

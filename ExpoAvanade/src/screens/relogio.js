@@ -17,7 +17,7 @@ export default class Relogio extends Component {
   state = {
     idVaga: this.props.route.params.idVaga,
     saldo: this.props.route.params.saldo,
-    eventDate: moment.duration().add({ hours: this.props.route.params.horas, minutes: 0, seconds: 0 }), // add 9 full days
+    eventDate: moment.duration().add({ hours: this.props.route.params.horas, minutes: 0, seconds: 0 }),
     hours: this.props.route.params.horas,
     mins: 0,
     secs: 0,

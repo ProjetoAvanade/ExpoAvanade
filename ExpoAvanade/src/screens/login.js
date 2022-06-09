@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  StatusBar
+  StatusBar, 
+  LogBox
 } from 'react-native';
 
 import api from '../services/api';
@@ -165,6 +166,7 @@ export default function Login({ navigation }) {
   );
 }
 
+LogBox.ignoreLogs(['Warning: Cannot update a component (`Login`) while rendering a different component (`Formik`). To locate the bad setState() call inside `Formik`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render']);
 const styles = StyleSheet.create({
   main: {
     flex: 1,

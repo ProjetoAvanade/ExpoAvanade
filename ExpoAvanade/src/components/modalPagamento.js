@@ -129,7 +129,7 @@ const ModalPagamento = ({ navigation }) => {
 const styles = StyleSheet.create({
     modalBackGround: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: '#B8FFB8',
         justifyContent: 'flex-end',
         alignItems: 'center',
         paddingVertical: 40

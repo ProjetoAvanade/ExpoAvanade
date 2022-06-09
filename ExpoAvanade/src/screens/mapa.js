@@ -290,7 +290,7 @@ export default function Mapa({ navigation }) {
                             description={item.rua}
                         >
                             <Callout onPress={() => funcoesPonto()}>
-                                <Text style={styles.calloutText}>{item.nome}</Text>
+                                <Text style={styles.calloutTitle}>{item.nome}</Text>
                                 <Text style={styles.calloutText}>Rua {item.rua}, {item.numero}</Text>
                             </Callout>
                         </Marker>
@@ -365,6 +365,16 @@ const styles = StyleSheet.create({
     mainMap: {
         width: '100%',
         height: '79%',
+    },
+    calloutTitle: {
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 14,
+        textAlign: 'center'
+    },
+    calloutText: {
+        fontFamily: 'ABeeZee_400Regular',
+        fontSize: 14,
+        textAlign: 'center'
     },
     mainSearch: {
         width: '100%',
