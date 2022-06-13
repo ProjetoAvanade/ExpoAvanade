@@ -69,7 +69,6 @@ export default class Relogio extends Component {
     })
   }
 
-  //Não funfa pra true apenas false
   atualizarVaga = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
